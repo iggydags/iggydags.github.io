@@ -1,41 +1,37 @@
 <!DOCTYPE html><html lang=en><head><meta charset=utf-8>
-<meta name=viewport content="width=device-width,initial-scale=1">
-<title>Events API → Calendar · Michael D'Agostino</title>
-<link rel=preconnect href="https://fonts.googleapis.com"><link rel=preconnect href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;800&family=Newsreader:ital,opsz,wght@0,16..72,400;1,16..72,400&family=JetBrains+Mono:wght@400;500&display=swap" rel=stylesheet>
+<meta name=viewport content="width=device-width,initial-scale=1"><title>Events API → Calendar · Michael D'Agostino</title><link rel=preconnect href="https://fonts.googleapis.com"><link rel=preconnect href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=Newsreader:ital,opsz,wght@0,16..72,400;1,16..72,400&family=JetBrains+Mono:wght@400;500&display=swap" rel=stylesheet>
 <style>
-:root{--bg:oklch(16% .006 250);--raise:oklch(20% .008 250);--line:oklch(34% .01 250/.5);--text:oklch(94% .005 250);--muted:oklch(68% .01 250);--faint:oklch(54% .01 250);--accent:oklch(74% .16 58);--accent2:oklch(72% .12 230);--mono:'JetBrains Mono',monospace;--disp:'Archivo',sans-serif;--serif:'Newsreader',Georgia,serif;--ease:cubic-bezier(.16,1,.3,1)}
+:root{--paper:#f4f2ec;--paper2:#eceae2;--ink:#272a36;--ink2:#4a4d59;--muted:#6e7180;--faint:#9a9caa;--line:rgba(39,42,54,0.13);--accent:#2d5bd0;
+--disp:'Bricolage Grotesque',sans-serif;--serif:'Newsreader',Georgia,serif;--mono:'JetBrains Mono',monospace;--ease:cubic-bezier(.16,1,.3,1)}
 *{box-sizing:border-box;margin:0;padding:0}
-body{background:var(--bg);color:var(--text);font-family:var(--serif);font-size:1.08rem;line-height:1.65;-webkit-font-smoothing:antialiased}
-body::before{content:"";position:fixed;inset:0;pointer-events:none;background:radial-gradient(120% 80% at 50% -10%,oklch(74% .16 58/.06),transparent 60%)}
-.wrap{max-width:880px;margin:0 auto;padding:0 clamp(1.2rem,4vw,2.5rem);position:relative}
+body{background:var(--paper);color:var(--ink);font-family:var(--serif);font-size:1.08rem;line-height:1.6;-webkit-font-smoothing:antialiased}
+.wrap{max-width:880px;margin:0 auto;padding:0 clamp(1.3rem,5vw,2.6rem)}
 .top{padding:2rem 0 0}
-.back{font-family:var(--mono);font-size:.8rem;letter-spacing:.04em;color:var(--accent2);text-decoration:none}
+.back{font-family:var(--mono);font-size:.8rem;letter-spacing:.04em;color:var(--accent);text-decoration:none}
 .back:hover{text-decoration:underline}
-header.h{padding:3.5rem 0 2.5rem;border-bottom:1px solid var(--line)}
-.kick{font-family:var(--mono);font-size:.78rem;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);margin-bottom:1rem}
-h1{font-family:var(--disp);font-weight:800;font-size:clamp(2rem,1rem+4vw,3.4rem);line-height:1.02;letter-spacing:-.02em}
-.slug{font-family:var(--mono);font-size:.86rem;color:var(--faint);margin-top:.7rem}
-.intro{margin-top:1.6rem;color:var(--muted);max-width:62ch}
-.intro em{color:var(--accent);font-style:normal}
-.lab{font-family:var(--mono);font-size:.74rem;letter-spacing:.2em;text-transform:uppercase;color:var(--faint);margin:2.6rem 0 1rem}
+header.h{padding:3rem 0 2.4rem;border-bottom:1px solid var(--line)}
+.kick{font-family:var(--mono);font-size:.77rem;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);margin-bottom:1rem}
+h1{font-family:var(--disp);font-weight:800;font-size:clamp(2rem,1rem+4vw,3.4rem);line-height:1.0;letter-spacing:-.025em}
+.slug{font-family:var(--mono);font-size:.84rem;color:var(--muted);margin-top:.7rem}
+.intro{margin-top:1.5rem;color:var(--ink2);max-width:60ch}
+.intro em{color:var(--ink);font-style:normal;font-weight:500}
+.note{margin-top:1.3rem;font-style:italic;color:var(--muted);font-size:.95rem;max-width:60ch}
+.lab{font-family:var(--mono);font-size:.74rem;letter-spacing:.18em;text-transform:uppercase;color:var(--faint);margin:2.6rem 0 .6rem}
 ul.art{list-style:none}
 ul.art li{border-top:1px solid var(--line)}
 ul.art li:last-child{border-bottom:1px solid var(--line)}
-ul.art a{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:.4rem 1.5rem;padding:1.15rem .2rem;text-decoration:none;color:var(--text);transition:padding .3s var(--ease),background .3s var(--ease)}
-ul.art a:hover{padding-left:1rem;background:var(--raise)}
-ul.art .nm{font-family:var(--mono);font-size:.92rem;color:var(--accent2)}
-ul.art .ds{grid-column:1/2;color:var(--muted);font-size:.98rem}
+ul.art a{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:.35rem 1.5rem;padding:1.1rem .2rem;text-decoration:none;color:var(--ink);transition:padding .3s var(--ease),background .3s var(--ease)}
+ul.art a:hover{padding-left:.9rem;background:var(--paper2)}
+ul.art .nm{font-family:var(--mono);font-size:.92rem;color:var(--accent)}
+ul.art .ds{grid-column:1/2;color:var(--ink2);font-size:.98rem;font-family:var(--serif)}
 ul.art .go{font-family:var(--mono);font-size:.8rem;color:var(--faint);align-self:center}
 ul.art a:hover .go{color:var(--accent)}
-.note{margin-top:1.4rem;font-style:italic;color:var(--faint);font-size:.95rem;max-width:60ch}
-footer{padding:3rem 0 4rem}
+footer{padding:2.8rem 0 4rem}
 a:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
 </style></head><body>
 <div class=wrap>
-<div class=top><a class=back href="/">← all work</a></div>
-<header class=h><p class=kick>04 · Ship it</p><h1>Events API → Calendar</h1><p class=slug>backend architecture + API integration · Python / Vercel</p><p class=intro>A live service syncing a rate-limited events API to a fast public calendar. The real signal is an <em>architecture decision under constraint</em>: a daily cron pulls a rolling window and writes one snapshot; the read endpoint serves that snapshot, fast and never rate-limited.</p><p class=note>Code only — live customer/event data is not included. Credentials load from environment variables (see .env.example).</p></header>
-<p class=lab>Source</p>
-<ul class=art><li><a href="src/tripleseat_client.py.html"><span class=nm>tripleseat_client.py</span><span class=go>open →</span><span class=ds>OAuth 1.0 client — pagination, 10 req/s rate limiting, 429 Retry-After handling</span></a></li><li><a href="src/api__cron__sync.py.html"><span class=nm>api/cron/sync.py</span><span class=go>open →</span><span class=ds>Scheduled fetch → normalize → write Blob snapshot; bearer-auth gated</span></a></li><li><a href="src/api__events.py.html"><span class=nm>api/events.py</span><span class=go>open →</span><span class=ds>Public read endpoint — loads newest Blob snapshot, CSV fallback</span></a></li><li><a href="src/normalize.py.html"><span class=nm>normalize.py</span><span class=go>open →</span><span class=ds>Defensive normalization of Tripleseat&#x27;s nested + flat shapes</span></a></li><li><a href="src/calendar_builder.py.html"><span class=nm>calendar_builder.py</span><span class=go>open →</span><span class=ds>Builds the calendar view from normalized events</span></a></li><li><a href="src/generate_calendar.py.html"><span class=nm>generate_calendar.py</span><span class=go>open →</span><span class=ds>CLI entry — generate a calendar locally from the API</span></a></li><li><a href="src/dashboard.py.html"><span class=nm>dashboard.py</span><span class=go>open →</span><span class=ds>Local Flask dashboard</span></a></li><li><a href="src/dev_server.py.html"><span class=nm>dev_server.py</span><span class=go>open →</span><span class=ds>Local dev server</span></a></li><li><a href="src/vercel.json.html"><span class=nm>vercel.json</span><span class=go>open →</span><span class=ds>Function budgets + cron schedule (0 5 * * *)</span></a></li><li><a href="src/requirements.txt.html"><span class=nm>requirements.txt</span><span class=go>open →</span><span class=ds>Dependencies</span></a></li><li><a href="src/.env.example.html"><span class=nm>.env.example</span><span class=go>open →</span><span class=ds>Required environment variables (no values)</span></a></li></ul>
-<footer><a class=back href="/">← back to all work</a></footer>
+<div class=top><a class=back href="/">&larr; all work</a></div>
+<header class=h><p class=kick>04 · Ship</p><h1>Events API → Calendar</h1><p class=slug>backend architecture + API integration · Python / Vercel</p><p class=intro>A live service syncing a rate-limited events API to a fast public calendar. The signal is an <em>architecture decision under constraint</em>: a daily cron writes one snapshot the read endpoint serves instantly.</p><p class=note>Code only — live customer data is not included. Credentials load from environment variables.</p></header>
+<p class=lab>Source</p><ul class=art><li><a href="src/tripleseat_client.py.html"><span class=nm>tripleseat_client.py</span><span class=go>open &rarr;</span><span class=ds>OAuth 1.0 client — rate limiting, pagination, 429 handling</span></a></li><li><a href="src/api__cron__sync.py.html"><span class=nm>api/cron/sync.py</span><span class=go>open &rarr;</span><span class=ds>Scheduled fetch → normalize → write snapshot; bearer-auth gated</span></a></li><li><a href="src/api__events.py.html"><span class=nm>api/events.py</span><span class=go>open &rarr;</span><span class=ds>Public read endpoint — serves newest Blob snapshot</span></a></li><li><a href="src/normalize.py.html"><span class=nm>normalize.py</span><span class=go>open &rarr;</span><span class=ds>Defensive normalization of nested Tripleseat shapes</span></a></li><li><a href="src/calendar_builder.py.html"><span class=nm>calendar_builder.py</span><span class=go>open &rarr;</span><span class=ds>Builds the calendar view</span></a></li><li><a href="src/generate_calendar.py.html"><span class=nm>generate_calendar.py</span><span class=go>open &rarr;</span><span class=ds>CLI entry</span></a></li><li><a href="src/dashboard.py.html"><span class=nm>dashboard.py</span><span class=go>open &rarr;</span><span class=ds>Local Flask dashboard</span></a></li><li><a href="src/dev_server.py.html"><span class=nm>dev_server.py</span><span class=go>open &rarr;</span><span class=ds>Local dev server</span></a></li><li><a href="src/vercel.json.html"><span class=nm>vercel.json</span><span class=go>open &rarr;</span><span class=ds>Function budgets + cron schedule</span></a></li><li><a href="src/requirements.txt.html"><span class=nm>requirements.txt</span><span class=go>open &rarr;</span><span class=ds>Dependencies</span></a></li><li><a href="src/.env.example.html"><span class=nm>.env.example</span><span class=go>open &rarr;</span><span class=ds>Required environment variables</span></a></li></ul>
+<footer><a class=back href="/">&larr; back to all work</a></footer>
 </div></body></html>

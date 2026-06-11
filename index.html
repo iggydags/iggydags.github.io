@@ -225,6 +225,18 @@
   }
   .contact a:hover { color: var(--accent); }
 
+  .open {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    margin-top: 1.8rem;
+    font-family: var(--mono); font-size: 0.82rem; letter-spacing: 0.06em;
+    color: var(--text); text-decoration: none;
+    border-bottom: 1px solid var(--accent); padding-bottom: 3px;
+    transition: gap 0.3s var(--ease), color 0.25s var(--ease);
+  }
+  .open span { color: var(--accent); transition: transform 0.3s var(--ease); }
+  .open:hover { color: var(--accent); }
+  .project:hover .open span { transform: translateX(5px); }
+
   /* ---------- reveal ---------- */
   .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.9s var(--ease), transform 0.9s var(--ease); }
   .reveal.in { opacity: 1; transform: none; }
@@ -282,6 +294,7 @@
           <span class="chip">Time-series forecasting</span>
           <span class="chip">Discrete-event simulation</span>
         </div>
+        <a class="open" href="/work/call-center-queuing/">Explore the project <span>→</span></a>
       </div>
     </section>
 
@@ -301,6 +314,7 @@
           <span class="chip">Unsupervised ML</span>
           <span class="chip">Live API data</span>
         </div>
+        <a class="open" href="/work/spotify-audio-features/">Explore the project <span>→</span></a>
       </div>
     </section>
 
@@ -320,6 +334,7 @@
           <span class="chip">Templating + relational joins</span>
           <span class="chip">Security-conscious</span>
         </div>
+        <a class="open" href="/work/substance-tracker/">Explore the project <span>→</span></a>
       </div>
     </section>
 
@@ -339,6 +354,7 @@
           <span class="chip">Serverless + cron</span>
           <span class="chip">Read-path optimization</span>
         </div>
+        <a class="open" href="/work/tripleseat-calendar-sync/">Explore the project <span>→</span></a>
       </div>
     </section>
 

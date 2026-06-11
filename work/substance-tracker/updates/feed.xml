@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+<channel>
+  <title>The Bitcoin Substance Tracker</title>
+  <link>https://policy.pubkey.com/updates/</link>
+  <description>Who&#39;s carrying the substantive Bitcoin end-user agenda in the 119th Congress.</description>
+  <language>en-us</language>
+  <lastBuildDate>Thu, 11 Jun 2026 21:13:23 GMT</lastBuildDate>
+
+    <item>
+      <title>Tracker scaffolded internally · pre-editorial-review</title>
+      <link>https://policy.pubkey.com/updates/#2026-w19-launch-prep</link>
+      <guid>https://policy.pubkey.com/updates/#2026-w19-launch-prep</guid>
+      <pubDate>Sat, 09 May 2026 00:00:00 GMT</pubDate>
+      <description><![CDATA[Initial site structure built. Data shape locked. Scoring rubric drafted. Awaiting editorial sign-off + advisory voices + first weekly data pass before any public deploy.]]></description>
+    </item>
+</channel>
+</rss>

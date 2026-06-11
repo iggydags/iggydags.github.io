@@ -1,0 +1,41 @@
+<!DOCTYPE html><html lang=en><head><meta charset=utf-8>
+<meta name=viewport content="width=device-width,initial-scale=1">
+<title>Call-Center Staffing · Michael D'Agostino</title>
+<link rel=preconnect href="https://fonts.googleapis.com"><link rel=preconnect href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;800&family=Newsreader:ital,opsz,wght@0,16..72,400;1,16..72,400&family=JetBrains+Mono:wght@400;500&display=swap" rel=stylesheet>
+<style>
+:root{--bg:oklch(16% .006 250);--raise:oklch(20% .008 250);--line:oklch(34% .01 250/.5);--text:oklch(94% .005 250);--muted:oklch(68% .01 250);--faint:oklch(54% .01 250);--accent:oklch(74% .16 58);--accent2:oklch(72% .12 230);--mono:'JetBrains Mono',monospace;--disp:'Archivo',sans-serif;--serif:'Newsreader',Georgia,serif;--ease:cubic-bezier(.16,1,.3,1)}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:var(--serif);font-size:1.08rem;line-height:1.65;-webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;background:radial-gradient(120% 80% at 50% -10%,oklch(74% .16 58/.06),transparent 60%)}
+.wrap{max-width:880px;margin:0 auto;padding:0 clamp(1.2rem,4vw,2.5rem);position:relative}
+.top{padding:2rem 0 0}
+.back{font-family:var(--mono);font-size:.8rem;letter-spacing:.04em;color:var(--accent2);text-decoration:none}
+.back:hover{text-decoration:underline}
+header.h{padding:3.5rem 0 2.5rem;border-bottom:1px solid var(--line)}
+.kick{font-family:var(--mono);font-size:.78rem;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);margin-bottom:1rem}
+h1{font-family:var(--disp);font-weight:800;font-size:clamp(2rem,1rem+4vw,3.4rem);line-height:1.02;letter-spacing:-.02em}
+.slug{font-family:var(--mono);font-size:.86rem;color:var(--faint);margin-top:.7rem}
+.intro{margin-top:1.6rem;color:var(--muted);max-width:62ch}
+.intro em{color:var(--accent);font-style:normal}
+.lab{font-family:var(--mono);font-size:.74rem;letter-spacing:.2em;text-transform:uppercase;color:var(--faint);margin:2.6rem 0 1rem}
+ul.art{list-style:none}
+ul.art li{border-top:1px solid var(--line)}
+ul.art li:last-child{border-bottom:1px solid var(--line)}
+ul.art a{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:.4rem 1.5rem;padding:1.15rem .2rem;text-decoration:none;color:var(--text);transition:padding .3s var(--ease),background .3s var(--ease)}
+ul.art a:hover{padding-left:1rem;background:var(--raise)}
+ul.art .nm{font-family:var(--mono);font-size:.92rem;color:var(--accent2)}
+ul.art .ds{grid-column:1/2;color:var(--muted);font-size:.98rem}
+ul.art .go{font-family:var(--mono);font-size:.8rem;color:var(--faint);align-self:center}
+ul.art a:hover .go{color:var(--accent)}
+.note{margin-top:1.4rem;font-style:italic;color:var(--faint);font-size:.95rem;max-width:60ch}
+footer{padding:3rem 0 4rem}
+a:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+</style></head><body>
+<div class=wrap>
+<div class=top><a class=back href="/">← all work</a></div>
+<header class=h><p class=kick>01 · Model it</p><h1>Call-Center Staffing</h1><p class=slug>forecasting + queuing theory + simulation · Python</p><p class=intro>How many people staff an emergency dispatch line, hour by hour, to keep callers from hanging up? Answered three ways pointed at one question: <em>forecast</em> demand, <em>solve</em> for optimal staffing with heavy-traffic queuing theory, and <em>validate</em> with a from-scratch simulator.</p></header>
+<p class=lab>Notebooks · suggested order</p>
+<ul class=art><li><a href="nb/Queuing_Model.html"><span class=nm>Queuing_Model</span><span class=go>open →</span><span class=ds>Analytical core — QED + ED+QED staffing models (Halfin-Whitt), solved numerically with scipy</span></a></li><li><a href="nb/arima_project.html"><span class=nm>arima_project</span><span class=go>open →</span><span class=ds>Demand forecasting — ARIMA/SARIMA vs. regression baseline, MAPE on a held-out set</span></a></li><li><a href="nb/QUEUING_SIM.html"><span class=nm>QUEUING_SIM</span><span class=go>open →</span><span class=ds>Discrete-event queuing simulator built on a heapq event queue</span></a></li><li><a href="nb/QUEUING_PROJECT.html"><span class=nm>QUEUING_PROJECT</span><span class=go>open →</span><span class=ds>Interactive Plotly / ipywidgets visualizations of the queuing models</span></a></li><li><a href="nb/code_run_presentation.html"><span class=nm>code_run_presentation</span><span class=go>open →</span><span class=ds>Presentation runner — stationarity (ADF), ACF/PACF selection, forecast</span></a></li></ul>
+<footer><a class=back href="/">← back to all work</a></footer>
+</div></body></html>

@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Sources · PubKey Policy</title>
+  <meta name="description" content="Primary sources used by PubKey Policy.">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#080808">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,400;0,600;0,700;0,800;1,600&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/work/substance-tracker/assets/policy.css">
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <a class="site-logo bare" href="/work/substance-tracker/" aria-label="PubKey Policy home">
+    <span class="dot" aria-hidden="true"></span>PubKey<em>·Policy</em>
+  </a>
+  <nav class="site-nav" aria-label="Primary">
+    <a href="/work/substance-tracker/bills/">The Bills</a>
+    <a href="/work/substance-tracker/bench/">The Bench</a>
+    <a href="/work/substance-tracker/money.html">Money Map</a>
+    <a href="/work/substance-tracker/races/2026/">2026 Watchlist</a>
+    <a href="/work/substance-tracker/methodology.html" aria-current="page">Methodology</a>
+    <a href="/work/substance-tracker/embargo.html" class="cta">Weekly update →</a>
+  </nav>
+</header>
+
+
+<div class="draft-banner" role="status">
+  <span class="pulse"></span>Internal · pre-editorial-review · do not share
+</div>
+
+<div class="shell"><nav class="crumbs" aria-label="Breadcrumb"><a href="/work/substance-tracker/">Home</a><span class="sep">›</span> <a href="/work/substance-tracker/methodology.html">Methodology</a><span class="sep">›</span> <span aria-current="page">Sources</span></nav></div>
+
+<main id="main">
+
+<header class="hero shell">
+  <div class="top"><div><div class="accent"></div><span class="eyebrow">Methodology · Sources</span></div></div>
+  <h1>Where the <em>data</em> comes from.</h1>
+</header>
+<section class="s">
+  <div class="shell narrow">
+    <h3>Primary sources</h3>
+    <ul>
+      <li><strong>congress.gov</strong> — bill text, sponsors, cosponsors, status</li>
+      <li><strong>House Clerk + Senate Roll-Call</strong> — official roll-call vote records</li>
+      <li><strong>FEC.gov</strong> — campaign finance filings (contributions, expenditures)</li>
+      <li><strong>OpenSecrets.org</strong> — PAC tracking + aggregations</li>
+      <li><strong>Sludge / Popular Information</strong> — money-in-politics journalism</li>
+      <li><strong>Member official websites</strong> — public statements + press releases</li>
+    </ul>
+    <h3>Money map sources</h3>
+    <ul><li>FEC.gov campaign finance filings</li><li>OpenSecrets PAC tracking</li><li>Sludge / Popular Information money-in-politics reporting</li></ul>
+    <p style="margin-top: 2rem;"><span class="kicker">Citation · </span>Every bill, member, and race page links directly to its primary source. If a source is missing, the field reads <span class="tbd">TBD</span> until it can be cited.</p>
+  </div>
+</section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="shell">
+    <div class="foot-grid">
+      <div class="foot-col">
+        <h5>For reporters</h5>
+        <ul>
+          <li><a href="/work/substance-tracker/press-kit.html">Press kit</a></li>
+          <li><a href="/work/substance-tracker/cite.html">Cite this tool</a></li>
+          <li><a href="/work/substance-tracker/embargo.html">Embargo signup</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h5>Updates</h5>
+        <ul>
+          <li><a href="/work/substance-tracker/updates/">Weekly changelog</a></li>
+          <li><a href="/work/substance-tracker/updates/feed.xml">RSS feed</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h5>About</h5>
+        <ul>
+          <li><a href="/work/substance-tracker/about.html">About this tracker</a></li>
+          <li><a href="/work/substance-tracker/about.html#disclosure">Funding disclosure</a></li>
+          <li><a href="/work/substance-tracker/methodology.html">Methodology</a></li>
+          <li><a href="mailto:press@pubkey.com">Contact</a></li>
+        </ul>
+        <span class="made-by">Made by <a href="https://pubkey.com">PubKey</a></span>
+      </div>
+      <div class="foot-col">
+        <h5>Legal</h5>
+        <ul>
+          <li><a href="/work/substance-tracker/privacy.html">Privacy</a></li>
+          <li><a href="/work/substance-tracker/terms.html">Terms</a></li>
+          <li><a href="/work/substance-tracker/sitemap.xml">Sitemap</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>The Bitcoin Substance Tracker · v0.1.0-draft · last revised 2026-05-09</span>
+      <span>Internal · pre-editorial-review</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduce) { document.querySelectorAll('.reveal').forEach(el => el.classList.add('in')); return; }
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, { rootMargin: '0px 0px -10% 0px', threshold: 0.05 });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+})();
+</script>
+
+</body>
+</html>

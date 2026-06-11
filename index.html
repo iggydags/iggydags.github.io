@@ -112,13 +112,16 @@
     font-size: 0.8rem;
     letter-spacing: 0.04em;
   }
-  .arc span {
+  .arc a {
     padding: 0.45rem 0.9rem;
     border: 1px solid var(--line);
     border-radius: 999px;
     color: var(--muted);
+    text-decoration: none;
+    transition: border-color 0.3s var(--ease), color 0.3s var(--ease), background 0.3s var(--ease);
   }
-  .arc span b { color: var(--accent); font-weight: 500; }
+  .arc a b { color: var(--accent); font-weight: 500; }
+  .arc a:hover { border-color: oklch(74% 0.16 58 / 0.5); background: var(--bg-raise); color: var(--text); }
 
   /* ---------- PROJECTS ---------- */
   main { padding-top: 2rem; }
@@ -131,7 +134,9 @@
     gap: clamp(1.5rem, 4vw, 4rem);
     align-items: start;
   }
+  .project { scroll-margin-top: 2rem; }
   .project .index { position: relative; }
+  .project:hover .num { -webkit-text-stroke-color: var(--accent); opacity: 0.8; transition: -webkit-text-stroke-color 0.4s var(--ease), opacity 0.4s var(--ease); }
   .project .num {
     font-family: var(--display);
     font-weight: 800;
@@ -268,18 +273,18 @@
       <span>Builds end-to-end · usually solo</span>
       <span>NYC</span>
     </div>
-    <div class="arc">
-      <span><b>01</b> Model</span>
-      <span><b>02</b> Explore</span>
-      <span><b>03</b> Build</span>
-      <span><b>04</b> Ship</span>
-    </div>
+    <nav class="arc" aria-label="Jump to project">
+      <a href="#p1"><b>01</b> Model</a>
+      <a href="#p2"><b>02</b> Explore</a>
+      <a href="#p3"><b>03</b> Build</a>
+      <a href="#p4"><b>04</b> Ship</a>
+    </nav>
   </header>
 
   <main>
 
     <!-- 01 -->
-    <section class="project reveal">
+    <section id="p1" class="project reveal">
       <div class="index">
         <div class="num">01</div>
         <div class="verb">Model it</div>
@@ -299,7 +304,7 @@
     </section>
 
     <!-- 02 -->
-    <section class="project reveal">
+    <section id="p2" class="project reveal">
       <div class="index">
         <div class="num">02</div>
         <div class="verb">Explore it</div>
@@ -319,7 +324,7 @@
     </section>
 
     <!-- 03 -->
-    <section class="project reveal">
+    <section id="p3" class="project reveal">
       <div class="index">
         <div class="num">03</div>
         <div class="verb">Build it</div>
@@ -339,7 +344,7 @@
     </section>
 
     <!-- 04 -->
-    <section class="project reveal">
+    <section id="p4" class="project reveal">
       <div class="index">
         <div class="num">04</div>
         <div class="verb">Ship it</div>

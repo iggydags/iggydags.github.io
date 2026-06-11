@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Michael D'Agostino — Selected Work</title>
+<meta name="description" content="Four projects, four competencies: quantitative modeling, data exploration, systems engineering, and backend API integration." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;800&family=Newsreader:ital,opsz,wght@0,16..72,400;1,16..72,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --bg: oklch(16% 0.006 250);
+    --bg-raise: oklch(20% 0.008 250);
+    --line: oklch(34% 0.01 250 / 0.5);
+    --text: oklch(94% 0.005 250);
+    --muted: oklch(68% 0.01 250);
+    --faint: oklch(54% 0.01 250);
+    --accent: oklch(74% 0.16 58);      /* warm amber */
+    --accent-2: oklch(72% 0.12 230);   /* cool slate-blue */
+
+    --display: 'Archivo', system-ui, sans-serif;
+    --serif: 'Newsreader', Georgia, serif;
+    --mono: 'JetBrains Mono', ui-monospace, monospace;
+
+    --text-hero: clamp(2.7rem, 1rem + 8vw, 7rem);
+    --text-num: clamp(3rem, 1rem + 9vw, 8rem);
+    --text-title: clamp(1.8rem, 1rem + 3.5vw, 3.4rem);
+    --space-section: clamp(5rem, 3rem + 8vw, 11rem);
+
+    --ease: cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--serif);
+    font-size: clamp(1.02rem, 0.95rem + 0.4vw, 1.18rem);
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  /* subtle grain + vignette for depth */
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+    background:
+      radial-gradient(120% 80% at 50% -10%, oklch(74% 0.16 58 / 0.07), transparent 60%),
+      radial-gradient(100% 100% at 50% 120%, oklch(72% 0.12 230 / 0.05), transparent 55%);
+  }
+
+  .wrap { max-width: 1100px; margin: 0 auto; padding: 0 clamp(1.2rem, 4vw, 3rem); position: relative; z-index: 2; }
+
+  .kicker {
+    font-family: var(--mono);
+    font-size: 0.74rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--faint);
+  }
+  .kicker .dot { color: var(--accent); }
+
+  /* ---------- HERO ---------- */
+  header.hero {
+    min-height: 92vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 6rem 0 4rem;
+  }
+  .hero .kicker { margin-bottom: 1.8rem; }
+  .hero h1 {
+    font-family: var(--display);
+    font-weight: 800;
+    font-size: var(--text-hero);
+    line-height: 0.92;
+    letter-spacing: -0.02em;
+    color: var(--text);
+    max-width: 14ch;
+  }
+  .hero h1 em { font-style: normal; color: var(--accent); }
+  .hero .lede {
+    margin-top: 2rem;
+    max-width: 56ch;
+    font-size: clamp(1.15rem, 1rem + 0.6vw, 1.5rem);
+    color: var(--muted);
+    font-style: italic;
+  }
+  .hero .meta {
+    margin-top: 2.6rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem 1.4rem;
+    font-family: var(--mono);
+    font-size: 0.82rem;
+    color: var(--faint);
+  }
+  .arc {
+    margin-top: 3.2rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    font-family: var(--mono);
+    font-size: 0.8rem;
+    letter-spacing: 0.04em;
+  }
+  .arc span {
+    padding: 0.45rem 0.9rem;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    color: var(--muted);
+  }
+  .arc span b { color: var(--accent); font-weight: 500; }
+
+  /* ---------- PROJECTS ---------- */
+  main { padding-top: 2rem; }
+
+  .project {
+    padding: var(--space-section) 0;
+    border-top: 1px solid var(--line);
+    display: grid;
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.6fr);
+    gap: clamp(1.5rem, 4vw, 4rem);
+    align-items: start;
+  }
+  .project .index { position: relative; }
+  .project .num {
+    font-family: var(--display);
+    font-weight: 800;
+    font-size: var(--text-num);
+    line-height: 0.8;
+    color: transparent;
+    -webkit-text-stroke: 1.4px var(--faint);
+    opacity: 0.55;
+    letter-spacing: -0.03em;
+  }
+  .project .verb {
+    font-family: var(--mono);
+    font-size: 0.86rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-top: 1.1rem;
+  }
+  .project .stack {
+    font-family: var(--mono);
+    font-size: 0.76rem;
+    color: var(--faint);
+    margin-top: 1.4rem;
+    line-height: 1.7;
+  }
+
+  .project h2 {
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: var(--text-title);
+    line-height: 1.02;
+    letter-spacing: -0.015em;
+    margin-bottom: 0.4rem;
+  }
+  .project .slug {
+    font-family: var(--mono);
+    font-size: 0.82rem;
+    color: var(--accent-2);
+    margin-bottom: 1.5rem;
+  }
+  .project p { color: var(--text); max-width: 60ch; }
+  .project p .hl { color: var(--accent); font-style: normal; }
+
+  .chips { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 1.6rem 0 0; }
+  .chip {
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.04em;
+    padding: 0.38rem 0.7rem;
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    color: var(--muted);
+    background: var(--bg-raise);
+    transition: border-color 0.3s var(--ease), color 0.3s var(--ease), transform 0.3s var(--ease);
+  }
+  .project:hover .chip { border-color: oklch(74% 0.16 58 / 0.35); }
+
+  /* ---------- CLOSE ---------- */
+  footer {
+    border-top: 1px solid var(--line);
+    padding: var(--space-section) 0 5rem;
+  }
+  footer h2 {
+    font-family: var(--display);
+    font-weight: 800;
+    font-size: clamp(1.8rem, 1rem + 4vw, 3.4rem);
+    line-height: 1.0;
+    letter-spacing: -0.02em;
+    max-width: 18ch;
+  }
+  footer .close {
+    margin-top: 1.6rem;
+    max-width: 54ch;
+    color: var(--muted);
+    font-style: italic;
+  }
+  .contact {
+    margin-top: 2.6rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem 1.4rem;
+    font-family: var(--mono);
+    font-size: 0.86rem;
+  }
+  .contact a {
+    color: var(--text);
+    text-decoration: none;
+    border-bottom: 1px solid var(--accent);
+    padding-bottom: 2px;
+    transition: color 0.25s var(--ease);
+  }
+  .contact a:hover { color: var(--accent); }
+
+  /* ---------- reveal ---------- */
+  .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.9s var(--ease), transform 0.9s var(--ease); }
+  .reveal.in { opacity: 1; transform: none; }
+
+  a:focus-visible, :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 2px; }
+
+  @media (max-width: 760px) {
+    .project { grid-template-columns: 1fr; gap: 1.2rem; }
+    .project .num { font-size: clamp(3.5rem, 22vw, 5rem); }
+    .hero h1 { max-width: 100%; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .reveal { opacity: 1; transform: none; transition: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <header class="hero">
+    <p class="kicker">Selected Work <span class="dot">·</span> Michael D'Agostino</p>
+    <h1>I model it, explore it, build it, and <em>ship it.</em></h1>
+    <p class="lede">Four projects, deliberately different. Each is evidence of a distinct muscle — together they're the whole loop, from a messy question to a working thing.</p>
+    <div class="meta">
+      <span>BS Applied Math · Columbia</span>
+      <span>Builds end-to-end · usually solo</span>
+      <span>NYC</span>
+    </div>
+    <div class="arc">
+      <span><b>01</b> Model</span>
+      <span><b>02</b> Explore</span>
+      <span><b>03</b> Build</span>
+      <span><b>04</b> Ship</span>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- 01 -->
+    <section class="project reveal">
+      <div class="index">
+        <div class="num">01</div>
+        <div class="verb">Model it</div>
+        <div class="stack">Python<br/>numpy · scipy<br/>statsmodels · scikit-learn</div>
+      </div>
+      <div class="body">
+        <h2>Call-Center Staffing</h2>
+        <div class="slug">forecasting + queuing theory + simulation</div>
+        <p>How many people staff an emergency dispatch line, hour by hour, to keep callers from hanging up? I answered it three ways pointed at one question: <span class="hl">forecast</span> demand with ARIMA/SARIMA (benchmarked against regression by MAPE), <span class="hl">solve</span> for optimal staffing using heavy-traffic queuing theory in the QED / Halfin-Whitt regime, then <span class="hl">validate</span> the answer with a discrete-event simulator built from scratch.</p>
+        <div class="chips">
+          <span class="chip">Stochastic modeling</span>
+          <span class="chip">Time-series forecasting</span>
+          <span class="chip">Discrete-event simulation</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- 02 -->
+    <section class="project reveal">
+      <div class="index">
+        <div class="num">02</div>
+        <div class="verb">Explore it</div>
+        <div class="stack">Python<br/>pandas · scikit-learn<br/>spotipy (Web API)</div>
+      </div>
+      <div class="body">
+        <h2>Spotify Audio Features</h2>
+        <div class="slug">EDA + unsupervised clustering</div>
+        <p>What makes a song <em>popular</em> — and do popular tracks occupy their own region of the audio-feature space? Multi-year exploratory analysis across decades of music, pulling track features live from the Spotify Web API, then <span class="hl">KMeans clustering</span> (elbow-selected k) split by popularity to test whether the classes separate. Working-notebook stage, and honest about it — included because it's a question I keep returning to.</p>
+        <div class="chips">
+          <span class="chip">Exploratory analysis</span>
+          <span class="chip">Unsupervised ML</span>
+          <span class="chip">Live API data</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- 03 -->
+    <section class="project reveal">
+      <div class="index">
+        <div class="num">03</div>
+        <div class="verb">Build it</div>
+        <div class="stack">Node.js<br/>zero dependencies<br/>~1,200 lines</div>
+      </div>
+      <div class="body">
+        <h2>Static Site Generator</h2>
+        <div class="slug">systems engineering from first principles</div>
+        <p>A site generator written by hand. One JSON data source fans out into <span class="hl">26 cross-linked, SEO-complete pages</span> — relational joins resolved at build time, every dynamic value run through XSS-safe escaping, sitemap + robots + RSS emitted in the same pass. No framework, no <code>node_modules</code>. When the problem is "structured data → a real site," I can build the machine instead of reaching for someone else's.</p>
+        <div class="chips">
+          <span class="chip">Zero-dependency tooling</span>
+          <span class="chip">Templating + relational joins</span>
+          <span class="chip">Security-conscious</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- 04 -->
+    <section class="project reveal">
+      <div class="index">
+        <div class="num">04</div>
+        <div class="verb">Ship it</div>
+        <div class="stack">Python<br/>Vercel serverless<br/>cron + Blob</div>
+      </div>
+      <div class="body">
+        <h2>Events API → Calendar</h2>
+        <div class="slug">backend architecture + API integration</div>
+        <p>A live service syncing a rate-limited events API to a fast public calendar. The real signal is an <span class="hl">architecture decision under constraint</span>: calling the API per request timed out the function and hit rate limits, so I split the paths — a daily cron pulls a rolling window, normalizes messy nested data, and writes one snapshot; the read endpoint serves that snapshot, fast and never rate-limited. OAuth 1.0 client with built-in rate limiting, 429 handling, and a bearer-auth-gated cron.</p>
+        <div class="chips">
+          <span class="chip">Third-party API integration</span>
+          <span class="chip">Serverless + cron</span>
+          <span class="chip">Read-path optimization</span>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="reveal">
+    <h2>The common thread: I finish the loop.</h2>
+    <p class="close">Most of these started as real problems with real constraints, not exercises. The interesting work is rarely the algorithm — it's the decision about which approach the problem actually needs, and then shipping it.</p>
+    <div class="contact">
+      <a href="mailto:YOUR_EMAIL_HERE">email</a>
+      <a href="https://github.com/dag0stin0">github</a>
+      <a href="YOUR_LINKEDIN_URL_HERE">linkedin</a>
+    </div>
+  </footer>
+
+</div>
+
+<script>
+  (function () {
+    var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var nodes = document.querySelectorAll('.reveal');
+    if (reduce || !('IntersectionObserver' in window)) {
+      nodes.forEach(function (n) { n.classList.add('in'); });
+      return;
+    }
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+      });
+    }, { threshold: 0.18, rootMargin: '0px 0px -8% 0px' });
+    nodes.forEach(function (n) { io.observe(n); });
+  })();
+</script>
+
+</body>
+</html>

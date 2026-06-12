@@ -77,6 +77,9 @@
   }
   .topbar .name { color: var(--ink); }
   .topbar .dot { color: var(--accent); }
+  .topcontact { display: flex; gap: clamp(0.9rem, 2vw, 1.6rem); }
+  .topcontact a { color: var(--muted); text-decoration: none; transition: color 0.25s var(--ease); }
+  .topcontact a:hover { color: var(--accent); }
 
   .hero-core { margin-top: clamp(2rem, 7vh, 4.5rem); padding: 0 0 1rem; }
   .lead-in {
@@ -231,7 +234,11 @@
 
       <div class="topbar">
         <span class="name">Michael D'Agostino</span>
-        <span>Selected Work <span class="dot">/</span> 2026</span>
+        <nav class="topcontact" aria-label="Contact">
+          <a href="mailto:michaeldagostino15@gmail.com">Email</a>
+          <a href="https://github.com/dag0stin0">GitHub</a>
+          <a href="https://www.linkedin.com/in/dagbag/">LinkedIn</a>
+        </nav>
       </div>
 
       <div class="hero-core">

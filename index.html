@@ -52,10 +52,19 @@
   .wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 var(--gut); position: relative; }
   a:focus-visible, :focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; border-radius: 2px; }
 
+  /* ============ STICKY BAR ============ */
+  .bar {
+    position: sticky; top: 0; z-index: 50;
+    background: oklch(97% 0.006 92 / 0.85);
+    -webkit-backdrop-filter: saturate(1.1) blur(8px);
+            backdrop-filter: saturate(1.1) blur(8px);
+    border-bottom: 1px solid var(--line);
+  }
+
   /* ============ HERO ============ */
   .hero {
     position: relative;
-    min-height: 100svh;
+    min-height: calc(100svh - 3.4rem);
     display: flex; flex-direction: column;
     border-bottom: 1px solid var(--line);
     overflow: hidden;
@@ -68,11 +77,11 @@
             mask-image: linear-gradient(180deg, transparent, #000 25% 70%, transparent);
     opacity: 0.9;
   }
-  .hero .wrap { z-index: 1; width: 100%; display: flex; flex-direction: column; min-height: 100svh; }
+  .hero .wrap { z-index: 1; width: 100%; display: flex; flex-direction: column; min-height: calc(100svh - 3.4rem); }
 
   .topbar {
-    display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; flex-wrap: wrap;
-    padding-top: clamp(1.5rem, 3.5vh, 2.6rem);
+    display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap;
+    padding-top: 0.95rem; padding-bottom: 0.95rem;
     font-family: var(--mono); font-size: 0.75rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted);
   }
   .topbar .name { color: var(--ink); }
@@ -229,17 +238,19 @@
 </head>
 <body>
 
-  <header class="hero">
-    <div class="wrap">
+  <header class="bar">
+    <div class="wrap topbar">
+      <span class="name">Michael D'Agostino</span>
+      <nav class="topcontact" aria-label="Contact">
+        <a href="mailto:michaeldagostino15@gmail.com">Email</a>
+        <a href="https://github.com/dag0stin0">GitHub</a>
+        <a href="https://www.linkedin.com/in/dagbag/">LinkedIn</a>
+      </nav>
+    </div>
+  </header>
 
-      <div class="topbar">
-        <span class="name">Michael D'Agostino</span>
-        <nav class="topcontact" aria-label="Contact">
-          <a href="mailto:michaeldagostino15@gmail.com">Email</a>
-          <a href="https://github.com/dag0stin0">GitHub</a>
-          <a href="https://www.linkedin.com/in/dagbag/">LinkedIn</a>
-        </nav>
-      </div>
+  <section class="hero">
+    <div class="wrap">
 
       <div class="hero-core">
         <p class="lead-in fade-up">Four projects.<br/>Four distinct problems.</p>
@@ -260,7 +271,7 @@
       </div>
 
     </div>
-  </header>
+  </section>
 
   <div class="wrap">
   <main>

@@ -1,4 +1,0 @@
-User-agent: *
-Disallow: /
-
-# Internal draft — site is gated until editorial sign-off.

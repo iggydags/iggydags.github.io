@@ -1,0 +1,449 @@
+<!DOCTYPE html><html lang=en><head><meta charset=utf-8>
+<meta name=viewport content="width=device-width,initial-scale=1"><title>find_post_leverage.py · social analytics</title><link rel=preconnect href="https://fonts.googleapis.com"><link rel=preconnect href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=Newsreader:ital,opsz,wght@0,16..72,400;1,16..72,400&family=JetBrains+Mono:wght@400;500&display=swap" rel=stylesheet>
+<style>
+body{margin:0;background:#f4f2ec;color:#272a36;font-family:'JetBrains Mono',ui-monospace,monospace}
+header{padding:1rem 1.5rem;border-bottom:1px solid rgba(39,42,54,0.13);position:sticky;top:0;background:#f4f2ec;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:.5rem;font-size:.85rem}
+header .n{font-weight:600;color:#2d5bd0}
+header a{color:#2d5bd0;text-decoration:none}
+header a:hover{text-decoration:underline}
+.highlight{margin:0;padding:1.2rem 1.5rem;overflow-x:auto;font-size:13px;line-height:1.55;background:#ffffff}
+.highlight table{border-collapse:collapse}
+.highlight .linenos{color:#9a9caa;padding-right:1rem;user-select:none;text-align:right}
+pre { line-height: 125%; }
+td.linenos .normal { color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px; }
+span.linenos { color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px; }
+td.linenos .special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+.highlight .hll { background-color: #ffffcc }
+.highlight { background: #ffffff; }
+.highlight .c { color: #177500 } /* Comment */
+.highlight .err { color: #000 } /* Error */
+.highlight .k { color: #A90D91 } /* Keyword */
+.highlight .l { color: #1C01CE } /* Literal */
+.highlight .n { color: #000 } /* Name */
+.highlight .o { color: #000 } /* Operator */
+.highlight .ch { color: #177500 } /* Comment.Hashbang */
+.highlight .cm { color: #177500 } /* Comment.Multiline */
+.highlight .cp { color: #633820 } /* Comment.Preproc */
+.highlight .cpf { color: #177500 } /* Comment.PreprocFile */
+.highlight .c1 { color: #177500 } /* Comment.Single */
+.highlight .cs { color: #177500 } /* Comment.Special */
+.highlight .kc { color: #A90D91 } /* Keyword.Constant */
+.highlight .kd { color: #A90D91 } /* Keyword.Declaration */
+.highlight .kn { color: #A90D91 } /* Keyword.Namespace */
+.highlight .kp { color: #A90D91 } /* Keyword.Pseudo */
+.highlight .kr { color: #A90D91 } /* Keyword.Reserved */
+.highlight .kt { color: #A90D91 } /* Keyword.Type */
+.highlight .ld { color: #1C01CE } /* Literal.Date */
+.highlight .m { color: #1C01CE } /* Literal.Number */
+.highlight .s { color: #C41A16 } /* Literal.String */
+.highlight .na { color: #836C28 } /* Name.Attribute */
+.highlight .nb { color: #A90D91 } /* Name.Builtin */
+.highlight .nc { color: #3F6E75 } /* Name.Class */
+.highlight .no { color: #000 } /* Name.Constant */
+.highlight .nd { color: #000 } /* Name.Decorator */
+.highlight .ni { color: #000 } /* Name.Entity */
+.highlight .ne { color: #000 } /* Name.Exception */
+.highlight .nf { color: #000 } /* Name.Function */
+.highlight .nl { color: #000 } /* Name.Label */
+.highlight .nn { color: #000 } /* Name.Namespace */
+.highlight .nx { color: #000 } /* Name.Other */
+.highlight .py { color: #000 } /* Name.Property */
+.highlight .nt { color: #000 } /* Name.Tag */
+.highlight .nv { color: #000 } /* Name.Variable */
+.highlight .ow { color: #000 } /* Operator.Word */
+.highlight .mb { color: #1C01CE } /* Literal.Number.Bin */
+.highlight .mf { color: #1C01CE } /* Literal.Number.Float */
+.highlight .mh { color: #1C01CE } /* Literal.Number.Hex */
+.highlight .mi { color: #1C01CE } /* Literal.Number.Integer */
+.highlight .mo { color: #1C01CE } /* Literal.Number.Oct */
+.highlight .sa { color: #C41A16 } /* Literal.String.Affix */
+.highlight .sb { color: #C41A16 } /* Literal.String.Backtick */
+.highlight .sc { color: #2300CE } /* Literal.String.Char */
+.highlight .dl { color: #C41A16 } /* Literal.String.Delimiter */
+.highlight .sd { color: #C41A16 } /* Literal.String.Doc */
+.highlight .s2 { color: #C41A16 } /* Literal.String.Double */
+.highlight .se { color: #C41A16 } /* Literal.String.Escape */
+.highlight .sh { color: #C41A16 } /* Literal.String.Heredoc */
+.highlight .si { color: #C41A16 } /* Literal.String.Interpol */
+.highlight .sx { color: #C41A16 } /* Literal.String.Other */
+.highlight .sr { color: #C41A16 } /* Literal.String.Regex */
+.highlight .s1 { color: #C41A16 } /* Literal.String.Single */
+.highlight .ss { color: #C41A16 } /* Literal.String.Symbol */
+.highlight .bp { color: #5B269A } /* Name.Builtin.Pseudo */
+.highlight .fm { color: #000 } /* Name.Function.Magic */
+.highlight .vc { color: #000 } /* Name.Variable.Class */
+.highlight .vg { color: #000 } /* Name.Variable.Global */
+.highlight .vi { color: #000 } /* Name.Variable.Instance */
+.highlight .vm { color: #000 } /* Name.Variable.Magic */
+.highlight .il { color: #1C01CE } /* Literal.Number.Integer.Long */
+</style></head><body>
+<header><span class="n">find_post_leverage.py</span><a href="../index.html">&larr; back to project</a></header>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">  1</span>
+<span class="normal">  2</span>
+<span class="normal">  3</span>
+<span class="normal">  4</span>
+<span class="normal">  5</span>
+<span class="normal">  6</span>
+<span class="normal">  7</span>
+<span class="normal">  8</span>
+<span class="normal">  9</span>
+<span class="normal"> 10</span>
+<span class="normal"> 11</span>
+<span class="normal"> 12</span>
+<span class="normal"> 13</span>
+<span class="normal"> 14</span>
+<span class="normal"> 15</span>
+<span class="normal"> 16</span>
+<span class="normal"> 17</span>
+<span class="normal"> 18</span>
+<span class="normal"> 19</span>
+<span class="normal"> 20</span>
+<span class="normal"> 21</span>
+<span class="normal"> 22</span>
+<span class="normal"> 23</span>
+<span class="normal"> 24</span>
+<span class="normal"> 25</span>
+<span class="normal"> 26</span>
+<span class="normal"> 27</span>
+<span class="normal"> 28</span>
+<span class="normal"> 29</span>
+<span class="normal"> 30</span>
+<span class="normal"> 31</span>
+<span class="normal"> 32</span>
+<span class="normal"> 33</span>
+<span class="normal"> 34</span>
+<span class="normal"> 35</span>
+<span class="normal"> 36</span>
+<span class="normal"> 37</span>
+<span class="normal"> 38</span>
+<span class="normal"> 39</span>
+<span class="normal"> 40</span>
+<span class="normal"> 41</span>
+<span class="normal"> 42</span>
+<span class="normal"> 43</span>
+<span class="normal"> 44</span>
+<span class="normal"> 45</span>
+<span class="normal"> 46</span>
+<span class="normal"> 47</span>
+<span class="normal"> 48</span>
+<span class="normal"> 49</span>
+<span class="normal"> 50</span>
+<span class="normal"> 51</span>
+<span class="normal"> 52</span>
+<span class="normal"> 53</span>
+<span class="normal"> 54</span>
+<span class="normal"> 55</span>
+<span class="normal"> 56</span>
+<span class="normal"> 57</span>
+<span class="normal"> 58</span>
+<span class="normal"> 59</span>
+<span class="normal"> 60</span>
+<span class="normal"> 61</span>
+<span class="normal"> 62</span>
+<span class="normal"> 63</span>
+<span class="normal"> 64</span>
+<span class="normal"> 65</span>
+<span class="normal"> 66</span>
+<span class="normal"> 67</span>
+<span class="normal"> 68</span>
+<span class="normal"> 69</span>
+<span class="normal"> 70</span>
+<span class="normal"> 71</span>
+<span class="normal"> 72</span>
+<span class="normal"> 73</span>
+<span class="normal"> 74</span>
+<span class="normal"> 75</span>
+<span class="normal"> 76</span>
+<span class="normal"> 77</span>
+<span class="normal"> 78</span>
+<span class="normal"> 79</span>
+<span class="normal"> 80</span>
+<span class="normal"> 81</span>
+<span class="normal"> 82</span>
+<span class="normal"> 83</span>
+<span class="normal"> 84</span>
+<span class="normal"> 85</span>
+<span class="normal"> 86</span>
+<span class="normal"> 87</span>
+<span class="normal"> 88</span>
+<span class="normal"> 89</span>
+<span class="normal"> 90</span>
+<span class="normal"> 91</span>
+<span class="normal"> 92</span>
+<span class="normal"> 93</span>
+<span class="normal"> 94</span>
+<span class="normal"> 95</span>
+<span class="normal"> 96</span>
+<span class="normal"> 97</span>
+<span class="normal"> 98</span>
+<span class="normal"> 99</span>
+<span class="normal">100</span>
+<span class="normal">101</span>
+<span class="normal">102</span>
+<span class="normal">103</span>
+<span class="normal">104</span>
+<span class="normal">105</span>
+<span class="normal">106</span>
+<span class="normal">107</span>
+<span class="normal">108</span>
+<span class="normal">109</span>
+<span class="normal">110</span>
+<span class="normal">111</span>
+<span class="normal">112</span>
+<span class="normal">113</span>
+<span class="normal">114</span>
+<span class="normal">115</span>
+<span class="normal">116</span>
+<span class="normal">117</span>
+<span class="normal">118</span>
+<span class="normal">119</span>
+<span class="normal">120</span>
+<span class="normal">121</span>
+<span class="normal">122</span>
+<span class="normal">123</span>
+<span class="normal">124</span>
+<span class="normal">125</span>
+<span class="normal">126</span>
+<span class="normal">127</span>
+<span class="normal">128</span>
+<span class="normal">129</span>
+<span class="normal">130</span>
+<span class="normal">131</span>
+<span class="normal">132</span>
+<span class="normal">133</span>
+<span class="normal">134</span>
+<span class="normal">135</span>
+<span class="normal">136</span>
+<span class="normal">137</span>
+<span class="normal">138</span>
+<span class="normal">139</span>
+<span class="normal">140</span>
+<span class="normal">141</span>
+<span class="normal">142</span>
+<span class="normal">143</span>
+<span class="normal">144</span>
+<span class="normal">145</span>
+<span class="normal">146</span>
+<span class="normal">147</span>
+<span class="normal">148</span>
+<span class="normal">149</span>
+<span class="normal">150</span>
+<span class="normal">151</span>
+<span class="normal">152</span>
+<span class="normal">153</span>
+<span class="normal">154</span>
+<span class="normal">155</span>
+<span class="normal">156</span>
+<span class="normal">157</span>
+<span class="normal">158</span>
+<span class="normal">159</span>
+<span class="normal">160</span>
+<span class="normal">161</span>
+<span class="normal">162</span>
+<span class="normal">163</span>
+<span class="normal">164</span>
+<span class="normal">165</span>
+<span class="normal">166</span>
+<span class="normal">167</span>
+<span class="normal">168</span>
+<span class="normal">169</span>
+<span class="normal">170</span>
+<span class="normal">171</span>
+<span class="normal">172</span>
+<span class="normal">173</span>
+<span class="normal">174</span>
+<span class="normal">175</span>
+<span class="normal">176</span>
+<span class="normal">177</span>
+<span class="normal">178</span>
+<span class="normal">179</span>
+<span class="normal">180</span>
+<span class="normal">181</span>
+<span class="normal">182</span>
+<span class="normal">183</span></pre></div></td><td class="code"><div><pre><span></span><span class="sd">&quot;&quot;&quot;Post-level leverage analysis from Sprout&#39;s Post Performance export.</span>
+
+<span class="sd">Surfaces format concentration, Pareto curves, sender attribution, and per-format yield —</span>
+<span class="sd">the things you can&#39;t compute from daily aggregate data.</span>
+
+<span class="sd">Outputs structured findings to stdout. Pipe to a markdown doc when satisfied.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+
+<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s2">&quot;ignore&quot;</span><span class="p">)</span>
+<span class="n">BASE</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s2">&quot;/Users/dags/Desktop/PubKey/PubKey-Ops/Social&quot;</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_to_num</span><span class="p">(</span><span class="n">s</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">s</span><span class="o">.</span><span class="n">dtype</span> <span class="o">==</span> <span class="nb">object</span><span class="p">:</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">regex</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">({</span><span class="s2">&quot;&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;nan&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot; &quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">})</span>
+    <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_numeric</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">errors</span><span class="o">=</span><span class="s2">&quot;coerce&quot;</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">load_posts</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+    <span class="n">files</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">((</span><span class="n">BASE</span> <span class="o">/</span> <span class="s2">&quot;ref/data/overview/source&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="s2">&quot;Post Performance*.csv&quot;</span><span class="p">))</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">files</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">FileNotFoundError</span><span class="p">(</span><span class="s2">&quot;No Post Performance*.csv in overview/source/&quot;</span><span class="p">)</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">f</span><span class="p">)</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">files</span><span class="p">],</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">df</span><span class="p">[</span><span class="s2">&quot;Date&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;Date&quot;</span><span class="p">],</span> <span class="n">errors</span><span class="o">=</span><span class="s2">&quot;coerce&quot;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;Impressions&quot;</span><span class="p">,</span> <span class="s2">&quot;Organic Impressions&quot;</span><span class="p">,</span> <span class="s2">&quot;Paid Impressions&quot;</span><span class="p">,</span>
+              <span class="s2">&quot;Reach&quot;</span><span class="p">,</span> <span class="s2">&quot;Engagements&quot;</span><span class="p">,</span> <span class="s2">&quot;Engagement Rate (per Impression)&quot;</span><span class="p">,</span>
+              <span class="s2">&quot;Reactions&quot;</span><span class="p">,</span> <span class="s2">&quot;Likes&quot;</span><span class="p">,</span> <span class="s2">&quot;Comments&quot;</span><span class="p">,</span> <span class="s2">&quot;Shares&quot;</span><span class="p">,</span> <span class="s2">&quot;Saves&quot;</span><span class="p">,</span>
+              <span class="s2">&quot;Post Link Clicks&quot;</span><span class="p">,</span> <span class="s2">&quot;Video Views&quot;</span><span class="p">,</span> <span class="s2">&quot;Subscribers Gained from Video&quot;</span><span class="p">,</span>
+              <span class="s2">&quot;Reels Skip Rate&quot;</span><span class="p">,</span> <span class="s2">&quot;Estimated Minutes Watched&quot;</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+            <span class="n">df</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="o">=</span> <span class="n">_to_num</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">c</span><span class="p">])</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">drop_duplicates</span><span class="p">(</span><span class="n">subset</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Post ID&quot;</span><span class="p">],</span> <span class="n">keep</span><span class="o">=</span><span class="s2">&quot;last&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">df</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">format_concentration</span><span class="p">(</span><span class="n">df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">network</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+    <span class="n">sub</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;Network&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">network</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">sub</span><span class="o">.</span><span class="n">empty</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+    <span class="n">g</span> <span class="o">=</span> <span class="n">sub</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;Post Type&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">agg</span><span class="p">(</span>
+        <span class="n">posts</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;Post ID&quot;</span><span class="p">,</span> <span class="s2">&quot;count&quot;</span><span class="p">),</span>
+        <span class="n">impressions</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;Impressions&quot;</span><span class="p">,</span> <span class="s2">&quot;sum&quot;</span><span class="p">),</span>
+        <span class="n">engagements</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;Engagements&quot;</span><span class="p">,</span> <span class="s2">&quot;sum&quot;</span><span class="p">),</span>
+        <span class="n">eng_per_post</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;Engagements&quot;</span><span class="p">,</span> <span class="s2">&quot;mean&quot;</span><span class="p">),</span>
+        <span class="n">median_eng</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;Engagements&quot;</span><span class="p">,</span> <span class="s2">&quot;median&quot;</span><span class="p">),</span>
+        <span class="n">median_impr</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;Impressions&quot;</span><span class="p">,</span> <span class="s2">&quot;median&quot;</span><span class="p">),</span>
+        <span class="n">median_er</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;Engagement Rate (per Impression)&quot;</span><span class="p">,</span> <span class="s2">&quot;median&quot;</span><span class="p">),</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">total_eng</span> <span class="o">=</span> <span class="n">g</span><span class="p">[</span><span class="s2">&quot;engagements&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="ow">or</span> <span class="mi">1</span>
+    <span class="n">total_posts</span> <span class="o">=</span> <span class="n">g</span><span class="p">[</span><span class="s2">&quot;posts&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="ow">or</span> <span class="mi">1</span>
+    <span class="n">g</span><span class="p">[</span><span class="s2">&quot;effort_share_%&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">g</span><span class="p">[</span><span class="s2">&quot;posts&quot;</span><span class="p">]</span> <span class="o">/</span> <span class="n">total_posts</span> <span class="o">*</span> <span class="mi">100</span><span class="p">)</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">g</span><span class="p">[</span><span class="s2">&quot;eng_share_%&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">g</span><span class="p">[</span><span class="s2">&quot;engagements&quot;</span><span class="p">]</span> <span class="o">/</span> <span class="n">total_eng</span> <span class="o">*</span> <span class="mi">100</span><span class="p">)</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">g</span><span class="p">[</span><span class="s2">&quot;leverage&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">g</span><span class="p">[</span><span class="s2">&quot;eng_share_%&quot;</span><span class="p">]</span> <span class="o">/</span> <span class="n">g</span><span class="p">[</span><span class="s2">&quot;effort_share_%&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">g</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s2">&quot;eng_share_%&quot;</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">pareto</span><span class="p">(</span><span class="n">df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">network</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">metric</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;Engagements&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+    <span class="n">sub</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;Network&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">network</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">sub</span> <span class="o">=</span> <span class="n">sub</span><span class="p">[</span><span class="n">sub</span><span class="p">[</span><span class="n">metric</span><span class="p">]</span><span class="o">.</span><span class="n">notna</span><span class="p">()</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">sub</span><span class="p">[</span><span class="n">metric</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)]</span>
+    <span class="k">if</span> <span class="n">sub</span><span class="o">.</span><span class="n">empty</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">{}</span>
+    <span class="n">sub</span> <span class="o">=</span> <span class="n">sub</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">metric</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">total</span> <span class="o">=</span> <span class="n">sub</span><span class="p">[</span><span class="n">metric</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">pct</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">50</span><span class="p">]:</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">sub</span><span class="p">)</span> <span class="o">*</span> <span class="n">pct</span> <span class="o">/</span> <span class="mi">100</span><span class="p">))</span>
+        <span class="n">share</span> <span class="o">=</span> <span class="n">sub</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="n">n</span><span class="p">)[</span><span class="n">metric</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">/</span> <span class="n">total</span> <span class="o">*</span> <span class="mi">100</span>
+        <span class="n">out</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;Top </span><span class="si">{</span><span class="n">pct</span><span class="si">}</span><span class="s2">% (n=</span><span class="si">{</span><span class="n">n</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">share</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">% of </span><span class="si">{</span><span class="n">metric</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="n">out</span><span class="p">[</span><span class="s2">&quot;Zero-engagement posts&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">int</span><span class="p">((</span><span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;Network&#39;</span><span class="p">]</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">network</span><span class="p">][</span><span class="n">metric</span><span class="p">]</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span><span class="si">}</span><span class="s2"> of </span><span class="si">{</span><span class="nb">int</span><span class="p">((</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;Network&#39;</span><span class="p">]</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">network</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;Network&#39;</span><span class="p">]</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">network</span><span class="p">][</span><span class="n">metric</span><span class="p">]</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">100</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">%)&quot;</span>
+    <span class="k">return</span> <span class="n">out</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">top_posts</span><span class="p">(</span><span class="n">df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">network</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">n</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+    <span class="n">sub</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;Network&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">network</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">sub</span> <span class="o">=</span> <span class="n">sub</span><span class="p">[</span><span class="n">sub</span><span class="p">[</span><span class="s2">&quot;Engagements&quot;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s2">&quot;Engagements&quot;</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+    <span class="n">cols</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Date&quot;</span><span class="p">,</span> <span class="s2">&quot;Post Type&quot;</span><span class="p">,</span> <span class="s2">&quot;Engagements&quot;</span><span class="p">,</span> <span class="s2">&quot;Impressions&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;Engagement Rate (per Impression)&quot;</span><span class="p">,</span> <span class="s2">&quot;Post&quot;</span><span class="p">]</span>
+    <span class="n">cols</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">cols</span> <span class="k">if</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">sub</span><span class="o">.</span><span class="n">columns</span><span class="p">]</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="n">sub</span><span class="p">[</span><span class="n">cols</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="k">if</span> <span class="s2">&quot;Post&quot;</span> <span class="ow">in</span> <span class="n">out</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+        <span class="n">out</span><span class="p">[</span><span class="s2">&quot;Post&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">out</span><span class="p">[</span><span class="s2">&quot;Post&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">slice</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">80</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;...&quot;</span>
+    <span class="k">if</span> <span class="s2">&quot;Date&quot;</span> <span class="ow">in</span> <span class="n">out</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+        <span class="n">out</span><span class="p">[</span><span class="s2">&quot;Date&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">out</span><span class="p">[</span><span class="s2">&quot;Date&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">out</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">sender_attribution</span><span class="p">(</span><span class="n">df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">network</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+    <span class="n">sub</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;Network&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">network</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="k">if</span> <span class="s2">&quot;Sent by&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">sub</span><span class="o">.</span><span class="n">columns</span> <span class="ow">or</span> <span class="n">sub</span><span class="o">.</span><span class="n">empty</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+    <span class="n">sub</span><span class="p">[</span><span class="s2">&quot;Sent by&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sub</span><span class="p">[</span><span class="s2">&quot;Sent by&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="s2">&quot;(unattributed)&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="s2">&quot;(unattributed)&quot;</span><span class="p">)</span>
+    <span class="n">g</span> <span class="o">=</span> <span class="n">sub</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;Sent by&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">agg</span><span class="p">(</span>
+        <span class="n">posts</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;Post ID&quot;</span><span class="p">,</span> <span class="s2">&quot;count&quot;</span><span class="p">),</span>
+        <span class="n">avg_eng</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;Engagements&quot;</span><span class="p">,</span> <span class="s2">&quot;mean&quot;</span><span class="p">),</span>
+        <span class="n">avg_impr</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;Impressions&quot;</span><span class="p">,</span> <span class="s2">&quot;mean&quot;</span><span class="p">),</span>
+        <span class="n">med_er</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;Engagement Rate (per Impression)&quot;</span><span class="p">,</span> <span class="s2">&quot;median&quot;</span><span class="p">),</span>
+        <span class="n">total_eng</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;Engagements&quot;</span><span class="p">,</span> <span class="s2">&quot;sum&quot;</span><span class="p">),</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">g</span><span class="p">[</span><span class="s2">&quot;eng_per_post&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">g</span><span class="p">[</span><span class="s2">&quot;avg_eng&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">g</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s2">&quot;posts&quot;</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">g</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">paid_vs_organic</span><span class="p">(</span><span class="n">df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">network</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+    <span class="n">sub</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;Network&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">network</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">sub</span><span class="o">.</span><span class="n">empty</span> <span class="ow">or</span> <span class="s2">&quot;Paid Impressions&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">sub</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">{}</span>
+    <span class="n">sub</span><span class="p">[</span><span class="s2">&quot;Paid Impressions&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sub</span><span class="p">[</span><span class="s2">&quot;Paid Impressions&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">sub</span><span class="p">[</span><span class="s2">&quot;has_paid&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sub</span><span class="p">[</span><span class="s2">&quot;Paid Impressions&quot;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span>
+    <span class="n">paid</span> <span class="o">=</span> <span class="n">sub</span><span class="p">[</span><span class="n">sub</span><span class="p">[</span><span class="s2">&quot;has_paid&quot;</span><span class="p">]]</span>
+    <span class="n">org</span> <span class="o">=</span> <span class="n">sub</span><span class="p">[</span><span class="o">~</span><span class="n">sub</span><span class="p">[</span><span class="s2">&quot;has_paid&quot;</span><span class="p">]]</span>
+    <span class="k">if</span> <span class="n">paid</span><span class="o">.</span><span class="n">empty</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;paid_post_count&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;note&quot;</span><span class="p">:</span> <span class="s2">&quot;no paid posts in window&quot;</span><span class="p">}</span>
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="s2">&quot;paid_posts&quot;</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">paid</span><span class="p">),</span>
+        <span class="s2">&quot;organic_posts&quot;</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">org</span><span class="p">),</span>
+        <span class="s2">&quot;paid_avg_impressions&quot;</span><span class="p">:</span> <span class="nb">int</span><span class="p">(</span><span class="n">paid</span><span class="p">[</span><span class="s2">&quot;Impressions&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">paid</span><span class="o">.</span><span class="n">empty</span> <span class="k">else</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="s2">&quot;organic_avg_impressions&quot;</span><span class="p">:</span> <span class="nb">int</span><span class="p">(</span><span class="n">org</span><span class="p">[</span><span class="s2">&quot;Impressions&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">org</span><span class="o">.</span><span class="n">empty</span> <span class="k">else</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="s2">&quot;paid_avg_engagements&quot;</span><span class="p">:</span> <span class="nb">int</span><span class="p">(</span><span class="n">paid</span><span class="p">[</span><span class="s2">&quot;Engagements&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">paid</span><span class="o">.</span><span class="n">empty</span> <span class="k">else</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="s2">&quot;organic_avg_engagements&quot;</span><span class="p">:</span> <span class="nb">int</span><span class="p">(</span><span class="n">org</span><span class="p">[</span><span class="s2">&quot;Engagements&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">org</span><span class="o">.</span><span class="n">empty</span> <span class="k">else</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="s2">&quot;paid_subsidy_factor&quot;</span><span class="p">:</span> <span class="nb">round</span><span class="p">(</span><span class="n">paid</span><span class="p">[</span><span class="s2">&quot;Impressions&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span> <span class="o">/</span> <span class="n">org</span><span class="p">[</span><span class="s2">&quot;Impressions&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span> <span class="mi">1</span><span class="p">)</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">org</span><span class="o">.</span><span class="n">empty</span> <span class="ow">and</span> <span class="n">org</span><span class="p">[</span><span class="s2">&quot;Impressions&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">}</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">():</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">load_posts</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;=&quot;</span> <span class="o">*</span> <span class="mi">80</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;PUBKEY POST PERFORMANCE · LEVERAGE FINDINGS · 2026-05-15&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;=&quot;</span> <span class="o">*</span> <span class="mi">80</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Total posts: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">)</span><span class="si">:</span><span class="s2">,</span><span class="si">}</span><span class="s2"> · Networks: </span><span class="si">{</span><span class="nb">sorted</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;Network&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span><span class="o">.</span><span class="n">unique</span><span class="p">())</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Window: </span><span class="si">{</span><span class="n">df</span><span class="o">.</span><span class="n">Date</span><span class="o">.</span><span class="n">min</span><span class="p">()</span><span class="o">.</span><span class="n">date</span><span class="p">()</span><span class="si">}</span><span class="s2"> → </span><span class="si">{</span><span class="n">df</span><span class="o">.</span><span class="n">Date</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="o">.</span><span class="n">date</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">()</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;─&quot;</span> <span class="o">*</span> <span class="mi">80</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;POSTS PER NETWORK&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;─&quot;</span> <span class="o">*</span> <span class="mi">80</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;Network&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">size</span><span class="p">()</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">to_string</span><span class="p">())</span>
+    <span class="nb">print</span><span class="p">()</span>
+
+    <span class="k">for</span> <span class="n">network</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;Instagram&quot;</span><span class="p">,</span> <span class="s2">&quot;LinkedIn&quot;</span><span class="p">,</span> <span class="s2">&quot;X&quot;</span><span class="p">,</span> <span class="s2">&quot;Facebook&quot;</span><span class="p">,</span> <span class="s2">&quot;TikTok&quot;</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;Network&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">network</span><span class="p">)</span><span class="o">.</span><span class="n">any</span><span class="p">():</span>
+            <span class="k">continue</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;█&quot;</span> <span class="o">*</span> <span class="mi">80</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  </span><span class="si">{</span><span class="n">network</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;█&quot;</span> <span class="o">*</span> <span class="mi">80</span><span class="p">)</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">--- Format concentration (</span><span class="si">{</span><span class="n">network</span><span class="si">}</span><span class="s2">) ---&quot;</span><span class="p">)</span>
+        <span class="n">fc</span> <span class="o">=</span> <span class="n">format_concentration</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">network</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">fc</span><span class="o">.</span><span class="n">empty</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">fc</span><span class="o">.</span><span class="n">to_string</span><span class="p">())</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">--- Pareto curve · engagements (</span><span class="si">{</span><span class="n">network</span><span class="si">}</span><span class="s2">) ---&quot;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">pareto</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">network</span><span class="p">,</span> <span class="s2">&quot;Engagements&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  </span><span class="si">{</span><span class="n">k</span><span class="si">:</span><span class="s2">&lt;28</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">v</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="s2">&quot;Video Views&quot;</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span> <span class="ow">and</span> <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;Network&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">network</span><span class="p">][</span><span class="s2">&quot;Video Views&quot;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">any</span><span class="p">():</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">--- Pareto curve · video views (</span><span class="si">{</span><span class="n">network</span><span class="si">}</span><span class="s2">) ---&quot;</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">pareto</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">network</span><span class="p">,</span> <span class="s2">&quot;Video Views&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  </span><span class="si">{</span><span class="n">k</span><span class="si">:</span><span class="s2">&lt;28</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">v</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">--- Sender attribution (</span><span class="si">{</span><span class="n">network</span><span class="si">}</span><span class="s2">) ---&quot;</span><span class="p">)</span>
+        <span class="n">sa</span> <span class="o">=</span> <span class="n">sender_attribution</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">network</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">sa</span><span class="o">.</span><span class="n">empty</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">sa</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span><span class="o">.</span><span class="n">to_string</span><span class="p">())</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">--- Paid vs organic (</span><span class="si">{</span><span class="n">network</span><span class="si">}</span><span class="s2">) ---&quot;</span><span class="p">)</span>
+        <span class="n">pvo</span> <span class="o">=</span> <span class="n">paid_vs_organic</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">network</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">pvo</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  </span><span class="si">{</span><span class="n">k</span><span class="si">:</span><span class="s2">&lt;28</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">v</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">--- Top 5 posts (</span><span class="si">{</span><span class="n">network</span><span class="si">}</span><span class="s2">) ---&quot;</span><span class="p">)</span>
+        <span class="n">tp</span> <span class="o">=</span> <span class="n">top_posts</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">network</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">tp</span><span class="o">.</span><span class="n">empty</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">tp</span><span class="o">.</span><span class="n">to_string</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
+        <span class="nb">print</span><span class="p">()</span>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">main</span><span class="p">()</span>
+</pre></div></td></tr></table></div>
+
+</body></html>

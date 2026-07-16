@@ -121,6 +121,7 @@ tr.arow>td{padding:9px 12px;border-bottom:1px solid var(--line2);vertical-align:
 .pct{font-family:var(--mono);font-weight:700;font-size:12.5px}.pct-hi{color:#1a9e6e}.pct-mid{color:#c98a1b}
 .docmenu{display:inline-block;position:relative;margin-left:6px;vertical-align:middle}.docmenu summary{cursor:pointer;list-style:none;font-size:12px;opacity:.7}.docmenu summary::-webkit-details-marker{display:none}.docmenu[open] summary{opacity:1}.docdrop{position:absolute;left:0;top:20px;z-index:30;background:var(--surface,#fff);border:1px solid var(--line,#ccc);border-radius:8px;padding:8px 10px;display:flex;flex-direction:column;gap:6px;min-width:130px;box-shadow:0 6px 20px rgba(0,0,0,.15)}
 .onote{font-family:var(--mono);font-size:10.5px;color:var(--faint);padding:12px 2px 0;line-height:1.6}
+.o-loc,.o-comp{max-width:18ch;overflow:hidden;text-overflow:ellipsis}
 @media(max-width:780px){.hide-sm{display:none}.method .row{grid-template-columns:1fr;gap:4px}.meters{grid-template-columns:repeat(2,1fr)}.pipe{display:flex}.pseg{min-width:0;flex:1;padding:10px 12px}.wrap{padding:0 16px}.tabs{overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}.tabs::-webkit-scrollbar{display:none}.tab{white-space:nowrap;flex-shrink:0;margin-right:18px;padding:13px 0}#v-rankings main .wrap,#v-openings main .wrap,#v-apps main .wrap{overflow-x:auto}#tbl,#otbl{min-width:600px}#appsbody table{min-width:640px}.search,.ainp,.fld input,.fld textarea{font-size:16px}.chip{padding:9px 13px}.hbtn{padding:8px 12px}.qstat{padding:7px 10px}.panel{padding:14px}.why{font-size:14.5px;padding-left:12px}.track{gap:12px}.fld.wide{min-width:100%}.hint{margin:12px 16px 0}}@media(max-width:430px){.pseg{padding:9px 8px}.pseg .pn{font-size:19px}.pseg .pl{font-size:9px;letter-spacing:.05em}.parr{padding:0 3px;font-size:11px}thead th{padding:12px 8px 8px}tr.role>td,tr.arow>td{padding:10px 8px}tr.grp>td{padding:20px 8px 8px}tr.detail>td{padding:0 4px}.masthead{align-items:flex-start}.stats{padding:14px 0 16px}}
 </style>
 <style>/* public-copy: applications pipeline blurred + redacted */
@@ -295,7 +296,7 @@ function renderOpen(){let rows=OPENINGS.filter(omatch);const k=ost.sort,d=ost.di
   if(!rows.length){el('orows').innerHTML='<tr><td colspan="8"><div class="empty"><div class="eb">Nothing matches these filters.</div></div></td></tr>';return;}
   let html='';rows.forEach(o=>{const id=OPENINGS.indexOf(o);const s=stOf(o);const dk=esc(keyOf(o));const open=ost.open.has(id);
     html+=`<tr class="role orole ${open?'open':''}" data-oid="${id}"><td><div class="co">${esc(o.company)}</div><div class="ro">${esc(o.role)}</div></td>`
-    +`<td class="hide-sm meta">${esc(o.lane)}</td><td class="meta">${esc(o.loc)}</td><td class="hide-sm meta">${esc(o.comp)}</td>`
+    +`<td class="hide-sm meta">${esc(o.lane)}</td><td class="meta o-loc" title="${esc(o.loc)}">${esc(o.loc)}</td><td class="hide-sm meta o-comp" title="${esc(o.comp)}">${esc(o.comp)}</td>`
     +`<td>${vBadge(o.verified)}</td>`
     +`<td><span class="pct ${o.pct>=85?'pct-hi':'pct-mid'}">${o.pct}%</span>${o.ranked==null?' <span class="newtag">NEW</span>':''}</td>`
     +`<td class="c-status"><select class="qstat o-stat p-${slug(s)}" data-key="${dk}" onclick="event.stopPropagation()">${STATUSES.map(x=>`<option ${x===s?'selected':''}>${esc(x)}</option>`).join('')}</select></td>`
@@ -303,6 +304,7 @@ function renderOpen(){let rows=OPENINGS.filter(omatch);const k=ost.sort,d=ost.di
     if(open)html+=`<tr class="detail"><td colspan="8"><div class="panel">`
       +(o.fit?`<p class="why">${esc(o.fit)}</p>`:'')
       +(o.edge?`<div class="nxt">Edge — ${esc(o.edge)}</div>`:'')
+      +`<div class="nxt">${esc(o.loc)}${o.comp?` · ${esc(o.comp)}`:''}</div>`
       +`<div class="nxt" style="margin-bottom:14px">${esc(o.verified)}${o.ranked!=null?` · ranked #${o.ranked} in Rankings tab`:' · not yet ranked'}</div>`
       +`<div class="links">${o.link?`<a class="lk lk-primary" href="${esc(o.link)}" target="_blank" rel="noopener">Apply ↗</a>`:''}<a class="lk lk-in" href="https://www.linkedin.com/search/results/companies/?keywords=${encodeURIComponent(o.company)}" target="_blank" rel="noopener">in LinkedIn ↗</a><a class="lk" href="https://www.google.com/search?q=${encodeURIComponent(o.company+' careers')}" target="_blank" rel="noopener">Company ↗</a></div>`
       +`<div class="track"><div class="fld"><label>Applied date</label><input type="date" class="o-date" data-key="${dk}" value="${esc(rec(o).date||'')}"></div>`

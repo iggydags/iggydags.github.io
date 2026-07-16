@@ -102,7 +102,7 @@ tr.detail>td{padding:0 12px}
 #toast.show{opacity:1;transform:translate(-50%,0)}
 .confp{position:fixed;top:14%;width:8px;height:13px;border-radius:2px;z-index:85;pointer-events:none;animation:conf 1.6s cubic-bezier(.2,.6,.35,1) forwards}
 @keyframes conf{to{transform:translate(var(--x),88vh) rotate(var(--r));opacity:0}}
-.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:14px;padding:20px 0}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(310px,100%),1fr));gap:14px;padding:20px 0}
 .card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:17px;box-shadow:var(--shadow)}
 .card h3{margin:0 0 9px;font-size:14.5px;font-weight:650}.card p{margin:7px 0;font-size:12.5px;color:var(--muted)}.card p b{color:var(--ink2);font-weight:600}
 .method{padding:22px 0;max-width:880px}.method .row{display:grid;grid-template-columns:210px 1fr;gap:18px;padding:14px 0;border-bottom:1px solid var(--line)}
@@ -121,7 +121,7 @@ tr.arow>td{padding:9px 12px;border-bottom:1px solid var(--line2);vertical-align:
 .pct{font-family:var(--mono);font-weight:700;font-size:12.5px}.pct-hi{color:#1a9e6e}.pct-mid{color:#c98a1b}
 .docmenu{display:inline-block;position:relative;margin-left:6px;vertical-align:middle}.docmenu summary{cursor:pointer;list-style:none;font-size:12px;opacity:.7}.docmenu summary::-webkit-details-marker{display:none}.docmenu[open] summary{opacity:1}.docdrop{position:absolute;left:0;top:20px;z-index:30;background:var(--surface,#fff);border:1px solid var(--line,#ccc);border-radius:8px;padding:8px 10px;display:flex;flex-direction:column;gap:6px;min-width:130px;box-shadow:0 6px 20px rgba(0,0,0,.15)}
 .onote{font-family:var(--mono);font-size:10.5px;color:var(--faint);padding:12px 2px 0;line-height:1.6}
-@media(max-width:780px){.hide-sm{display:none}.method .row{grid-template-columns:1fr;gap:4px}.meters{grid-template-columns:repeat(2,1fr)}.pipe{display:flex}.pseg{min-width:0;flex:1;padding:10px 12px}}
+@media(max-width:780px){.hide-sm{display:none}.method .row{grid-template-columns:1fr;gap:4px}.meters{grid-template-columns:repeat(2,1fr)}.pipe{display:flex}.pseg{min-width:0;flex:1;padding:10px 12px}.wrap{padding:0 16px}.tabs{overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}.tabs::-webkit-scrollbar{display:none}.tab{white-space:nowrap;flex-shrink:0;margin-right:18px;padding:13px 0}#v-rankings main .wrap,#v-openings main .wrap,#v-apps main .wrap{overflow-x:auto}#tbl,#otbl{min-width:600px}#appsbody table{min-width:640px}.search,.ainp,.fld input,.fld textarea{font-size:16px}.chip{padding:9px 13px}.hbtn{padding:8px 12px}.qstat{padding:7px 10px}.panel{padding:14px}.why{font-size:14.5px;padding-left:12px}.track{gap:12px}.fld.wide{min-width:100%}.hint{margin:12px 16px 0}}@media(max-width:430px){.pseg{padding:9px 8px}.pseg .pn{font-size:19px}.pseg .pl{font-size:9px;letter-spacing:.05em}.parr{padding:0 3px;font-size:11px}thead th{padding:12px 8px 8px}tr.role>td,tr.arow>td{padding:10px 8px}tr.grp>td{padding:20px 8px 8px}tr.detail>td{padding:0 4px}.masthead{align-items:flex-start}.stats{padding:14px 0 16px}}
 </style>
 <style>/* public-copy: applications pipeline blurred + redacted */
 #v-apps{position:relative;pointer-events:none;user-select:none;-webkit-user-select:none}
@@ -137,7 +137,7 @@ tr.arow>td{padding:9px 12px;border-bottom:1px solid var(--line2);vertical-align:
 <div class="hbtns"><button class="hbtn" id="importb">&uarr; Import</button><input type="file" id="importf" accept=".json" style="display:none"><button class="hbtn" id="theme">&#9680; Theme</button></div></div>
 <div class="dateline" id="updated"></div><div class="rule2"></div>
 <div class="stats" id="stats"></div>
-<div class="tabs"><button class="tab" data-view="apps">Applications</button><button class="tab active" data-view="openings">Openings</button><button class="tab" data-view="network">Network Plays</button><button class="tab" data-view="method">Methodology</button></div>
+<div class="tabs"><button class="tab" data-view="rankings">Rankings</button><button class="tab" data-view="apps">Applications</button><button class="tab active" data-view="openings">Openings</button><button class="tab" data-view="network">Network Plays</button><button class="tab" data-view="method">Methodology</button></div>
 </div></header>
 <div id="v-rankings" class="hidden"><div class="toolbar"><div class="wrap">
 <input class="search" id="q" placeholder="Search company, role, notes…  ( / )" autocomplete="off">

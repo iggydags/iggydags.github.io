@@ -122,7 +122,13 @@ tr.arow>td{padding:9px 12px;border-bottom:1px solid var(--line2);vertical-align:
 .docmenu{display:inline-block;position:relative;margin-left:6px;vertical-align:middle}.docmenu summary{cursor:pointer;list-style:none;font-size:12px;opacity:.7}.docmenu summary::-webkit-details-marker{display:none}.docmenu[open] summary{opacity:1}.docdrop{position:absolute;left:0;top:20px;z-index:30;background:var(--surface,#fff);border:1px solid var(--line,#ccc);border-radius:8px;padding:8px 10px;display:flex;flex-direction:column;gap:6px;min-width:130px;box-shadow:0 6px 20px rgba(0,0,0,.15)}
 .onote{font-family:var(--mono);font-size:10.5px;color:var(--faint);padding:12px 2px 0;line-height:1.6}
 @media(max-width:780px){.hide-sm{display:none}.method .row{grid-template-columns:1fr;gap:4px}.meters{grid-template-columns:repeat(2,1fr)}.pipe{display:flex}.pseg{min-width:0;flex:1;padding:10px 12px}}
-</style></head><body>
+</style>
+<style>/* public-copy: applications pipeline blurred */
+#v-apps{position:relative;pointer-events:none;user-select:none;-webkit-user-select:none}
+#v-apps>*{filter:blur(7px)}
+#v-apps::before{content:"Application pipeline · blurred on the public copy";position:absolute;top:4.5rem;left:50%;transform:translateX(-50%);z-index:5;font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:.5rem 1rem;box-shadow:var(--shadow);white-space:nowrap}
+</style>
+</head><body>
 <header><div class="wrap">
 <div class="kicker">Career pivot &middot; confidential &middot; a ranked intelligence brief</div>
 <div class="masthead"><h1>Job&nbsp;Tracker</h1>

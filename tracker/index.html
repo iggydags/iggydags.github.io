@@ -170,7 +170,7 @@ const STATUSES=['Not started','Researching','Applied','Interviewing','Offer','Re
 const LSKEY='jobTracker_v2';
 let LS={};try{LS=JSON.parse(localStorage.getItem(LSKEY)||'{}')}catch(e){LS={}}
 function save(){localStorage.setItem(LSKEY,JSON.stringify(LS))}
-const SEED_APPLIED={};(function(){let ch=false;for(const k in SEED_APPLIED){const cur=LS[k];if(!cur||!cur.status||cur.status==='Not started'){LS[k]=Object.assign({},cur,SEED_APPLIED[k]);ch=true;}}if(ch)save();})();(function(){if(LS._mercor_iv1)return;const k='Mercor|||Enterprise AI Associate';LS[k]=Object.assign({},LS[k],{status:'Interviewing',notes:'Kristen (recruiter) invited first-round chat 7.14.26 - book: you.ashbyhq.com/meeting/146c623b'});LS._mercor_iv1=1;save();})();
+const SEED_APPLIED={};(function(){let ch=false;for(const k in SEED_APPLIED){const cur=LS[k];if(!cur||!cur.status||cur.status==='Not started'){LS[k]=Object.assign({},cur,SEED_APPLIED[k]);ch=true;}}if(ch)save();})();
 const keyOf=r=>r.company+'|||'+r.role;const rec=r=>LS[keyOf(r)]||{};const stOf=r=>rec(r).status||r.status;
 const el=id=>document.getElementById(id);
 const esc=s=>(s==null?'':String(s)).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));

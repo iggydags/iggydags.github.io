@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Michael D'Agostino &middot; Founding Content Strategist &middot; Edra</title>
+<meta name="description" content="An audit of everything Edra has published, and the ninety days after.">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#0d0d0e">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Michael D'Agostino &middot; Founding Content Strategist &middot; Edra">
+<meta property="og:description" content="An audit of everything Edra has published, and the ninety days after.">
+<meta name="twitter:card" content="summary">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='7' fill='%230d0d0e'/><path d='M8 24V10h7a5 5 0 0 1 0 10H8' fill='none' stroke='%23e0a54f' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/></svg>">
+<script>document.documentElement.classList.add('js')</script>
+<style>
+  :root{
+    color-scheme: dark;
+    --bg:#0d0d0e; --surface-1:#141416; --surface-2:#1a1a1d; --surface-3:#212126;
+    --border:#26262b; --border-strong:#36363d;
+    --text-primary:#ece8e1; --text-secondary:#9c968c; --text-muted:#78726a;
+    --accent:#e0a54f; --accent-dim:#b8813a; --on-accent:#160f04;
+    --neg:#e07a6a; --pos:#6fb894;
+    --mono:ui-monospace,'SF Mono','Cascadia Code',Menlo,Consolas,monospace;
+    --sans:-apple-system,BlinkMacSystemFont,'Segoe UI',Inter,Roboto,Helvetica,Arial,sans-serif;
+    --serif:'Iowan Old Style','Palatino Linotype',Palatino,'Book Antiqua',Georgia,serif;
+    --gutter:max(clamp(16px,4vw,28px),env(safe-area-inset-left));
+    --pad-panel:clamp(18px,3.5vw,34px);
+    --rule:1px solid var(--border);
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%;scroll-padding-top:76px}
+  body{background:var(--bg);color:var(--text-primary);font-family:var(--sans);font-size:16px;line-height:1.62;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  a{color:var(--accent);text-decoration:none}
+  a:hover{color:var(--text-primary)}
+  :focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:3px}
+  ::selection{background:var(--accent-dim);color:var(--on-accent)}
+  .wrap{max-width:1080px;margin:0 auto;padding-left:var(--gutter);padding-right:var(--gutter)}
+
+  /* ---------- nav ---------- */
+  nav{position:sticky;top:0;z-index:60;background:rgba(13,13,14,.86);backdrop-filter:blur(14px);border-bottom:var(--rule)}
+  .nav-inner{max-width:1080px;margin:0 auto;padding:0 var(--gutter);height:58px;display:flex;align-items:center;justify-content:space-between;gap:14px}
+  .nav-brand{font-family:var(--mono);font-size:12px;letter-spacing:.08em;color:var(--text-primary);white-space:nowrap;text-transform:uppercase}
+  .nav-brand b{color:var(--accent);font-weight:700}
+  .nav-links{display:flex;align-items:center;gap:2px;overflow-x:auto;scrollbar-width:none}
+  .nav-links::-webkit-scrollbar{display:none}
+  .nav-links a{font-family:var(--mono);font-size:11px;color:var(--text-secondary);letter-spacing:.06em;padding:9px 9px;white-space:nowrap;text-transform:uppercase}
+  .nav-links a:hover{color:var(--accent)}
+  .nav-links a.cta{color:var(--on-accent);background:var(--accent);font-weight:700;padding:8px 14px;border-radius:7px;margin-left:8px}
+  .nav-links a.cta:hover{background:#f0b862;color:var(--on-accent)}
+  @media(max-width:720px){.nav-links a:not(.cta){display:none}}
+
+  /* ---------- hero ---------- */
+  header.hero{padding:clamp(46px,8vw,92px) 0 clamp(30px,5vw,52px);border-bottom:var(--rule)}
+  .eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--accent)}
+  h1{font-family:var(--serif);font-size:clamp(38px,7.2vw,78px);line-height:1.02;letter-spacing:-.022em;font-weight:600;margin-top:18px;max-width:15ch;text-wrap:balance}
+  h1 em{font-style:italic;color:var(--accent)}
+  .dek{font-family:var(--serif);font-size:clamp(18px,2.4vw,23px);line-height:1.5;color:var(--text-secondary);max-width:62ch;margin-top:22px}
+  .reframe{margin-top:26px;padding:16px 20px;border-left:2px solid var(--accent);background:var(--surface-1);max-width:60ch;font-size:15px;color:var(--text-secondary)}
+  .reframe b{color:var(--text-primary);font-weight:600}
+  .hero-meta{margin-top:30px;display:flex;flex-wrap:wrap;gap:8px 22px;font-family:var(--mono);font-size:11px;letter-spacing:.07em;color:var(--text-muted);text-transform:uppercase}
+
+  /* ---------- section scaffolding ---------- */
+  section{padding:clamp(44px,6.5vw,84px) 0;border-bottom:var(--rule)}
+  .sec-head{display:flex;align-items:baseline;gap:16px;margin-bottom:10px}
+  .sec-num{font-family:var(--mono);font-size:11px;letter-spacing:.14em;color:var(--accent);flex-shrink:0}
+  h2{font-family:var(--serif);font-size:clamp(26px,3.8vw,40px);line-height:1.12;letter-spacing:-.018em;font-weight:600;text-wrap:balance;max-width:22ch}
+  .sec-dek{font-size:16.5px;color:var(--text-secondary);max-width:66ch;margin-top:14px}
+  h3{font-family:var(--sans);font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:var(--text-primary);font-weight:700;margin-bottom:14px}
+  p+p{margin-top:14px}
+  .prose{max-width:66ch;color:var(--text-secondary);font-size:16.5px}
+  .prose strong{color:var(--text-primary);font-weight:650}
+
+  /* ---------- audit ---------- */
+  .audit{margin-top:32px;border:var(--rule);border-radius:12px;overflow:hidden;background:var(--surface-1)}
+  .audit-row{display:grid;grid-template-columns:1fr 190px;gap:18px;padding:20px var(--pad-panel);border-bottom:var(--rule);align-items:start}
+  .audit-row:last-child{border-bottom:none}
+  .audit-row:nth-child(odd){background:var(--surface-2)}
+  .audit-claim{font-size:16px;color:var(--text-primary);font-weight:600;line-height:1.4}
+  .audit-detail{font-size:14.5px;color:var(--text-secondary);margin-top:6px;line-height:1.55}
+  .audit-status{font-family:var(--mono);font-size:11px;letter-spacing:.06em;color:var(--text-muted);text-align:right;line-height:1.5;text-transform:uppercase}
+  .chip{display:inline-block;border:1px solid var(--border-strong);border-radius:999px;padding:3px 10px;font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--text-muted)}
+  .chip.bad{color:var(--neg);border-color:rgba(224,122,106,.4)}
+  .chip.good{color:var(--pos);border-color:rgba(111,184,148,.4)}
+  .audit-foot{padding:16px var(--pad-panel);font-family:var(--mono);font-size:11px;color:var(--text-muted);letter-spacing:.04em;background:var(--surface-3);line-height:1.7}
+  @media(max-width:720px){
+    .audit-row{grid-template-columns:1fr;gap:10px}
+    .audit-status{text-align:left}
+  }
+
+  /* ---------- pull quote ---------- */
+  .pull{margin:44px 0 0;padding:clamp(26px,4vw,42px);background:linear-gradient(160deg,var(--surface-2),var(--surface-1));border:var(--rule);border-radius:14px;position:relative;overflow:hidden}
+  .pull::before{content:'';position:absolute;inset:0 auto 0 0;width:3px;background:var(--accent)}
+  .pull q{font-family:var(--serif);font-size:clamp(21px,3.1vw,31px);line-height:1.32;letter-spacing:-.012em;color:var(--text-primary);display:block;quotes:none;text-wrap:balance}
+  .pull q em{color:var(--accent);font-style:italic}
+  .pull .attr{margin-top:18px;font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--text-muted)}
+
+  /* ---------- tables ---------- */
+  .tscroll{margin-top:26px;overflow-x:auto;border:var(--rule);border-radius:12px;background:var(--surface-1)}
+  table{width:100%;border-collapse:collapse;min-width:560px}
+  th{font-family:var(--mono);font-size:10.5px;letter-spacing:.11em;text-transform:uppercase;color:var(--text-muted);text-align:left;padding:14px var(--pad-panel);border-bottom:1px solid var(--border-strong);font-weight:500;background:var(--surface-3)}
+  td{padding:15px var(--pad-panel);border-bottom:var(--rule);font-size:15.5px;color:var(--text-secondary);vertical-align:top;line-height:1.55}
+  tr:last-child td{border-bottom:none}
+  td:first-child{color:var(--text-primary);font-weight:600}
+  td .cad{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
+
+  /* ---------- phases ---------- */
+  .phases{margin-top:34px;display:grid;gap:20px}
+  .phase{border:var(--rule);border-radius:14px;background:var(--surface-1);overflow:hidden}
+  .phase-head{padding:22px var(--pad-panel);border-bottom:var(--rule);background:var(--surface-2);display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:12px}
+  .phase-days{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent)}
+  .phase-goal{font-family:var(--serif);font-size:clamp(19px,2.5vw,25px);line-height:1.28;color:var(--text-primary);font-weight:600;flex:1 1 100%;max-width:52ch}
+  .phase-body{padding:var(--pad-panel)}
+  .wk{margin-bottom:26px}
+  .wk:last-of-type{margin-bottom:0}
+  .wk-label{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--text-muted);padding-bottom:8px;border-bottom:var(--rule);margin-bottom:14px}
+  ul.items{list-style:none;display:grid;gap:11px}
+  ul.items li{position:relative;padding-left:22px;font-size:15.5px;color:var(--text-secondary);line-height:1.55}
+  ul.items li::before{content:'';position:absolute;left:2px;top:9px;width:6px;height:6px;border-radius:50%;background:var(--accent-dim)}
+  ul.items li b{color:var(--text-primary);font-weight:650}
+  .insist{margin-top:14px;margin-left:22px;padding:14px 18px;border-left:2px solid var(--accent-dim);background:var(--surface-2);font-size:15px;color:var(--text-secondary);border-radius:0 8px 8px 0}
+  .insist b{color:var(--accent);font-weight:650}
+  .scorecard{margin-top:24px;padding:18px var(--pad-panel);background:var(--surface-3);border-top:var(--rule);margin-left:calc(var(--pad-panel)*-1);margin-right:calc(var(--pad-panel)*-1);margin-bottom:calc(var(--pad-panel)*-1)}
+  .scorecard .lbl{font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);display:block;margin-bottom:8px}
+  .scorecard p{font-size:15px;color:var(--text-secondary)}
+
+  /* ---------- two-col ---------- */
+  .cols{margin-top:30px;display:grid;grid-template-columns:1fr 1fr;gap:20px}
+  @media(max-width:820px){.cols{grid-template-columns:1fr}}
+  .col{border:var(--rule);border-radius:12px;background:var(--surface-1);padding:var(--pad-panel)}
+  .col ul{list-style:none;display:grid;gap:10px}
+  .col li{font-size:15.5px;color:var(--text-secondary);padding-left:18px;position:relative;line-height:1.5}
+  .col li::before{content:'';position:absolute;left:0;top:10px;width:8px;height:1px;background:var(--accent-dim)}
+
+  /* ---------- numbered asks ---------- */
+  .asks{margin-top:30px;display:grid;gap:2px;border:var(--rule);border-radius:12px;overflow:hidden}
+  .ask{display:grid;grid-template-columns:56px 1fr;background:var(--surface-1);padding:20px var(--pad-panel) 20px 0}
+  .ask:nth-child(even){background:var(--surface-2)}
+  .ask .n{font-family:var(--mono);font-size:12px;color:var(--accent);padding-left:var(--pad-panel);padding-top:2px;letter-spacing:.06em}
+  .ask .t{font-size:15.5px;color:var(--text-secondary);line-height:1.55}
+  .ask .t b{display:block;color:var(--text-primary);font-weight:650;margin-bottom:4px;font-size:16px}
+
+  /* ---------- risk ---------- */
+  .risk{background:var(--surface-1);border:1px solid var(--border-strong);border-radius:14px;padding:clamp(26px,4.5vw,48px);margin-top:30px;position:relative}
+  .risk::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--neg),transparent 70%)}
+  .risk p{max-width:70ch;color:var(--text-secondary);font-size:16.5px}
+  .risk p strong{color:var(--text-primary)}
+  .risk .kicker{font-family:var(--mono);font-size:11px;letter-spacing:.13em;text-transform:uppercase;color:var(--neg);margin-bottom:16px;display:block}
+
+  /* ---------- close ---------- */
+  section.last{border-bottom:none;padding-bottom:clamp(60px,9vw,120px)}
+  .close-h{font-family:var(--serif);font-size:clamp(27px,4.4vw,46px);line-height:1.14;letter-spacing:-.02em;font-weight:600;max-width:20ch;text-wrap:balance}
+  .btnrow{margin-top:30px;display:flex;flex-wrap:wrap;gap:12px}
+  .btn{display:inline-block;font-family:var(--mono);font-size:12px;letter-spacing:.07em;text-transform:uppercase;padding:14px 22px;border-radius:9px;border:1px solid var(--border-strong);color:var(--text-primary);transition:border-color .18s ease,color .18s ease,background .18s ease}
+  .btn:hover{border-color:var(--accent);color:var(--accent)}
+  .btn.primary{background:var(--accent);color:var(--on-accent);border-color:var(--accent);font-weight:700}
+  .btn.primary:hover{background:#f0b862;color:var(--on-accent)}
+  footer{padding:30px 0 60px;font-family:var(--mono);font-size:11px;letter-spacing:.05em;color:var(--text-muted);line-height:1.9}
+  footer a{color:var(--text-secondary)}
+
+  /* ---------- reveal ---------- */
+  .js .rv{opacity:0;transform:translateY(14px)}
+  .js .rv.in{opacity:1;transform:none;transition:opacity .6s cubic-bezier(.16,1,.3,1),transform .6s cubic-bezier(.16,1,.3,1)}
+  @media(prefers-reduced-motion:reduce){
+    .js .rv{opacity:1;transform:none}
+    .js .rv.in{transition:none}
+    *{scroll-behavior:auto!important}
+  }
+</style>
+</head>
+<body>
+
+<nav aria-label="Section navigation">
+  <div class="nav-inner">
+    <span class="nav-brand">M. D&rsquo;Agostino <b>&middot;</b> Edra</span>
+    <div class="nav-links">
+      <a href="#audit">Audit</a>
+      <a href="#constraints">Constraints</a>
+      <a href="#ninety">90 days</a>
+      <a href="#measure">Measurement</a>
+      <a href="#need">Conditions</a>
+      <a href="#risk">Risk</a>
+      <a class="cta" href="mailto:michaeldagostino15@gmail.com?subject=Edra%20%C2%B7%20Founding%20Content%20Strategist">Email</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap">
+    <p class="eyebrow">Founding Content Strategist &middot; New York &middot; August 2026</p>
+    <h1>Edra, <em>in public.</em></h1>
+    <p class="dek">An audit of everything Edra has published since coming out of stealth, and the ninety days after. The posting says the external presence has been uneven since launch. That is generous.</p>
+    <p class="reframe"><b>This is not a proposal.</b> It is the week-one audit, run early, by someone who does not work here yet. Every claim below was checked against a primary source on August 3, 2026, and every one of them is fixable.</p>
+    <p class="hero-meta">
+      <span>Michael D&rsquo;Agostino</span>
+      <span>Unsolicited work product</span>
+      <span>10 min read</span>
+      <span><a href="https://iggydags.github.io">iggydags.github.io</a></span>
+    </p>
+  </div>
+</header>
+
+<section id="audit" aria-labelledby="h-audit">
+  <div class="wrap">
+    <div class="sec-head rv"><span class="sec-num">01</span><h2 id="h-audit">What is actually published</h2></div>
+    <p class="sec-dek rv">Six findings. All verifiable from public sources without talking to anyone at the company.</p>
+
+    <div class="audit rv">
+      <div class="audit-row">
+        <div>
+          <p class="audit-claim">There is no owned publishing surface.</p>
+          <p class="audit-detail">edra.ai has five pages. Home, careers, customer stories, contact, privacy policy. <code>/blog</code>, <code>/about</code> and <code>/company</code> all return 404. The launch post lives on LinkedIn Pulse, on someone else&rsquo;s platform, where it cannot be canonical and cannot compound.</p>
+        </div>
+        <div class="audit-status"><span class="chip bad">No blog</span><br>Checked 8.03.26</div>
+      </div>
+
+      <div class="audit-row">
+        <div>
+          <p class="audit-claim">The customer stories page has no customer stories.</p>
+          <p class="audit-detail">Four tiles. The markup contains no links to individual stories. Edra&rsquo;s own job posting asks the hire to &ldquo;ship the first customer stories,&rdquo; which is an honest admission and also the single easiest thing on this list to fix.</p>
+        </div>
+        <div class="audit-status"><span class="chip bad">0 stories</span><br>4 tiles, no targets</div>
+      </div>
+
+      <div class="audit-row">
+        <div>
+          <p class="audit-claim">The company has been quiet for roughly three and a half months.</p>
+          <p class="audit-detail">The most recent indexable company LinkedIn post is mid-April. The X account, created October 2025, has indexable posts from launch day only. Total self-published output since coming out of stealth is approximately one video, one Pulse post and one X thread, all on the same day.</p>
+        </div>
+        <div class="audit-status"><span class="chip bad">~3.5 months</span><br>Since mid-April</div>
+      </div>
+
+      <div class="audit-row">
+        <div>
+          <p class="audit-claim">Neither founder has published long-form. Ever.</p>
+          <p class="audit-detail">No essays, no podcasts, no talks, no bylines. Eugen&rsquo;s indexed post history is a Palantir note in May 2024 and the Series A announcement in March 2026. Yannis has no X account. Two Palantir forward-deployed leads have the most earned right to an opinion in this category and have not used it once.</p>
+        </div>
+        <div class="audit-status"><span class="chip bad">0 essays</span><br>2 posts in 2 years</div>
+      </div>
+
+      <div class="audit-row">
+        <div>
+          <p class="audit-claim">The best writing anyone at Edra has produced is buried.</p>
+          <p class="audit-detail">Filippos&rsquo;s piece tracing the product back to XCON and 1980s expert systems is the most intellectually honest thing on the internet about this category. It names the actual risk, that nobody has run a continuously-learned rule corpus long enough to know whether maintenance cost stays sublinear. It is sitting in a LinkedIn feed. The second best writing is a paragraph inside a job description.</p>
+        </div>
+        <div class="audit-status"><span class="chip bad">Unowned</span><br>Third-party feed</div>
+      </div>
+
+      <div class="audit-row">
+        <div>
+          <p class="audit-claim">A named enterprise executive already went on the record, and nothing was built around it.</p>
+          <p class="audit-detail">ASOS&rsquo;s EVP of Technology published his own bylined account of the deployment. 20,000 tickets, 400 knowledge base articles, coverage from 30 percent to 90 percent, 200 undocumented topics surfaced. At Series A that is rare enough to be a strategic asset. Edra has not built one owned artifact around it.</p>
+        </div>
+        <div class="audit-status"><span class="chip good">Proof exists</span><br>Unassembled</div>
+      </div>
+
+      <p class="audit-foot">Method: direct HTTP checks against edra.ai on August 3, 2026, plus indexable post history on LinkedIn and X, the Ashby job board (17 open roles), and the ASOS plc newsroom. No non-public information was used, because I do not have any.</p>
+    </div>
+
+    <div class="pull rv">
+      <q>The substance is real and the proof is already public. <em>Nobody has assembled it.</em></q>
+      <p class="attr">The whole opportunity, in one sentence</p>
+    </div>
+  </div>
+</section>
+
+<section id="problem" aria-labelledby="h-problem">
+  <div class="wrap">
+    <div class="sec-head rv"><span class="sec-num">02</span><h2 id="h-problem">The problem is narrower than &ldquo;we need content&rdquo;</h2></div>
+    <div class="prose rv" style="margin-top:16px">
+      <p>In September 2025, The Information categorized Edra as &ldquo;another new AI consulting startup&rdquo; using &ldquo;consultants to make up for the agents&rsquo; shortcomings.&rdquo; That framing is live, it is from a tier-one outlet, and it predates the launch. Every AI Strategist and Forward Deployed AI Engineer req posted since June makes it look <strong>more</strong> accurate to an outside reader, not less.</p>
+      <p>Ninety days of good posts will not move that. A deliberate, argued, owned position will.</p>
+      <p><strong>The argument that beats it:</strong> Edra&rsquo;s wedge is that documented process is a fiction, so you do not start from documentation. Distyl starts from SOPs the customer uploads. Palantir builds ontology by hand with humans in the room. Edra starts from exhaust: tickets, logs, emails, the record of what people actually did. That is a real architectural difference, it is defensible, and it is almost entirely unsaid in public.</p>
+      <p>It is also the thing that separates &ldquo;AI consultancy&rdquo; from &ldquo;software company with a deployment team,&rdquo; which is the sentence the next round gets priced on.</p>
+      <p>So the job in ninety days is not to fill a content calendar. It is to build the machine that makes the company incapable of going quiet again, ship the proof that already exists, and put the category argument on the record under the founders&rsquo; names.</p>
+    </div>
+  </div>
+</section>
+
+<section id="constraints" aria-labelledby="h-constraints">
+  <div class="wrap">
+    <div class="sec-head rv"><span class="sec-num">03</span><h2 id="h-constraints">Constraints I am planning against</h2></div>
+    <p class="sec-dek rv">Stated up front, because a plan that ignores them is a plan for a different company.</p>
+    <div class="tscroll rv">
+      <table>
+        <thead><tr><th scope="col">Constraint</th><th scope="col">Implication</th></tr></thead>
+        <tbody>
+          <tr><td>No marketing function, no team, no agency</td><td>Everything below is IC-shipped. Nothing in this plan waits on a hire.</td></tr>
+          <tr><td>Role sits under Sales &amp; GTM</td><td>Content is measured on pipeline, recruiting and credibility, not impressions. Planned accordingly.</td></tr>
+          <tr><td>About 20 people, 17 open reqs, hiring to double</td><td>The recruiting narrative is not a nice-to-have. It is a delivery date.</td></tr>
+          <tr><td>Eugen in New York, Yannis in London</td><td>Founder voice work splits: in person weekly with Eugen, structured async with Yannis.</td></tr>
+          <tr><td>Enterprise customers (ASOS, HubSpot, Cushman &amp; Wakefield)</td><td>Case studies run on their legal timelines, not mine. Start day one or nothing ships by day 90.</td></tr>
+          <tr><td>HubSpot is both a major customer and an investor</td><td>Proof material has to be sequenced so the strongest public reference is not the one on the cap table.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="prose rv" style="margin-top:24px"><strong>The one dependency I cannot work around is founder time.</strong> This plan assumes 45 minutes a week from Eugen and 30 from Yannis, recorded, on a fixed calendar hold. Not &ldquo;when there is time.&rdquo; If that hold does not exist, the founder-voice track does not happen and everything downstream gets weaker. I would rather say that now than discover it in week six.</p>
+  </div>
+</section>
+
+<section id="ninety" aria-labelledby="h-ninety">
+  <div class="wrap">
+    <div class="sec-head rv"><span class="sec-num">04</span><h2 id="h-ninety">The ninety days</h2></div>
+    <p class="sec-dek rv">Three phases. Each ends on a scorecard I would accept being judged against.</p>
+
+    <div class="phases">
+      <article class="phase rv">
+        <div class="phase-head">
+          <span class="phase-days">Days 1&ndash;30 &middot; Stop the bleeding, build the spine</span>
+          <p class="phase-goal">Edra owns its own publishing surface, has shipped its first real case study, and has a weekly cadence that does not depend on anyone&rsquo;s mood.</p>
+        </div>
+        <div class="phase-body">
+          <div class="wk">
+            <p class="wk-label">Week 1 &middot; Intake, no output</p>
+            <p class="prose" style="margin-bottom:14px">The temptation is to post something in the first week to show motion. I would not. Week one buys the raw material that makes the next twelve weeks fast.</p>
+            <ul class="items">
+              <li>Read every customer deployment doc, every FDE engagement log, every pilot readout. <b>Not the marketing summaries, the actual working artifacts.</b></li>
+              <li>Sit in on two live customer calls. Take notes on the language customers use, not the language we use.</li>
+              <li>45-minute recorded interview with Eugen: why he left Palantir, what he believes about enterprise context that the market does not, what Edra is that nobody has said out loud yet.</li>
+              <li>45-minute recorded interview with Yannis: the technical thesis, why rule-learning is tractable now and was not in 1985, where he thinks it breaks.</li>
+              <li>30 minutes each with Filippos, the FDE team, and whoever runs the ASOS account.</li>
+              <li>Audit every public artifact Edra has produced. Two hours. It is a short list.</li>
+            </ul>
+            <div class="insist"><b>Output: one document.</b> A voice-and-position brief covering what we claim, what we can prove, what we cannot yet prove, the terms we own versus the ones we borrow, and the three sentences that separate us from Distyl, Palantir and Glean. It goes to the founders for correction, not approval. The corrections are the point.</div>
+          </div>
+
+          <div class="wk">
+            <p class="wk-label">Week 2 &middot; The surface</p>
+            <ul class="items">
+              <li><b>Ship edra.ai/blog.</b> The site is Framer. This is days of work, not weeks. If it stalls on a dependency it goes up as a subdomain and gets merged later. Having no owned publishing surface five months post-launch is the most fixable problem on the list.</li>
+              <li><b>Migrate the launch post off LinkedIn Pulse</b> onto the owned domain, canonical, with the Pulse version pointing back.</li>
+              <li><b>Republish Filippos&rsquo;s expert-systems essay as a proper post,</b> edited, with a real title and a real argument. It already exists. It needs a home.</li>
+              <li><b>Establish the weekly hold:</b> Monday 30-minute recorded founder session, Wednesday ship, Friday two-line internal note on what went out and what it did.</li>
+            </ul>
+          </div>
+
+          <div class="wk">
+            <p class="wk-label">Weeks 3&ndash;4 &middot; First proof, first position</p>
+            <ul class="items">
+              <li><b>Ship the ASOS case study.</b> The highest-leverage single artifact available. Their EVP already published his own version, which means internal approval is largely pre-cleared and reference risk is low. Two versions: a long owned piece on edra.ai, and a tight one-page PDF the AEs can attach to an email.</li>
+            </ul>
+            <div class="insist"><b>One thing I would insist on.</b> The automation number gets stated the way ASOS states it. &ldquo;Can now be resolved automatically&rdquo; and &ldquo;ready for automation once system-level actions are enabled&rdquo; is assessed capacity, not measured deflection. Our launch post said &ldquo;projected.&rdquo; Later copy dropped the hedge. That hedge goes back in. It costs a marginally weaker headline and buys a proof point that survives contact with a skeptical CIO, which is the only kind worth having.</div>
+            <ul class="items" style="margin-top:18px">
+              <li><b>Ship Eugen&rsquo;s first long-form piece under his own name.</b> Working title: <em>Your process documentation is fiction.</em> The argument: every enterprise has two processes, the one in the wiki and the one in the ticket queue, and every AI deployment that starts from the first one fails. This is the category argument, it is true, it is provable with our own customer data, and it is the sentence that reframes us from consultancy to software.</li>
+              <li><b>Restart the company channels</b> on a fixed rhythm behind those two artifacts. Not filler. Distribution for things that exist.</li>
+            </ul>
+          </div>
+
+          <div class="scorecard">
+            <span class="lbl">Day 30 scorecard</span>
+            <p>Blog live on the owned domain. Three published pieces: Filippos edited, ASOS case study, Eugen essay. Weekly cadence running four consecutive weeks. Voice brief in circulation. Second and third case studies in customer legal review.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="phase rv">
+        <div class="phase-head">
+          <span class="phase-days">Days 31&ndash;60 &middot; Cadence, category, recruiting</span>
+          <p class="phase-goal">The cadence is boring and reliable. Both founders have a public voice. The category argument is on the record in more than one place.</p>
+        </div>
+        <div class="phase-body">
+          <div class="wk">
+            <p class="wk-label">Category work</p>
+            <ul class="items">
+              <li><b>Ship the counter-positioning piece.</b> Not a competitor takedown, an architectural argument: the three ways to teach a model your business, which are upload your SOPs, hand-build an ontology, or derive it from exhaust. What each costs, where each breaks. Distyl and Palantir named, fairly. This is the piece other people quote, which is the only real distribution.</li>
+              <li><b>Address the consulting framing directly, under Eugen&rsquo;s name.</b> Do not dodge it. The honest version is stronger than the evasion: yes we forward-deploy, here is exactly what the humans do, here is the work that used to take an FDE six weeks and now takes the product four days, here is how we know it is compressing. Owning it beats letting one sentence in The Information stand as the only public answer. This is the piece I would push hardest for and expect the most resistance on.</li>
+              <li><b>Get Yannis on the record.</b> He is the technically credible half, he has no public presence, and he is in London. Two formats that work async: a written technical essay on continual learning and the maintenance-cost question, and one podcast. Not a big one. A good one, where the host understands the problem.</li>
+            </ul>
+          </div>
+          <div class="wk">
+            <p class="wk-label">Recruiting narrative</p>
+            <p class="prose" style="margin-bottom:14px">Seventeen open reqs against about twenty people. The engineering brand is currently doing zero work.</p>
+            <ul class="items">
+              <li><b>An engineering philosophy piece</b> on what a Forward Deployed AI Engineer at Edra actually does day to day, concrete enough that the right person self-selects in and the wrong person self-selects out.</li>
+              <li><b>Rewrite the job descriptions.</b> The AI Strategist req currently protests that it is &ldquo;not account management, project management, or consulting,&rdquo; which reads defensively. Say what it is instead.</li>
+              <li><b>A Hacker News presence that is not a hiring post with zero replies.</b> The expert-systems material is genuinely HN-shaped. That is how you reach people who will never see a LinkedIn ad.</li>
+            </ul>
+          </div>
+          <div class="scorecard">
+            <span class="lbl">Day 60 scorecard</span>
+            <p>Eight consecutive weeks of cadence. Both founders published under their own names. Counter-positioning piece live. Second case study shipped. Recruiting content live against the open reqs. First inbound attributable to content.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="phase rv">
+        <div class="phase-head">
+          <span class="phase-days">Days 61&ndash;90 &middot; Compounding</span>
+          <p class="phase-goal">The function is a system, not a person. A quarter of forward inventory, honest measurement, and category language being used by people who do not work here.</p>
+        </div>
+        <div class="phase-body">
+          <ul class="items">
+            <li><b>Third case study ships</b> (Cushman &amp; Wakefield or Marosa). Three real, named, numbered customer stories on a page that currently has zero is the deliverable I would most want to be judged on.</li>
+            <li><b>Sales enablement, properly.</b> One-pagers per use case across ITSM, technical support and compliance. An objection-handling document built from real objections the AEs are hearing. A rebuttal to &ldquo;how is this different from Distyl&rdquo; an AE can deliver in ninety seconds. GTM is the department this role reports into. It should be able to point at revenue support, not just publishing.</li>
+            <li><b>Founder voice reaches the second tier.</b> Podcasts, a conference talk, one earned byline. By day 90 an inbound request for Eugen should have somewhere to point.</li>
+            <li><b>Build the content system:</b> a running inventory of at least a quarter of ideas sourced from customer calls and engineering work, a repeatable case-study intake so the next one takes two weeks instead of six, and a written voice guide so a second hire does not restart from zero.</li>
+            <li><b>The 90-day readout.</b> Honest. What worked, what did not, what I was wrong about, what the next ninety need. Including the parts that make me look bad. That is the only version worth writing.</li>
+          </ul>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section id="machine" aria-labelledby="h-machine">
+  <div class="wrap">
+    <div class="sec-head rv"><span class="sec-num">05</span><h2 id="h-machine">The machine, running by day 31</h2></div>
+    <p class="sec-dek rv">Five to six published artifacts a month, IC-produced. That is the volume the posting asks for, and it is achievable solo if the founder sessions are recorded and the case-study pipeline started in week three.</p>
+    <div class="tscroll rv">
+      <table>
+        <thead><tr><th scope="col">Cadence</th><th scope="col">What ships</th></tr></thead>
+        <tbody>
+          <tr><td><span class="cad">Weekly</span></td><td>One substantive owned piece: essay, teardown, customer detail, technical note.</td></tr>
+          <tr><td><span class="cad">Weekly</span></td><td>One founder post, ghostwritten from the recorded session, in their voice, approved by them.</td></tr>
+          <tr><td><span class="cad">Bi-weekly</span></td><td>One engineering or AI-team piece. Filippos and the FDE team are sitting on more good material than the founders are.</td></tr>
+          <tr><td><span class="cad">Monthly</span></td><td>One case study or named-customer proof artifact.</td></tr>
+          <tr><td><span class="cad">Continuous</span></td><td>Industry engagement: real replies in real threads, not broadcast.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section id="measure" aria-labelledby="h-measure">
+  <div class="wrap">
+    <div class="sec-head rv"><span class="sec-num">06</span><h2 id="h-measure">What I would measure</h2></div>
+    <p class="sec-dek rv">Impressions are not a metric.</p>
+    <div class="cols">
+      <div class="col rv">
+        <h3>Leading</h3>
+        <ul>
+          <li>Artifacts shipped per month against target of five to six</li>
+          <li>Consecutive weeks without a gap in cadence. The posting says do not let the company go quiet, so this is the literal KPI</li>
+          <li>Founder pieces published per month, target two, one each</li>
+          <li>Case studies moved from zero to live</li>
+          <li>Founder time actually spent, tracked honestly, because it is the binding constraint</li>
+        </ul>
+      </div>
+      <div class="col rv">
+        <h3>Lagging</h3>
+        <ul>
+          <li>Inbound demo requests attributed to content, tracked from day one</li>
+          <li>Sales cycle: does the ASOS study get used, and do AEs say it changes calls</li>
+          <li>Recruiting: candidates who cite a specific piece, and drop-off after they read the JD</li>
+          <li>Category language adoption: are analysts, competitors or customers using &ldquo;process exhaust&rdquo; and &ldquo;documented versus actual process&rdquo;</li>
+          <li>Press: coverage after March 2026 is currently zero. Any non-launch, non-funding earned coverage is a step change</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="not" aria-labelledby="h-not">
+  <div class="wrap">
+    <div class="sec-head rv"><span class="sec-num">07</span><h2 id="h-not">What I would not do</h2></div>
+    <p class="sec-dek rv">Naming these because the failure mode for this role is scope sprawl into things that feel like marketing and produce nothing.</p>
+    <div class="col rv" style="margin-top:26px;max-width:74ch">
+      <ul>
+        <li><strong style="color:var(--text-primary)">No rebrand.</strong> The site is fine. The problem is that there is nothing on it.</li>
+        <li><strong style="color:var(--text-primary)">No paid, no demand gen, no ABM tooling</strong> in the first ninety days. There is no attribution stack and no team to run it.</li>
+        <li><strong style="color:var(--text-primary)">No PR agency.</strong> With this founder story and these logos, earned coverage comes from the writing. An agency at this stage produces meetings.</li>
+        <li><strong style="color:var(--text-primary)">No case studies with unnamed customers.</strong> &ldquo;A leading retailer&rdquo; is worth nothing. Named or not shipped.</li>
+        <li><strong style="color:var(--text-primary)">No volume for its own sake.</strong> The company has been quiet for three and a half months. The recovery is not thirty mediocre posts. It is six pieces good enough that people send them to each other.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="need" aria-labelledby="h-need">
+  <div class="wrap">
+    <div class="sec-head rv"><span class="sec-num">08</span><h2 id="h-need">What I would need</h2></div>
+    <p class="sec-dek rv">Stated as conditions, not requests, because the plan does not work without them.</p>
+    <div class="asks rv">
+      <div class="ask"><span class="n">01</span><span class="t"><b>A recurring calendar hold with each founder.</b> 45 minutes weekly with Eugen, 30 with Yannis, recorded. This is the single point of failure. Founder-led content is determined by founder appetite, not writer skill.</span></div>
+      <div class="ask"><span class="n">02</span><span class="t"><b>Direct customer access.</b> Introductions to the ASOS, HubSpot and Cushman &amp; Wakefield contacts in week one. Enterprise legal review is the long pole on every case study. Start in week three and it lands by day 30. Start in week six and it does not land at all.</span></div>
+      <div class="ask"><span class="n">03</span><span class="t"><b>Publish authority.</b> I ship on the cadence without a founder approval gate on every piece. Founder-bylined work gets founder sign-off. Everything else goes when it is ready. A review queue is how cadence dies.</span></div>
+      <div class="ask"><span class="n">04</span><span class="t"><b>Engineering time, roughly two hours a month,</b> from Filippos and the FDE team. The technical material is the most differentiated asset in the building and it does not come from the founders.</span></div>
+      <div class="ask"><span class="n">05</span><span class="t"><b>A decision on the automation-number hedge.</b> I want measured claims and projected claims labeled differently in all public material. This is a small argument now and a large one later.</span></div>
+      <div class="ask"><span class="n">06</span><span class="t"><b>Clarity on scope beyond ninety days.</b> Whether this becomes a function with headcount or stays a role of one changes what I build. I would rather have the honest answer than the encouraging one.</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="risk" aria-labelledby="h-risk">
+  <div class="wrap">
+    <div class="sec-head rv"><span class="sec-num">09</span><h2 id="h-risk">The risk I would name out loud</h2></div>
+    <div class="risk rv">
+      <span class="kicker">The part that argues against hiring me</span>
+      <p>The plan above assumes the founders want to be public. <strong>Nothing in the record suggests they do.</strong> Two posts in two years from Eugen, no X account for Yannis, no essays, no podcasts, no talks. It is possible the quiet since launch is not a resourcing gap but a revealed preference.</p>
+      <p>If that is the case, this role produces good work that nobody with authority stands behind, and the company stays quiet with a more expensive headcount. That is the documented failure mode for founding content hires, and it is not fixed by hiring harder.</p>
+      <p>So the honest version of this plan is that <strong>weeks one and two are as much a test of founder appetite as they are onboarding.</strong> If the recorded sessions happen on schedule and the corrections come back sharp, everything above is achievable and probably conservative. If the first three sessions get moved, the plan changes and I would say so in week three rather than week thirty.</p>
+      <p>I would rather start that conversation now than discover it at day 90.</p>
+    </div>
+  </div>
+</section>
+
+<section class="last" id="close" aria-labelledby="h-close">
+  <div class="wrap">
+    <h2 class="close-h rv" id="h-close">The proof is already public. I would like to be the one who assembles it.</h2>
+    <div class="btnrow rv">
+      <a class="btn primary" href="mailto:michaeldagostino15@gmail.com?subject=Edra%20%C2%B7%20Founding%20Content%20Strategist">michaeldagostino15@gmail.com</a>
+      <a class="btn" href="https://iggydags.github.io">Other work</a>
+    </div>
+    <footer>
+      Michael D&rsquo;Agostino &middot; New York, NY &middot; 203-940-2112<br>
+      Written August 3, 2026. Every factual claim checked against a primary source on that date.<br>
+      Unaffiliated with Edra. No confidential information was used in the making of this document.
+    </footer>
+  </div>
+</section>
+
+<script>
+(function(){
+  var els = document.querySelectorAll('.rv');
+  if(!('IntersectionObserver' in window) || window.matchMedia('(prefers-reduced-motion: reduce)').matches){
+    els.forEach(function(el){ el.classList.add('in'); });
+    return;
+  }
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }
+    });
+  }, {rootMargin:'0px 0px -8% 0px', threshold:0.06});
+  els.forEach(function(el){ io.observe(el); });
+})();
+</script>
+</body>
+</html>

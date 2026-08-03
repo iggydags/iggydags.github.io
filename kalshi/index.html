@@ -329,7 +329,7 @@
   .cad-stage{position:relative;height:300px;perspective:1300px;margin-bottom:14px;overflow:hidden}
   .cad-ring{position:absolute;inset:0;transform-style:preserve-3d;transition:transform .65s cubic-bezier(.22,1,.36,1)}
   @media(prefers-reduced-motion:reduce){.cad-ring{transition:none}}
-  .cad-card{position:absolute;left:50%;top:50%;width:min(400px,82vw);background:var(--surface-1);border:1px solid var(--border);border-radius:10px;padding:22px 24px;cursor:pointer;backface-visibility:hidden;-webkit-backface-visibility:hidden;opacity:.3;filter:saturate(.5);transition:opacity .65s,filter .65s,border-color .3s}
+  .cad-card{position:absolute;left:50%;top:50%;width:min(400px,82vw);transition:transform .65s cubic-bezier(.22,1,.36,1);background:var(--surface-1);border:1px solid var(--border);border-radius:10px;padding:22px 24px;cursor:pointer;backface-visibility:hidden;-webkit-backface-visibility:hidden;opacity:.3;filter:saturate(.5);transition:opacity .65s,filter .65s,border-color .3s}
   .cad-card.front{opacity:1;filter:none;border-color:var(--border-strong)}
   .cad-card.front:hover{border-color:var(--accent-dim)}
   .cad-card .d{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin-bottom:6px}
@@ -649,7 +649,7 @@
     <ul>
       <li><span class="tag tag-p">Partnerships</span><span>Close <b>three pilot partnerships</b>: one proven-sponsorable trading channel, one credibility voice, one Bitcoin-native show through existing relationships. Each capped, with renewal thresholds set up front.</span></li>
       <li><span class="tag tag-e">Education</span><span>Take the <b>paper-trading and trading-competition concept</b> to product and compliance. The offshore playbook, redesigned for a regulated venue.</span></li>
-      <li><span class="tag tag-c">Community</span><span>Launch the weekly <b>X Space / AMA cadence</b> with product guests. First two episodes booked with named guests, not &ldquo;TBD.&rdquo;</span></li>
+      <li><span class="tag tag-c">Community</span><span>Launch the weekly <b>livestream / AMA cadence</b> with product guests. First two episodes booked with named guests, not &ldquo;TBD.&rdquo;</span></li>
       <li><span class="tag tag-s">Systems</span><span>Creator CRM live: pipeline, terms, deliverables, performance per creator. Repeatable by anyone, not just me.</span></li>
     </ul>
   </div>
@@ -928,7 +928,26 @@
       <p class="tools-note">Each module ships in three formats: a 60-second vertical, a five-minute creator-ready explainer, and an interactive tool like these. Rate mechanics above are simplified for teaching: illustrative, not Kalshi's exact formula.</p>
     </div>
     <div class="term-panel" id="tp-community" role="tabpanel" aria-labelledby="tt-community" data-print-label="Proof &middot; Community" hidden>
-    <h3 class="sub-label">Community flywheel</h3>
+    <h3 class="sub-label">The weekly rhythm</h3>
+      <div class="cad-chips" id="cadchips">
+        <button class="cad-chip on" type="button">Mon &middot; Written</button>
+        <button class="cad-chip" type="button">Wed &middot; Live</button>
+        <button class="cad-chip" type="button">Monthly</button>
+        <button class="cad-chip" type="button">Quarterly</button>
+        <button class="cad-chip" type="button">Always on</button>
+      </div>
+      <div class="cad-stage">
+        <div class="cad-ring" id="cadring">
+        <div class="cad-card" role="button" tabindex="0"><div class="d">Monday &middot; Written</div><h4>The Funding Report</h4><p>Weekly recap, written by me: funding trends across listed perps, what they signal, one lesson. <b>Discord-first: the depth arc.</b> X gets the repost.</p></div>
+        <div class="cad-card" role="button" tabindex="0"><div class="d">Wednesday &middot; Livestream</div><h4>On Margin</h4><p>Weekly livestream, hosted by me, with a rotating product guest or partner creator: <b>the reach arc</b>, where new audiences find the door. Filmed, so every episode cuts into clips. First invites: Kalshi&rsquo;s own John Wang, Marty Bent.</p></div>
+        <div class="cad-card" role="button" tabindex="0"><div class="d">Monthly</div><h4>Trading Competition</h4><p>Leaderboards and prizes: the offshore volume engine rebuilt inside CFTC constraints. Scoped with legal first.</p></div>
+        <div class="cad-card" role="button" tabindex="0"><div class="d">Quarterly</div><h4>IRL</h4><p>Watch parties, panels, conference-week takeovers with people I've produced rooms with: Matt Odell, Marty Bent, BTC Inc. Content kit ships within 48 hours.</p></div>
+        <div class="cad-card" role="button" tabindex="0"><div class="d">Always on</div><h4>The Perps Desk</h4><p>Dedicated Discord channels with fast, real answers, plus weekly office hours I anchor, where new-trader questions become next week&rsquo;s content. Builders and API traders get their own lane.</p></div>
+        </div>
+      </div>
+      <div class="cad-hint">Click the card to spin through the week.</div>
+
+    <h3 class="sub-label" style="margin-top:34px">Community flywheel</h3>
       <ol class="flow">
         <li class="flow-step">
           <span class="fs-n">1</span>
@@ -956,26 +975,7 @@
           <span class="fs-d">Each turn costs less reach to fill and returns more footage than the last.</span>
         </li>
       </ol>
-      <p class="sleeper sleeper-top">I ran this loop weekly for two years at <a href="https://pubkey.bar" target="_blank" rel="noopener">PubKey</a>. The rooms are the content engine, not a line item beside it.</p>
 
-    <h3 class="sub-label">The weekly rhythm</h3>
-      <div class="cad-stage">
-        <div class="cad-ring" id="cadring">
-        <div class="cad-card" role="button" tabindex="0"><div class="d">Monday</div><h4>The Funding Report</h4><p>Weekly recap, written by me: funding trends across listed perps, what they signal, one lesson. <b>Discord-first: the depth arc.</b> X gets the repost.</p></div>
-        <div class="cad-card" role="button" tabindex="0"><div class="d">Wednesday</div><h4>X Space: On Margin</h4><p>Live on X, hosted by me, with a rotating product guest or partner creator: <b>the reach arc</b>, where new audiences find the door. First invites: Kalshi&rsquo;s own John Wang, Marty Bent.</p></div>
-        <div class="cad-card" role="button" tabindex="0"><div class="d">Monthly</div><h4>Trading Competition</h4><p>Leaderboards and prizes: the offshore volume engine rebuilt inside CFTC constraints. Scoped with legal first.</p></div>
-        <div class="cad-card" role="button" tabindex="0"><div class="d">Quarterly</div><h4>IRL</h4><p>Watch parties, panels, conference-week takeovers with people I've produced rooms with: Matt Odell, Marty Bent, BTC Inc. Content kit ships within 48 hours.</p></div>
-        <div class="cad-card" role="button" tabindex="0"><div class="d">Always on</div><h4>The Perps Desk</h4><p>Dedicated Discord channels with fast, real answers, plus weekly office hours I anchor, where new-trader questions become next week&rsquo;s content. Builders and API traders get their own lane.</p></div>
-        </div>
-      </div>
-      <div class="cad-chips" id="cadchips">
-        <button class="cad-chip on" type="button">Mon</button>
-        <button class="cad-chip" type="button">Wed</button>
-        <button class="cad-chip" type="button">Monthly</button>
-        <button class="cad-chip" type="button">Quarterly</button>
-        <button class="cad-chip" type="button">Always on</button>
-      </div>
-      <div class="cad-hint">Click the card to spin through the week.</div>
     </div>
     <div class="term-panel" id="tp-measure" role="tabpanel" aria-labelledby="tt-measure" data-print-label="Proof &middot; Measurement" hidden>
     <h3 class="sub-label">How it's judged</h3>
@@ -987,7 +987,7 @@
       <div class="judge-grid">
         <div class="jg-card"><div class="jg-layer" style="color:var(--blue)">Partnerships</div><p><b>Cost per funded account, by creator and tier</b>Spend and deliverables from the CRM against attributed conversions. Kills weak placements fast.</p></div>
         <div class="jg-card"><div class="jg-layer" style="color:var(--accent)">Education</div><p><b>Tool engagement &rarr; application rate</b>Interactive-tool sessions versus margin-account application starts. Tests whether teaching converts.</p></div>
-        <div class="jg-card"><div class="jg-layer" style="color:var(--warn)">Community</div><p><b>Weekly actives &amp; ritual attendance</b>Discord analytics plus Spaces/AMA attendance trend lines. Retention beats reach.</p></div>
+        <div class="jg-card"><div class="jg-layer" style="color:var(--warn)">Community</div><p><b>Weekly actives &amp; ritual attendance</b>Discord analytics plus livestream/AMA attendance trend lines. Retention beats reach.</p></div>
         <div class="jg-card"><div class="jg-layer" style="color:var(--text-secondary)">Health check</div><p><b>Attributed traders still active at day 30</b>Cohort retention by source. A creator who brings traders that stay is worth 10x one who brings tourists.</p></div>
       </div>
     </div>
@@ -1110,7 +1110,7 @@
   const CUM=[ // cumulative outcomes through each week
     [0, 0,0,0,0,0],   // wk1: mapping, no outcomes yet
     [25,0,0,2,1,0],   // wk2: first 25 convos, curriculum v1 (modules 1-2), funding report live
-    [25,3,0,2,2,0],   // wk3: 3 pilots closed, X Space cadence = 2nd ritual
+    [25,3,0,2,2,0],   // wk3: 3 pilots closed, livestream cadence = 2nd ritual
     [25,3,1,2,2,0],   // wk4: first campaign live
     [50,5,1,4,2,1],   // wk5: second wave, modules 3-4, competition launched
     [50,5,2,4,2,1]    // wk6: second campaign live
@@ -1530,9 +1530,10 @@
       if(cover){
         cCards.forEach((c,i)=>{
           const d=((i-idx)%cn+cn)%cn;
-          if(d===0)c.style.transform='translate(-50%,-50%)';
-          else if(d===1)c.style.transform='translate(-50%,-50%) translateX('+cX+'px) translateZ(-160px) rotateY(30deg) scale(.85)';
-          else c.style.transform='translate(-50%,-50%) translateX(-'+cX+'px) translateZ(-160px) rotateY(-30deg) scale(.85)';
+          if(d===0){c.style.transform='translate(-50%,-50%)';c.style.opacity=''}
+          else if(d===1){c.style.transform='translate(-50%,-50%) translateX('+cX+'px) translateZ(-160px) rotateY(30deg) scale(.85)';c.style.opacity=''}
+          else if(d===cn-1){c.style.transform='translate(-50%,-50%) translateX(-'+cX+'px) translateZ(-160px) rotateY(-30deg) scale(.85)';c.style.opacity=''}
+          else{c.style.transform='translate(-50%,-50%) translateZ(-320px) scale(.7)';c.style.opacity='0'}
         });
       }else{
         ring.style.transform='translateZ(-'+cR+'px) rotateY('+(-ci*360/cn)+'deg)';
@@ -1574,7 +1575,7 @@
      tab is selected. Every layout here reads offsetWidth/offsetHeight, so it measures 0
      on first run and has to be recomputed once the panel is actually visible. */
   const carouselLayouts=[
-    makeCarousel('cadring','cadchips',true,70,false),
+    makeCarousel('cadring','cadchips',true,0,true),
     makeCarousel('tierring','tierchips',true,0,true),
   ].filter(Boolean);
 

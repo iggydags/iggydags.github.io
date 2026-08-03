@@ -21,7 +21,7 @@
 <style>
   :root{
     color-scheme: dark;
-    --bg:#0a0f0d; --surface-1:#0d1412; --surface-2:#111a16; --surface-3:#15211c;
+    --bg:#0a130e; --surface-1:#0d1913; --surface-2:#112017; --surface-3:#15271e;
     --border:#1e2a24; --border-strong:#2a3a32;
     --text-primary:#e8efeb; --text-secondary:#95a69d; --text-muted:#7a8b82;
     --accent:#2ee6a8; --accent-dim:#1db583; --on-accent:#04120c;
@@ -87,7 +87,7 @@
   .mcard-inner{position:relative;-webkit-transform-style:preserve-3d;transform-style:preserve-3d;transition:transform .65s cubic-bezier(.3,.9,.32,1)}
   @media(prefers-reduced-motion:reduce){.mcard-inner{transition:none}}
   .mcard-inner.flipped{transform:rotateY(180deg)}
-  .mcard{background:var(--surface-2);border:1px solid var(--border-strong);border-radius:14px;overflow:hidden;box-shadow:0 24px 60px -24px rgba(0,0,0,.6);cursor:pointer;backface-visibility:hidden;-webkit-backface-visibility:hidden}
+  .mcard{background:#111a16;border:1px solid var(--border-strong);border-radius:14px;overflow:hidden;box-shadow:0 24px 60px -24px rgba(0,0,0,.6);cursor:pointer;backface-visibility:hidden;-webkit-backface-visibility:hidden}
   .mcard-back{position:absolute;inset:0;transform:rotateY(180deg);display:flex;flex-direction:column}
   /* backface-visibility only hides the reverse face visually; it stays keyboard-focusable.
      visibility:hidden pulls it out of the tab order too, delayed to the midpoint of the flip. */
@@ -146,9 +146,11 @@
   section{padding:clamp(44px,6vw,64px) 0;border-bottom:1px solid var(--border)}
   section.last{border-bottom:none;padding-bottom:clamp(64px,9vw,96px)}
   .sec-head{display:flex;align-items:baseline;justify-content:space-between;gap:24px;margin-bottom:32px;flex-wrap:wrap}
-  .sec-label{font-family:var(--mono);font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin-bottom:12px;font-weight:700}
+  .sec-label{font-family:var(--mono);font-size:13.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin-bottom:12px;font-weight:700}
+  .sec-label:last-child{margin-bottom:0}
   h2{font-size:clamp(26px,3.8vw,38px);letter-spacing:-.02em;line-height:1.18;font-weight:720}
   .sec-note{font-family:var(--mono);font-size:13px;color:var(--text-secondary);max-width:340px;line-height:1.6}
+  .sec-note-under{max-width:none;margin-top:2px}
 
   /* the read */
   .read-rows{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
@@ -266,28 +268,18 @@
   .wpw-arrow .r.capped::after{content:' CAPPED';display:block;font-size:9px;letter-spacing:.1em}
   @media(max-width:560px){.wpw-arrow #w-arr{display:inline-block;transform:rotate(90deg)}}
   #chart,#l-chart{touch-action:pan-y}
-  .tools-note{font-size:14px;color:var(--text-muted);margin:20px auto 0;max-width:800px;text-wrap:pretty;text-align:center}
+  .tools-note{font-size:14px;color:var(--text-muted);margin:20px 0 0;max-width:800px;text-wrap:pretty}
 
   /* bench */
-  .tiers{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;align-items:start}
-  @media(max-width:860px){.tiers{grid-template-columns:1fr}}
-  .tier-card{background:var(--surface-1);border:1px solid var(--border);border-radius:12px;padding:20px;display:flex;flex-direction:column;cursor:pointer}
-  .tier-more{overflow:hidden;height:0;transition:height .38s cubic-bezier(.22,1,.36,1)}
-  @media(prefers-reduced-motion:reduce){.tier-more{transition:none}}
-  .tier-more .tier-names{padding-bottom:14px}
-  .texp{border-top:1px solid var(--border);padding-top:14px;letter-spacing:.05em}
-  .texp .hide{display:none}
-  .texp[aria-expanded="true"] .show{display:none}
-  .texp[aria-expanded="true"] .hide{display:inline}
-  .tier-head{display:flex;flex-direction:column;margin-bottom:14px}
-  @media(min-width:861px){.tier-head{min-height:132px}}
   .tier-card .tname{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);font-weight:700}
   .tier-card .tstrat{font-size:14px;color:var(--text-secondary);margin-top:6px;line-height:1.5}
-  .tier-names{display:flex;flex-direction:column;gap:9px;border-top:1px solid var(--border);padding-top:14px}
+  .tier-names{display:flex;flex-direction:column;gap:9px;border-top:1px solid var(--border);padding-top:14px;margin-top:12px}
   .tn .nm{font-size:14.5px;font-weight:600;color:var(--text-primary);display:flex;gap:7px;align-items:baseline;flex-wrap:wrap}
   .tn .pl{font-family:var(--mono);font-size:11.5px;color:var(--text-muted);margin-top:1px}
   .warm{font-family:var(--mono);font-size:9.5px;color:var(--warn);border:1px solid rgba(230,177,46,.4);border-radius:4px;padding:1px 6px;letter-spacing:.05em}
   .sleeper{font-size:14.5px;color:var(--text-secondary);margin-top:18px;max-width:840px;text-wrap:pretty}
+  .sleeper-top{margin-top:0}
+  .sleeper + .tiers{margin-top:26px}
   .sleeper b{color:var(--text-primary)}
 
   /* community & measurement */
@@ -317,7 +309,14 @@
   .cad-chip{font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;padding:8px 13px;border-radius:999px;border:1px solid var(--border-strong);background:transparent;color:var(--text-muted);cursor:pointer;min-height:34px}
   .cad-chip:hover{color:var(--text-primary)}
   .cad-chip.on{border-color:var(--accent);color:var(--accent)}
+  /* tier carousel: coverflow so side cards keep their content visible, like the rhythm ring */
+  .tier-cro{transition:transform .65s cubic-bezier(.22,1,.36,1),opacity .65s,filter .65s,border-color .3s}
+  @media(prefers-reduced-motion:reduce){.tier-cro{transition:none}}
+  .tier-stage .cad-card:not(.front){opacity:.4}
   .cad-hint{font-family:var(--mono);font-size:11px;color:var(--text-muted);text-align:center;letter-spacing:.04em;margin-bottom:44px}
+  .cad-hint-top{margin-bottom:16px}
+  .sleeper-top{margin-bottom:32px}
+  #tierchips{margin-bottom:28px;gap:14px}
   .ns-card{border:1px solid var(--accent-dim);background:var(--surface-1);border-radius:12px;padding:22px 24px;display:grid;grid-template-columns:170px minmax(0,1fr);gap:18px;align-items:baseline}
   .ns-card .ns-tag{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);font-weight:700}
   .ns-card .ns-body{font-size:15px;color:var(--text-secondary);text-wrap:pretty}
@@ -364,8 +363,6 @@
   @media(prefers-reduced-motion:reduce){html.js .rv{opacity:1;transform:none;transition:none}}
   .receipt,.jg-card{transition:transform .18s ease,border-color .18s ease}
   .receipt:hover,.jg-card:hover{transform:translateY(-3px);border-color:var(--border-strong)}
-  .tier-card{transition:border-color .18s ease}
-  .tier-card:hover{border-color:var(--border-strong)}
   .m-row{transition:background .15s}
   /* one shared, always-visible focus ring rather than per-component removals */
   :is(a,button,[tabindex]):focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:6px}
@@ -409,7 +406,7 @@
     svg line[stroke="#1e2a24"]{stroke:#e2e6e4!important}
     svg line[stroke="#2a3a32"]{stroke:#b2bab6!important}
     section,.sim,.tier-card,.cad-card,.receipt,.callout,.m-row,.read-row,.ns-card,.jg-card{break-inside:avoid}
-    .cad-stage{height:auto;perspective:none}
+    .cad-stage{height:auto!important;perspective:none}
     .cad-ring{position:static;transform:none!important}
     .cad-card{position:static;transform:none!important;opacity:1!important;filter:none!important;width:100%;margin-bottom:10px;cursor:auto}
     .cad-chips,.cad-hint{display:none!important}
@@ -430,10 +427,10 @@
     <a class="nav-brand" href="#top">M. D'AGOSTINO <span>/ PERPS GROWTH</span></a>
     <div class="nav-links">
       <div class="nav-scroll">
-        <a href="#read">The read</a>
-        <a href="#bench">Bench</a>
-        <a href="#tools">Tools</a>
-        <a href="#plan">6 weeks</a>
+        <a href="#bench">Partnerships</a>
+        <a href="#tools">Education</a>
+        <a href="#community">Community</a>
+        <a href="#plan">Roadmap</a>
       </div>
       <a class="cta" href="mailto:michaeldagostino15@gmail.com">Email me</a>
     </div>
@@ -510,8 +507,7 @@
 <section id="read" aria-labelledby="h-read">
   <div class="sec-head">
     <div>
-      <div class="sec-label">01 / The read</div>
-      <h2 id="h-read">The posting asks for three things.<br>Here's what I found on each.</h2>
+      <div class="sec-label" id="h-read">01 / The read</div>
     </div>
   </div>
   <div class="read-rows">
@@ -522,7 +518,7 @@
       </div>
       <div>
         <p>Offshore exchanges are paying to reach US trading audiences they <b>cannot legally onboard</b>. Kalshi is the first sponsor for whom those viewers actually convert. I'd claim that bench: 50+ scored targets in week one, three pilots closed by day 21.</p>
-        <a href="#bench">The 19-name starting bench &darr;</a>
+        <a href="#bench">The 20-name starting bench &darr;</a>
       </div>
     </div>
     <div class="read-row">
@@ -551,77 +547,69 @@
 <section id="bench" aria-labelledby="h-bench">
   <div class="sec-head">
     <div>
-      <div class="sec-label">02 / The bench</div>
-      <h2 id="h-bench">Nineteen names, three strategies, five warm intros.</h2>
-    </div>
-    <div class="sec-note">A sample of the 50+ target universe I'd build in week one.</div>
-  </div>
-  <div class="tiers">
-    <div class="tier-card">
-      <div class="tier-head">
-        <div class="tname">Tier 1 &middot; Pay for reach</div>
-        <div class="tstrat">Already monetized by offshore exchanges. Kalshi is the first sponsor whose US viewers can actually sign up.</div>
-      </div>
-      <div class="tier-more" id="tm-1" aria-hidden="true">
-        <div class="tier-names">
-          <div class="tn"><div class="nm">Crypto Banter</div><div class="pl">YouTube &middot; daily live &middot; Ran Neuner</div></div>
-          <div class="tn"><div class="nm">Scott Melker</div><div class="pl">X + YouTube + podcast</div></div>
-          <div class="tn"><div class="nm">Coin Bureau</div><div class="pl">YouTube &middot; Guy Turner</div></div>
-          <div class="tn"><div class="nm">CryptosRUs</div><div class="pl">YouTube &middot; daily &middot; George Tung</div></div>
-          <div class="tn"><div class="nm">Humphrey Yang</div><div class="pl">TikTok / Shorts</div></div>
-        </div>
-      </div>
-      <button type="button" class="flipbtn texp" data-texp aria-expanded="false" aria-controls="tm-1"><span class="show">SHOW THE 5 NAMES &darr;</span><span class="hide">HIDE THE NAMES &uarr;</span></button>
-    </div>
-    <div class="tier-card">
-      <div class="tier-head">
-        <div class="tname">Tier 2 &middot; Earn with access</div>
-        <div class="tstrat">Hard to buy, high trust. Won with product access and data stories, not rate cards.</div>
-      </div>
-      <div class="tier-more" id="tm-2" aria-hidden="true">
-        <div class="tier-names">
-          <div class="tn"><div class="nm">Benjamin Cowen</div><div class="pl">YouTube &middot; Into The Cryptoverse</div></div>
-          <div class="tn"><div class="nm">Kyla Scanlon</div><div class="pl">Short-form + newsletter</div></div>
-          <div class="tn"><div class="nm">Blockworks shows</div><div class="pl">Forward Guidance &middot; Bell Curve &middot; Empire</div></div>
-          <div class="tn"><div class="nm">Jack Farley</div><div class="pl">Monetary Matters</div></div>
-          <div class="tn"><div class="nm">Nic Carter</div><div class="pl">X + podcast</div></div>
-          <div class="tn"><div class="nm">Laura Shin</div><div class="pl">Unchained &middot; podcast + newsletter</div></div>
-          <div class="tn"><div class="nm">Alex Thorn</div><div class="pl">Head of firmwide research, Galaxy Digital</div></div>
-        </div>
-      </div>
-      <button type="button" class="flipbtn texp" data-texp aria-expanded="false" aria-controls="tm-2"><span class="show">SHOW THE 7 NAMES &darr;</span><span class="hide">HIDE THE NAMES &uarr;</span></button>
-    </div>
-    <div class="tier-card">
-      <div class="tier-head">
-        <div class="tname">Tier 3 &middot; Build on relationships</div>
-        <div class="tstrat">Rarely take exchange money, reachable through my network. Education-first angle: onshore venue, segregated USD, no offshore counterparty risk.</div>
-      </div>
-      <div class="tier-more" id="tm-3" aria-hidden="true">
-        <div class="tier-names">
-          <div class="tn"><div class="nm">TFTC / Marty Bent <span class="warm">warm intro</span></div><div class="pl">Podcast + media</div></div>
-          <div class="tn"><div class="nm">Rabbit Hole Recap <span class="warm">warm intro</span></div><div class="pl">Podcast &middot; Bent + Odell</div></div>
-          <div class="tn"><div class="nm">Will Foxley <span class="warm">warm intro</span></div><div class="pl">The Mining Pod &middot; Blockspace Media &middot; mining community</div></div>
-          <div class="tn"><div class="nm">BitPlaza / Kyle Knight <span class="warm">warm intro</span></div><div class="pl">Bitcoin community</div></div>
-          <div class="tn"><div class="nm">Aubrey Strobel <span class="warm">warm intro</span></div><div class="pl">Content</div></div>
-          <div class="tn"><div class="nm">Natalie Brunell</div><div class="pl">Coin Stories &middot; podcast + YouTube</div></div>
-          <div class="tn"><div class="nm">Simply Bitcoin</div><div class="pl">YouTube &middot; daily</div></div>
-        </div>
-      </div>
-      <button type="button" class="flipbtn texp" data-texp aria-expanded="false" aria-controls="tm-3"><span class="show">SHOW THE 7 NAMES &middot; 5 WARM &darr;</span><span class="hide">HIDE THE NAMES &uarr;</span></button>
+      <div class="sec-label" id="h-bench">02 / Three routes in</div>
+      <div class="sec-note sec-note-under">A sample of the 50+ target universe I'd build in week one.</div>
     </div>
   </div>
-  <p class="sleeper"><b>How a pilot works:</b> one tier, one format, a capped budget, and a cost-per-funded-account threshold agreed before launch. Hit it, renew and scale. Miss it, kill it and keep the learning. No pilot becomes a debate.</p>
-  <p class="sleeper" style="margin-top:10px"><b>The platform lane:</b> a warm intro to <a href="https://tyler.gold" target="_blank" rel="noopener">Tyler Gold</a>, original content and creators at X. The affiliate era ended on policy grounds; whatever replaces it gets negotiated at the platform level, not in creator DMs. I'd open that conversation in week one.</p>
+  <p class="sleeper sleeper-top"><b>How a pilot works:</b> we pick <b>one</b> of the three routes below. One format, a capped budget, and a cost-per-funded-account threshold agreed before launch. Hit it, renew and scale. Miss it, kill it and keep the learning. No pilot becomes a debate.</p>
+  <div class="cad-chips" id="tierchips">
+    <button type="button" class="cad-chip">Tier 1 &middot; Reach</button>
+    <button type="button" class="cad-chip">Tier 2 &middot; Access</button>
+    <button type="button" class="cad-chip">Tier 3 &middot; Relationships</button>
+  </div>
+  <div class="cad-stage tier-stage">
+    <div class="cad-ring" id="tierring">
+    <div class="cad-card tier-cro" role="button" tabindex="0">
+      <div class="d">Tier 1 &middot; Pay for reach</div>
+      <p>Already monetized by offshore exchanges. Kalshi is the first sponsor whose US viewers can actually sign up.</p>
+      <div class="tier-names">
+        <div class="tn"><div class="nm">Crypto Banter</div><div class="pl">YouTube &middot; daily live &middot; Ran Neuner</div></div>
+        <div class="tn"><div class="nm">Scott Melker</div><div class="pl">X + YouTube + podcast</div></div>
+        <div class="tn"><div class="nm">Coin Bureau</div><div class="pl">YouTube &middot; Guy Turner</div></div>
+        <div class="tn"><div class="nm">CryptosRUs</div><div class="pl">YouTube &middot; daily &middot; George Tung</div></div>
+        <div class="tn"><div class="nm">Humphrey Yang</div><div class="pl">TikTok / Shorts</div></div>
+        <div class="tn"><div class="nm">Bitcoin News <span class="warm">warm intro</span></div><div class="pl">Rob Wallace</div></div>
+      </div>
+    </div>
+    <div class="cad-card tier-cro" role="button" tabindex="0">
+      <div class="d">Tier 2 &middot; Earn with access</div>
+      <p>Hard to buy, high trust. Won with product access and data stories, not rate cards.</p>
+      <div class="tier-names">
+        <div class="tn"><div class="nm">Benjamin Cowen</div><div class="pl">YouTube &middot; Into The Cryptoverse</div></div>
+        <div class="tn"><div class="nm">Kyla Scanlon</div><div class="pl">Short-form + newsletter</div></div>
+        <div class="tn"><div class="nm">Blockworks shows</div><div class="pl">Forward Guidance &middot; Bell Curve &middot; Empire</div></div>
+        <div class="tn"><div class="nm">Jack Farley</div><div class="pl">Monetary Matters</div></div>
+        <div class="tn"><div class="nm">Nic Carter <span class="warm">warm intro</span></div><div class="pl">X + podcast</div></div>
+        <div class="tn"><div class="nm">Laura Shin</div><div class="pl">Unchained &middot; podcast + newsletter</div></div>
+        <div class="tn"><div class="nm">Alex Thorn <span class="warm">warm intro</span></div><div class="pl">Head of firmwide research, Galaxy Digital</div></div>
+      </div>
+    </div>
+    <div class="cad-card tier-cro" role="button" tabindex="0">
+      <div class="d">Tier 3 &middot; Build on relationships</div>
+      <p>Rarely take exchange money, reachable through my network. Education-first angle: onshore venue, segregated USD, no offshore counterparty risk.</p>
+      <div class="tier-names">
+        <div class="tn"><div class="nm">TFTC / Marty Bent <span class="warm">warm intro</span></div><div class="pl">Podcast + media</div></div>
+        <div class="tn"><div class="nm">Rabbit Hole Recap <span class="warm">warm intro</span></div><div class="pl">Podcast &middot; Bent + Odell</div></div>
+        <div class="tn"><div class="nm">Will Foxley <span class="warm">warm intro</span></div><div class="pl">The Mining Pod &middot; Blockspace Media &middot; mining community</div></div>
+        <div class="tn"><div class="nm">BitPlaza / Kyle Knight <span class="warm">warm intro</span></div><div class="pl">Bitcoin community</div></div>
+        <div class="tn"><div class="nm">Aubrey Strobel <span class="warm">warm intro</span></div><div class="pl">Content</div></div>
+        <div class="tn"><div class="nm">Natalie Brunell</div><div class="pl">Coin Stories &middot; podcast + YouTube</div></div>
+        <div class="tn"><div class="nm">Simply Bitcoin</div><div class="pl">YouTube &middot; daily</div></div>
+      </div>
+    </div>
+    </div>
+  </div>
+  <div class="cad-hint">Click a card or chip to spin &middot; the pilot commits to one route at a time</div>
+  <p class="sleeper"><b>The platform lane:</b> a warm intro to <a href="https://tyler.gold" target="_blank" rel="noopener">Tyler Gold</a>, original content and creators at X. The affiliate era ended on policy grounds; whatever replaces it gets negotiated at the platform level, not in creator DMs. I'd open that conversation in week one.</p>
   <p class="sleeper" style="margin-top:10px"><b>Why Tier 3 is the sleeper:</b> Bitcoin media is skeptical of leverage, which is exactly why an education-first partnership from a regulated venue lands where offshore money can't. I co-produced events with Marty Bent and Matt Odell at <a href="https://pubkey.bar" target="_blank" rel="noopener">PubKey</a>. That door is open.</p>
 </section>
 
 <section id="tools" aria-labelledby="h-tools">
   <div class="sec-head">
     <div>
-      <div class="sec-label">03 / Curriculum, prototyped</div>
-      <h2 id="h-tools">Three lessons the learn hub tells. Made playable.</h2>
+      <div class="sec-label" id="h-tools">03 / Three tools, already built</div>
+      <div class="sec-note sec-note-under">Live prototypes, built for this page. Drag the sliders. Creators get these free; every embed is a tracked front door.</div>
     </div>
-    <div class="sec-note">Live prototypes, built for this page. Drag the sliders. Creators get these free; every embed is a tracked front door.</div>
   </div>
 
   <div class="tool-tabs" role="tablist" aria-label="Educational tools">
@@ -796,8 +784,7 @@
 <section id="community" aria-labelledby="h-community">
   <div class="sec-head">
     <div>
-      <div class="sec-label">04 / Community &amp; measurement</div>
-      <h2 id="h-community">Named rituals, and one honest number to judge them by.</h2>
+      <div class="sec-label" id="h-community">04 / Community flywheel</div>
     </div>
   </div>
 
@@ -840,10 +827,9 @@
 <section id="plan" aria-labelledby="h-plan">
   <div class="sec-head">
     <div>
-      <div class="sec-label">05 / The six weeks</div>
-      <h2 id="h-plan">A campaign live by day 30. Compounding by day 42.</h2>
+      <div class="sec-label" id="h-plan">05 / The six weeks</div>
+      <div class="sec-note sec-note-under">Click a week for the detail. Headline commitments below.</div>
     </div>
-    <div class="sec-note">Click a week for the detail.<br>Headline commitments below.</div>
   </div>
 
   <div class="wk-bar" role="tablist" aria-label="Six-week plan by week">
@@ -1320,7 +1306,7 @@
   },{passive:true});
 
   /* scrollspy */
-  const spyMap={'read':'a[href="#read"]','plan':'a[href="#plan"]','tools':'a[href="#tools"]','bench':'a[href="#bench"]'};
+  const spyMap={'plan':'a[href="#plan"]','tools':'a[href="#tools"]','bench':'a[href="#bench"]','community':'a[href="#community"]'};
   const spy=new IntersectionObserver(es=>{
     es.forEach(e=>{
       const link=document.querySelector('.nav-links '+spyMap[e.target.id]);
@@ -1432,49 +1418,39 @@
     });
   }
 
-  /* bench tier cards: expand and shrink like the tool shell */
-  document.querySelectorAll('.tier-card').forEach(card=>{
-    const more=card.querySelector('.tier-more');
-    const btn=card.querySelector('[data-texp]');
-    if(!more||!btn)return;
-    const noMotion=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    let open=false;
-    const toggle=()=>{
-      open=!open;
-      btn.setAttribute('aria-expanded',open?'true':'false');
-      more.setAttribute('aria-hidden',open?'false':'true');
-      if(noMotion){more.style.height=open?'auto':'0';return}
-      if(open){
-        more.style.height=more.scrollHeight+'px';
-        const done=e=>{if(e.target!==more)return;more.style.height='auto';more.removeEventListener('transitionend',done)};
-        more.addEventListener('transitionend',done);
-      }else{
-        more.style.height=more.scrollHeight+'px';
-        void more.offsetHeight;
-        more.style.height='0';
-      }
-    };
-    card.addEventListener('click',e=>{
-      if(e.target.closest('a'))return;
-      toggle();
-    });
-  });
-
-  /* weekly rhythm carousel */
-  const ring=$('cadring');
-  if(ring){
+  /* 3d carousels: weekly rhythm ring + tier coverflow */
+  function makeCarousel(ringId,chipsId,autoH,extra,cover){
+    const ring=$(ringId);
+    if(!ring)return;
     const cCards=Array.from(ring.children);
-    const chips=Array.from($('cadchips').children);
-    const cn=cCards.length;let ci=0,cR=0;
+    const chips=Array.from($(chipsId).children);
+    const cn=cCards.length;let ci=0,cR=0,cX=0;
     function cadLayout(){
       const w=cCards[0].offsetWidth;
-      cR=Math.round(w/2/Math.tan(Math.PI/cn))+70;
-      cCards.forEach((c,i)=>{c.style.transform='translate(-50%,-50%) rotateY('+(i*360/cn)+'deg) translateZ('+cR+'px)'});
+      if(cover){
+        cX=Math.round(w*0.97);
+      }else{
+        cR=Math.round(w/2/Math.tan(Math.PI/cn))+(extra||70);
+        cCards.forEach((c,i)=>{c.style.transform='translate(-50%,-50%) rotateY('+(i*360/cn)+'deg) translateZ('+cR+'px)'});
+      }
+      if(autoH){
+        const maxH=Math.max.apply(null,cCards.map(c=>c.offsetHeight));
+        ring.parentElement.style.height=(maxH+24)+'px';
+      }
       cadSpin();
     }
     function cadSpin(){
-      ring.style.transform='translateZ(-'+cR+'px) rotateY('+(-ci*360/cn)+'deg)';
       const idx=((ci%cn)+cn)%cn;
+      if(cover){
+        cCards.forEach((c,i)=>{
+          const d=((i-idx)%cn+cn)%cn;
+          if(d===0)c.style.transform='translate(-50%,-50%)';
+          else if(d===1)c.style.transform='translate(-50%,-50%) translateX('+cX+'px) translateZ(-160px) rotateY(30deg) scale(.85)';
+          else c.style.transform='translate(-50%,-50%) translateX(-'+cX+'px) translateZ(-160px) rotateY(-30deg) scale(.85)';
+        });
+      }else{
+        ring.style.transform='translateZ(-'+cR+'px) rotateY('+(-ci*360/cn)+'deg)';
+      }
       cCards.forEach((c,i)=>c.classList.toggle('front',i===idx));
       chips.forEach((c,i)=>c.classList.toggle('on',i===idx));
     }
@@ -1490,8 +1466,11 @@
     });
     chips.forEach((c,i)=>c.addEventListener('click',()=>cadGo(i)));
     window.addEventListener('resize',cadLayout,{passive:true});
+    if(document.fonts&&document.fonts.ready)document.fonts.ready.then(cadLayout);
     cadLayout();
   }
+  makeCarousel('cadring','cadchips',false,70,false);
+  makeCarousel('tierring','tierchips',true,0,true);
 
   /* flywheel pulse loop */
   const fly=document.querySelector('.fly2');

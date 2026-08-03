@@ -324,7 +324,14 @@
   .cad-chip:hover{color:var(--text-primary)}
   .cad-chip.on{border-color:var(--accent);color:var(--accent)}
   /* proof terminal: one framed window, four pillars behind tabs */
-  .term{background:var(--surface-1);border:1px solid var(--border-strong);border-radius:14px;overflow:hidden}
+  /* Surfaces inside the terminal step toward neutral: same lightness, less green in the
+     mix. Scoped as token overrides on .term so every nested card, border and tab bar
+     inherits it without touching the rest of the page. */
+  .term{
+    --surface-1:#101413; --surface-2:#151917; --surface-3:#1a1f1d;
+    --border:#232927; --border-strong:#313734;
+    background:var(--surface-1);border:1px solid var(--border-strong);border-radius:14px;overflow:hidden;
+  }
   .term-tabs{display:flex;border-bottom:1px solid var(--border-strong);background:var(--surface-2);overflow-x:auto;scrollbar-width:none;-ms-overflow-style:none}
   .term-tabs::-webkit-scrollbar{display:none}
   .term-tab{font-family:var(--mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;background:none;border:none;border-bottom:2px solid transparent;color:var(--text-muted);padding:16px 20px;min-height:48px;cursor:pointer;white-space:nowrap;transition:color .15s,border-color .15s}

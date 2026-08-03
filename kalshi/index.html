@@ -701,8 +701,8 @@
   <div class="term">
     <div class="term-tabs" role="tablist" aria-label="Proof of work by pillar">
       <button class="term-tab" role="tab" id="tt-creators" aria-selected="true" aria-controls="tp-creators">Creators</button>
-      <button class="term-tab" role="tab" id="tt-education" aria-selected="false" aria-controls="tp-education">Education tools</button>
       <button class="term-tab" role="tab" id="tt-community" aria-selected="false" aria-controls="tp-community">Community</button>
+      <button class="term-tab" role="tab" id="tt-education" aria-selected="false" aria-controls="tp-education">Education tools</button>
       <button class="term-tab" role="tab" id="tt-measure" aria-selected="false" aria-controls="tp-measure">Measurement</button>
     </div>
     <div class="term-panel" id="tp-creators" role="tabpanel" aria-labelledby="tt-creators" data-print-label="Proof &middot; Creators">
@@ -757,6 +757,56 @@
       <div class="cad-hint">Click a card or chip to spin &middot; the pilot commits to one route at a time</div>
       <p class="sleeper"><b>The platform lane:</b> a warm intro to <a href="https://tyler.gold" target="_blank" rel="noopener">Tyler Gold</a>, original content and creators at X. The affiliate era ended on policy grounds; whatever replaces it gets negotiated at the platform level, not in creator DMs. I'd open that conversation in week one.</p>
       <p class="sleeper" style="margin-top:10px"><b>Why Tier 3 is the sleeper:</b> Bitcoin media is skeptical of leverage, which is exactly why an education-first partnership from a regulated venue lands where offshore money can't. I co-produced events with Marty Bent and Matt Odell at <a href="https://pubkey.bar" target="_blank" rel="noopener">PubKey</a>. That door is open.</p>
+    </div>
+    <div class="term-panel" id="tp-community" role="tabpanel" aria-labelledby="tt-community" data-print-label="Proof &middot; Community" hidden>
+    <h3 class="sub-label">The weekly rhythm</h3>
+      <div class="cad-chips" id="cadchips">
+        <button class="cad-chip on" type="button">Mon &middot; Written</button>
+        <button class="cad-chip" type="button">Wed &middot; Live</button>
+        <button class="cad-chip" type="button">Monthly</button>
+        <button class="cad-chip" type="button">Quarterly</button>
+        <button class="cad-chip" type="button">Always on</button>
+      </div>
+      <div class="cad-stage">
+        <div class="cad-ring" id="cadring">
+        <div class="cad-card" role="button" tabindex="0"><div class="d">Monday &middot; Written</div><h4>The Funding Report</h4><p>Weekly recap, written by me: funding trends across listed perps, what they signal, one lesson. <b>Discord-first: the depth arc.</b> X gets the repost.</p></div>
+        <div class="cad-card" role="button" tabindex="0"><div class="d">Wednesday &middot; Livestream</div><h4>On Margin</h4><p>Weekly livestream, hosted by me, with a rotating product guest or partner creator: <b>the reach arc</b>, where new audiences find the door. Filmed, so every episode cuts into clips. First invites: Kalshi&rsquo;s own John Wang, Marty Bent.</p></div>
+        <div class="cad-card" role="button" tabindex="0"><div class="d">Monthly</div><h4>Trading Competition</h4><p>Leaderboards and prizes: the offshore volume engine rebuilt inside CFTC constraints. Scoped with legal first.</p></div>
+        <div class="cad-card" role="button" tabindex="0"><div class="d">Quarterly</div><h4>IRL</h4><p>Watch parties, panels, conference-week takeovers with people I've produced rooms with: Matt Odell, Marty Bent, BTC Inc. Content kit ships within 48 hours.</p></div>
+        <div class="cad-card" role="button" tabindex="0"><div class="d">Always on</div><h4>The Perps Desk</h4><p>Dedicated Discord channels with fast, real answers, plus weekly office hours I anchor, where new-trader questions become next week&rsquo;s content. Builders and API traders get their own lane.</p></div>
+        </div>
+      </div>
+      <div class="cad-hint">Click the card to spin through the week.</div>
+
+    <h3 class="sub-label" style="margin-top:34px">Community flywheel</h3>
+      <ol class="flow">
+        <li class="flow-step">
+          <span class="fs-n">1</span>
+          <span class="fs-t">Host the room</span>
+          <span class="fs-d">A named ritual, a real guest, a fixed time. Discord or IRL.</span>
+        </li>
+        <li class="flow-step">
+          <span class="fs-n">2</span>
+          <span class="fs-t">Capture everything</span>
+          <span class="fs-d">One operator, two angles, full audio. Nothing good happens off-record by accident.</span>
+        </li>
+        <li class="flow-step">
+          <span class="fs-n">3</span>
+          <span class="fs-t">Cut it the same week</span>
+          <span class="fs-d">Verticals for X and TikTok, one long cut for YouTube, pull-quotes for the recap.</span>
+        </li>
+        <li class="flow-step is-payoff">
+          <span class="fs-n">4</span>
+          <span class="fs-t">Clips fill the next room</span>
+          <span class="fs-d">Attendance compounds and the invite list starts writing itself.</span>
+        </li>
+        <li class="flow-step is-loop">
+          <span class="fs-n" aria-hidden="true">&#8635;</span>
+          <span class="fs-t">Back to one, cheaper</span>
+          <span class="fs-d">Each turn costs less reach to fill and returns more footage than the last.</span>
+        </li>
+      </ol>
+
     </div>
     <div class="term-panel" id="tp-education" role="tabpanel" aria-labelledby="tt-education" data-print-label="Proof &middot; Education tools" hidden>
       <div class="tool-tabs" role="tablist" aria-label="Educational tools">
@@ -926,56 +976,6 @@
       </div>
 
       <p class="tools-note">Each module ships in three formats: a 60-second vertical, a five-minute creator-ready explainer, and an interactive tool like these. Rate mechanics above are simplified for teaching: illustrative, not Kalshi's exact formula.</p>
-    </div>
-    <div class="term-panel" id="tp-community" role="tabpanel" aria-labelledby="tt-community" data-print-label="Proof &middot; Community" hidden>
-    <h3 class="sub-label">The weekly rhythm</h3>
-      <div class="cad-chips" id="cadchips">
-        <button class="cad-chip on" type="button">Mon &middot; Written</button>
-        <button class="cad-chip" type="button">Wed &middot; Live</button>
-        <button class="cad-chip" type="button">Monthly</button>
-        <button class="cad-chip" type="button">Quarterly</button>
-        <button class="cad-chip" type="button">Always on</button>
-      </div>
-      <div class="cad-stage">
-        <div class="cad-ring" id="cadring">
-        <div class="cad-card" role="button" tabindex="0"><div class="d">Monday &middot; Written</div><h4>The Funding Report</h4><p>Weekly recap, written by me: funding trends across listed perps, what they signal, one lesson. <b>Discord-first: the depth arc.</b> X gets the repost.</p></div>
-        <div class="cad-card" role="button" tabindex="0"><div class="d">Wednesday &middot; Livestream</div><h4>On Margin</h4><p>Weekly livestream, hosted by me, with a rotating product guest or partner creator: <b>the reach arc</b>, where new audiences find the door. Filmed, so every episode cuts into clips. First invites: Kalshi&rsquo;s own John Wang, Marty Bent.</p></div>
-        <div class="cad-card" role="button" tabindex="0"><div class="d">Monthly</div><h4>Trading Competition</h4><p>Leaderboards and prizes: the offshore volume engine rebuilt inside CFTC constraints. Scoped with legal first.</p></div>
-        <div class="cad-card" role="button" tabindex="0"><div class="d">Quarterly</div><h4>IRL</h4><p>Watch parties, panels, conference-week takeovers with people I've produced rooms with: Matt Odell, Marty Bent, BTC Inc. Content kit ships within 48 hours.</p></div>
-        <div class="cad-card" role="button" tabindex="0"><div class="d">Always on</div><h4>The Perps Desk</h4><p>Dedicated Discord channels with fast, real answers, plus weekly office hours I anchor, where new-trader questions become next week&rsquo;s content. Builders and API traders get their own lane.</p></div>
-        </div>
-      </div>
-      <div class="cad-hint">Click the card to spin through the week.</div>
-
-    <h3 class="sub-label" style="margin-top:34px">Community flywheel</h3>
-      <ol class="flow">
-        <li class="flow-step">
-          <span class="fs-n">1</span>
-          <span class="fs-t">Host the room</span>
-          <span class="fs-d">A named ritual, a real guest, a fixed time. Discord or IRL.</span>
-        </li>
-        <li class="flow-step">
-          <span class="fs-n">2</span>
-          <span class="fs-t">Capture everything</span>
-          <span class="fs-d">One operator, two angles, full audio. Nothing good happens off-record by accident.</span>
-        </li>
-        <li class="flow-step">
-          <span class="fs-n">3</span>
-          <span class="fs-t">Cut it the same week</span>
-          <span class="fs-d">Verticals for X and TikTok, one long cut for YouTube, pull-quotes for the recap.</span>
-        </li>
-        <li class="flow-step is-payoff">
-          <span class="fs-n">4</span>
-          <span class="fs-t">Clips fill the next room</span>
-          <span class="fs-d">Attendance compounds and the invite list starts writing itself.</span>
-        </li>
-        <li class="flow-step is-loop">
-          <span class="fs-n" aria-hidden="true">&#8635;</span>
-          <span class="fs-t">Back to one, cheaper</span>
-          <span class="fs-d">Each turn costs less reach to fill and returns more footage than the last.</span>
-        </li>
-      </ol>
-
     </div>
     <div class="term-panel" id="tp-measure" role="tabpanel" aria-labelledby="tt-measure" data-print-label="Proof &middot; Measurement" hidden>
     <h3 class="sub-label">How it's judged</h3>
@@ -1584,8 +1584,8 @@
      opacity swapPanel may have left on a nested shell (a terminal switch mid-animation
      would otherwise strand it), then re-measure everything that depends on width. */
   if($('tt-creators')){
-    tabs(['tt-creators','tt-education','tt-community','tt-measure'],
-         ['tp-creators','tp-education','tp-community','tp-measure']);
+    tabs(['tt-creators','tt-community','tt-education','tt-measure'],
+         ['tp-creators','tp-community','tp-education','tp-measure']);
     const relayout=()=>{
       document.querySelectorAll('.tool-shell,.wk-shell').forEach(sh=>{
         sh.style.height='';sh.style.transition='';delete sh.dataset.busy;
@@ -1594,7 +1594,7 @@
       draw();drawLiq();drawSpark();
       carouselLayouts.forEach(f=>f());
     };
-    ['tt-creators','tt-education','tt-community','tt-measure'].forEach(id=>{
+    ['tt-creators','tt-community','tt-education','tt-measure'].forEach(id=>{
       $(id).addEventListener('click',()=>{relayout();setTimeout(relayout,480)});
     });
   }

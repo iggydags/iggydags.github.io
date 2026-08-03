@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Michael D'Agostino · Growth, Perpetuals · Kalshi</title>
 <meta name="description" content="A six-week perps growth plan for Kalshi, with the first deliverables already built.">
 <meta name="robots" content="noindex, nofollow">
@@ -31,28 +31,16 @@
     --mono:ui-monospace,'SF Mono','Cascadia Code',Menlo,Consolas,monospace;
     --sans:-apple-system,BlinkMacSystemFont,'Segoe UI',Inter,Roboto,Helvetica,Arial,sans-serif;
     /* fluid gutter drives .wrap and .nav-inner together */
-    --gutter:clamp(16px,4vw,24px);
+    --gutter:max(clamp(16px,4vw,24px),env(safe-area-inset-left));
     --pad-panel:clamp(18px,3.5vw,32px);
     --pad-sim:clamp(16px,3vw,24px);
   }
   *{margin:0;padding:0;box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  button,a,input[type=range],summary{touch-action:manipulation;-webkit-tap-highlight-color:transparent}
   html{scroll-padding-top:72px}
   @media(prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
   body{background:var(--bg);color:var(--text-primary);font-family:var(--sans);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
-  /* overflow-x:hidden makes body a scroll container, which stops scroll-snap on <html>
-     from engaging. `clip` guards against horizontal overflow the same way without
-     creating that container. Older engines keep `hidden` and simply do not snap. */
-  @supports (overflow-x:clip){body{overflow-x:clip}}
-
-  /* Phone: settle section by section.
-     `proximity`, not `mandatory`: every section here is taller than a phone viewport,
-     and mandatory snap on oversized targets traps the user mid-section and can make
-     content unreachable. Proximity only engages when a scroll ends near a boundary,
-     so reading down a long section is completely unaffected. */
-  @media(max-width:760px){
-    html{scroll-snap-type:y proximity;scroll-padding-top:58px}
-    header#top,main > section{scroll-snap-align:start}
-  }
   ::selection{background:var(--accent-dim);color:var(--on-accent)}
   a{color:var(--accent);text-decoration:none}
   a:hover{color:#6df0c4}
@@ -60,7 +48,7 @@
   .wrap{max-width:1080px;margin:0 auto;padding:0 var(--gutter)}
 
   /* nav */
-  nav{position:sticky;top:0;z-index:50;background:rgba(10,15,13,.94);backdrop-filter:blur(10px);border-bottom:1px solid var(--border)}
+  nav{position:sticky;top:0;z-index:50;background:rgba(10,15,13,.94);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border-bottom:1px solid var(--border)}
   .nav-inner{max-width:1080px;margin:0 auto;padding:0 var(--gutter);display:flex;align-items:center;justify-content:space-between;gap:12px;height:56px}
   .nav-brand{font-family:var(--mono);font-size:12.5px;letter-spacing:.06em;color:var(--text-primary);white-space:nowrap;flex-shrink:0}
   .nav-brand span{color:var(--text-muted)}
@@ -96,7 +84,7 @@
   .hero-grid{display:grid;grid-template-columns:minmax(0,1fr) 440px;gap:48px;align-items:center}
   @media(max-width:960px){.hero-grid{grid-template-columns:1fr;gap:36px}}
   .mcard-wrap{perspective:1400px}
-  .mcard-inner{position:relative;transform-style:preserve-3d;transition:transform .65s cubic-bezier(.3,.9,.32,1)}
+  .mcard-inner{position:relative;-webkit-transform-style:preserve-3d;transform-style:preserve-3d;transition:transform .65s cubic-bezier(.3,.9,.32,1)}
   @media(prefers-reduced-motion:reduce){.mcard-inner{transition:none}}
   .mcard-inner.flipped{transform:rotateY(180deg)}
   .mcard{background:var(--surface-2);border:1px solid var(--border-strong);border-radius:14px;overflow:hidden;box-shadow:0 24px 60px -24px rgba(0,0,0,.6);cursor:pointer;backface-visibility:hidden;-webkit-backface-visibility:hidden}
@@ -146,7 +134,7 @@
     .mstat{grid-template-columns:74px minmax(0,1fr);gap:11px}
     .mstats{padding:8px clamp(16px,4vw,22px)}
   }
-  .toast{position:fixed;left:50%;bottom:28px;transform:translateX(-50%) translateY(80px);background:var(--surface-3);border:1px solid var(--border-strong);border-radius:10px;padding:12px 20px;font-family:var(--mono);font-size:12.5px;color:var(--text-primary);z-index:99;transition:transform .3s;max-width:92vw;text-align:center}
+  .toast{position:fixed;left:50%;bottom:calc(28px + env(safe-area-inset-bottom));transform:translateX(-50%) translateY(80px);background:var(--surface-3);border:1px solid var(--border-strong);border-radius:10px;padding:12px 20px;font-family:var(--mono);font-size:12.5px;color:var(--text-primary);z-index:99;transition:transform .3s;max-width:92vw;text-align:center}
   .toast.on{transform:translateX(-50%) translateY(0)}
   .toast b{color:var(--accent)}
   .hero-who{margin-top:26px;font-family:var(--mono);font-size:12.5px;color:var(--text-muted);letter-spacing:.03em;display:flex;gap:10px;flex-wrap:wrap;align-items:center}
@@ -281,29 +269,17 @@
   .tools-note{font-size:14px;color:var(--text-muted);margin:20px auto 0;max-width:800px;text-wrap:pretty;text-align:center}
 
   /* bench */
-  /* align-items:start so a card that grows on flip does not drag the other two with it */
   .tiers{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;align-items:start}
   @media(max-width:860px){.tiers{grid-template-columns:1fr}}
-  /* Flip cards. Both faces are absolutely positioned so each keeps its own natural
-     height and stays measurable, and JS animates the wrapper height to whichever face
-     is showing. Same approach as the tool panels: no dead space on the shorter side. */
-  .tier-flip{position:relative;perspective:1200px;transition:height .45s cubic-bezier(.22,1,.36,1)}
-  .tier-inner{position:relative;height:100%;transform-style:preserve-3d;transition:transform .6s cubic-bezier(.3,.9,.32,1)}
-  @media(prefers-reduced-motion:reduce){.tier-flip,.tier-inner{transition:none}}
-  .tier-inner.flipped{transform:rotateY(180deg)}
-  .tier-front,.tier-back{position:absolute;top:0;left:0;width:100%;backface-visibility:hidden;-webkit-backface-visibility:hidden}
-  .tier-back{transform:rotateY(180deg)}
-  /* backface-visibility hides a face visually but leaves it focusable; this pulls the
-     turned-away face out of the tab order, delayed to the midpoint of the turn */
-  .tier-inner > *{transition:visibility 0s .3s}
-  .tier-inner > .tier-back{visibility:hidden}
-  .tier-inner.flipped > .tier-back{visibility:visible}
-  .tier-inner.flipped > .tier-front{visibility:hidden}
-  .tier-flip:hover .tier-front,.tier-flip:hover .tier-back{border-color:var(--border-strong)}
-  .tier-turn{font-family:var(--mono);font-size:10px;letter-spacing:.06em;color:var(--text-muted);background:none;border:none;border-top:1px solid var(--border);padding:11px 0 0;margin-top:auto;cursor:pointer;text-align:left;width:100%}
-  .tier-turn:hover{color:var(--accent)}
-  .tier-card{background:var(--surface-1);border:1px solid var(--border);border-radius:12px;padding:20px;display:flex;flex-direction:column;gap:14px}
-  .tier-head{display:flex;flex-direction:column}
+  .tier-card{background:var(--surface-1);border:1px solid var(--border);border-radius:12px;padding:20px;display:flex;flex-direction:column;cursor:pointer}
+  .tier-more{overflow:hidden;height:0;transition:height .38s cubic-bezier(.22,1,.36,1)}
+  @media(prefers-reduced-motion:reduce){.tier-more{transition:none}}
+  .tier-more .tier-names{padding-bottom:14px}
+  .texp{border-top:1px solid var(--border);padding-top:14px;letter-spacing:.05em}
+  .texp .hide{display:none}
+  .texp[aria-expanded="true"] .show{display:none}
+  .texp[aria-expanded="true"] .hide{display:inline}
+  .tier-head{display:flex;flex-direction:column;margin-bottom:14px}
   @media(min-width:861px){.tier-head{min-height:132px}}
   .tier-card .tname{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);font-weight:700}
   .tier-card .tstrat{font-size:14px;color:var(--text-secondary);margin-top:6px;line-height:1.5}
@@ -316,7 +292,19 @@
 
   /* community & measurement */
   .sub-label{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--text-muted);margin-bottom:14px;font-weight:700}
-  .cad-stage{position:relative;height:300px;perspective:1300px;margin-bottom:14px;overflow:visible}
+  .fly2{display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap;margin-bottom:8px}
+  .fnode{font-family:var(--mono);font-size:12px;padding:11px 17px;border:1px solid var(--border-strong);border-radius:999px;background:var(--surface-2);color:var(--text-primary);text-align:center}
+  .fnode.hot{border-color:var(--accent-dim);color:var(--accent)}
+  .farr{color:var(--accent);font-family:var(--mono);font-size:16px;flex-shrink:0}
+  .fly-return{display:flex;align-items:center;justify-content:center;gap:10px;margin:6px auto 44px;font-family:var(--mono);font-size:11px;color:var(--text-muted);letter-spacing:.04em;max-width:860px}
+  .fly-return .ah{color:var(--text-muted);font-size:14px;flex-shrink:0}
+  .fly-return .dash{flex:1;border-top:1px dashed var(--border-strong);height:0;min-width:60px}
+  .fly-return span:last-child{flex-shrink:0}
+  @media(max-width:560px){
+    .fly2{flex-direction:column;align-items:stretch;gap:8px}
+    .farr{transform:rotate(90deg);align-self:center}
+  }
+  .cad-stage{position:relative;height:300px;perspective:1300px;margin-bottom:14px;overflow:hidden}
   .cad-ring{position:absolute;inset:0;transform-style:preserve-3d;transition:transform .65s cubic-bezier(.22,1,.36,1)}
   @media(prefers-reduced-motion:reduce){.cad-ring{transition:none}}
   .cad-card{position:absolute;left:50%;top:50%;width:min(400px,82vw);background:var(--surface-1);border:1px solid var(--border);border-radius:10px;padding:22px 24px;cursor:pointer;backface-visibility:hidden;-webkit-backface-visibility:hidden;opacity:.3;filter:saturate(.5);transition:opacity .65s,filter .65s,border-color .3s}
@@ -374,13 +362,15 @@
   html.js .rv{opacity:0;transform:translateY(14px);transition:opacity .55s ease,transform .55s cubic-bezier(.22,1,.36,1)}
   html.js .rv.in{opacity:1;transform:none}
   @media(prefers-reduced-motion:reduce){html.js .rv{opacity:1;transform:none;transition:none}}
-  /* .tier-card is excluded here: a translate on a face inside a preserve-3d parent
-     would fight the flip transform */
   .receipt,.jg-card{transition:transform .18s ease,border-color .18s ease}
   .receipt:hover,.jg-card:hover{transform:translateY(-3px);border-color:var(--border-strong)}
+  .tier-card{transition:border-color .18s ease}
+  .tier-card:hover{border-color:var(--border-strong)}
   .m-row{transition:background .15s}
   /* one shared, always-visible focus ring rather than per-component removals */
   :is(a,button,[tabindex]):focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:6px}
+  .fnode{transition:border-color .3s,color .3s,box-shadow .3s}
+  .fnode.pulse{border-color:var(--accent);color:var(--accent);box-shadow:0 0 0 3px rgba(46,230,168,.1)}
 
   /* ---------- print / save-as-PDF ----------
      Two problems to solve: the reveal animation leaves everything below the fold at
@@ -418,17 +408,14 @@
     svg text{fill:#39453f!important}
     svg line[stroke="#1e2a24"]{stroke:#e2e6e4!important}
     svg line[stroke="#2a3a32"]{stroke:#b2bab6!important}
-    section,.sim,.tier-card,.receipt,.callout,.m-row,.read-row,.ns-card,.jg-card{break-inside:avoid}
-    /* flatten the carousel so paper carries all six rituals */
+    section,.sim,.tier-card,.cad-card,.receipt,.callout,.m-row,.read-row,.ns-card,.jg-card{break-inside:avoid}
     .cad-stage{height:auto;perspective:none}
     .cad-ring{position:static;transform:none!important}
     .cad-card{position:static;transform:none!important;opacity:1!important;filter:none!important;width:100%;margin-bottom:10px;cursor:auto}
     .cad-chips,.cad-hint{display:none!important}
-    /* flatten the tier flip cards so both faces print, and drop the JS-set height */
-    .tier-flip{height:auto!important;perspective:none}
-    .tier-inner{transform:none!important;height:auto}
-    .tier-front,.tier-back{position:static!important;visibility:visible!important;transform:none!important;margin-bottom:10px}
-    [data-turn]{display:none!important}
+    /* tier cards: print with names expanded */
+    .tier-more{height:auto!important}
+    .tier-card{cursor:auto}
     section{border-bottom-color:#d9dedb;padding:22px 0}
     a{color:#0a6f4e}
     a[href^="http"]::after{content:" (" attr(href) ")";font-size:8pt;color:#5a6661;word-break:break-all}
@@ -444,8 +431,8 @@
     <div class="nav-links">
       <div class="nav-scroll">
         <a href="#read">The read</a>
-        <a href="#plan">Roadmap</a>
-        <a href="#tools">Curriculum</a>
+        <a href="#plan">6 weeks</a>
+        <a href="#tools">Tools</a>
         <a href="#bench">Bench</a>
       </div>
       <a class="cta" href="mailto:michaeldagostino15@gmail.com">Email me</a>
@@ -461,10 +448,10 @@
   <div class="hero-meta">
     <span class="eyebrow">Application &middot; Growth, Perpetuals</span>
     <span class="dot"></span>
-    <span class="read-time">Skim in 2 &middot; read in 8 &middot; 3 tools you can actually use</span>
+    <span class="read-time">3 minute read &middot; 3 working tools</span>
   </div>
   <h1>Perps launched at <span id="vol">$5.5B</span> in two weeks.<br><span class="dim">Distribution is the bottleneck now.</span></h1>
-  <p class="hero-sub">I've outlined the first six weeks as a roadmap.<br><b>Three working education tools, a scored creator bench, and a measurement frame</b>.</p>
+  <p class="hero-sub">I've outlined the first six weeks as a roadmap.<br><b>Three working education tools, a scored creator bench, and a measurement frame.</b></p>
   <div class="hero-who">
     <span>NYC</span><span class="sep">&middot;</span>
     <a href="mailto:michaeldagostino15@gmail.com">michaeldagostino15@gmail.com</a><span class="sep">&middot;</span>
@@ -514,7 +501,6 @@
   </div>
   </div>
   </div>
-  </div>
 </header>
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
@@ -536,7 +522,7 @@
       </div>
       <div>
         <p>Offshore exchanges are paying to reach US trading audiences they <b>cannot legally onboard</b>. Kalshi is the first sponsor for whom those viewers actually convert. I'd claim that bench: 50+ scored targets in week one, three pilots closed by day 21.</p>
-        <a href="#bench">The 17-name starting bench &darr;</a>
+        <a href="#bench">The 19-name starting bench &darr;</a>
       </div>
     </div>
     <div class="read-row">
@@ -565,7 +551,7 @@
 <section id="plan" aria-labelledby="h-plan">
   <div class="sec-head">
     <div>
-      <div class="sec-label">02 / Roadmap</div>
+      <div class="sec-label">02 / The six weeks</div>
       <h2 id="h-plan">A campaign live by day 30. Compounding by day 42.</h2>
     </div>
     <div class="sec-note">Click a week for the detail.<br>Headline commitments below.</div>
@@ -646,12 +632,11 @@
 <section id="tools" aria-labelledby="h-tools">
   <div class="sec-head">
     <div>
-      <div class="sec-label">03 / Functional curriculum</div>
+      <div class="sec-label">03 / Curriculum, prototyped</div>
       <h2 id="h-tools">Three lessons the learn hub tells. Made playable.</h2>
     </div>
     <div class="sec-note">Live prototypes, built for this page. Drag the sliders. Creators get these free; every embed is a tracked front door.</div>
   </div>
-
 
   <div class="tool-tabs" role="tablist" aria-label="Educational tools">
     <button class="tool-tab" role="tab" id="et-1" aria-selected="true" aria-controls="ep-1">1 &middot; Funding Drag</button>
@@ -826,80 +811,66 @@
   <div class="sec-head">
     <div>
       <div class="sec-label">04 / The bench</div>
-      <h2 id="h-bench">Seventeen names, three strategies, four warm intros.</h2>
+      <h2 id="h-bench">Nineteen names, three strategies, five warm intros.</h2>
     </div>
     <div class="sec-note">A sample of the 50+ target universe I'd build in week one.</div>
   </div>
   <div class="tiers">
-    <div class="tier-flip">
-      <div class="tier-inner">
-        <div class="tier-card tier-front">
-          <div class="tier-head">
-            <div class="tname">Tier 1 &middot; Pay for reach</div>
-            <div class="tstrat">Already monetized by offshore exchanges. Kalshi is the first sponsor whose US viewers can actually sign up.</div>
-          </div>
-          <button type="button" class="tier-turn" data-turn>SEE THE NAMES &#8635;</button>
-        </div>
-        <div class="tier-card tier-back" aria-hidden="true">
-          <div class="tname">Tier 1 &middot; 5 scored</div>
-          <div class="tier-names">
-            <div class="tn"><div class="nm">Crypto Banter</div><div class="pl">YouTube &middot; daily live &middot; Ran Neuner</div></div>
-            <div class="tn"><div class="nm">Scott Melker</div><div class="pl">X + YouTube + podcast</div></div>
-            <div class="tn"><div class="nm">Coin Bureau</div><div class="pl">YouTube &middot; Guy Turner</div></div>
-            <div class="tn"><div class="nm">CryptosRUs</div><div class="pl">YouTube &middot; daily &middot; George Tung</div></div>
-            <div class="tn"><div class="nm">Humphrey Yang</div><div class="pl">TikTok / Shorts</div></div>
-          </div>
-          <button type="button" class="tier-turn" data-turn>SEE THE NAMES &#8635;</button>
+    <div class="tier-card">
+      <div class="tier-head">
+        <div class="tname">Tier 1 &middot; Pay for reach</div>
+        <div class="tstrat">Already monetized by offshore exchanges. Kalshi is the first sponsor whose US viewers can actually sign up.</div>
+      </div>
+      <div class="tier-more" id="tm-1" aria-hidden="true">
+        <div class="tier-names">
+          <div class="tn"><div class="nm">Crypto Banter</div><div class="pl">YouTube &middot; daily live &middot; Ran Neuner</div></div>
+          <div class="tn"><div class="nm">Scott Melker</div><div class="pl">X + YouTube + podcast</div></div>
+          <div class="tn"><div class="nm">Coin Bureau</div><div class="pl">YouTube &middot; Guy Turner</div></div>
+          <div class="tn"><div class="nm">CryptosRUs</div><div class="pl">YouTube &middot; daily &middot; George Tung</div></div>
+          <div class="tn"><div class="nm">Humphrey Yang</div><div class="pl">TikTok / Shorts</div></div>
         </div>
       </div>
+      <button type="button" class="flipbtn texp" data-texp aria-expanded="false" aria-controls="tm-1"><span class="show">SHOW THE 5 NAMES &darr;</span><span class="hide">HIDE THE NAMES &uarr;</span></button>
     </div>
-    <div class="tier-flip">
-      <div class="tier-inner">
-        <div class="tier-card tier-front">
-          <div class="tier-head">
-            <div class="tname">Tier 2 &middot; Earn with access</div>
-            <div class="tstrat">Hard to buy, high trust. Won with product access and data stories, not rate cards.</div>
-          </div>
-          <button type="button" class="tier-turn" data-turn>SEE THE NAMES &#8635;</button>
-        </div>
-        <div class="tier-card tier-back" aria-hidden="true">
-          <div class="tname">Tier 2 &middot; 6 scored</div>
-          <div class="tier-names">
-            <div class="tn"><div class="nm">Alex Thorn</div><div class="pl">Galaxy Digital &middot; head of firmwide research</div></div>
-            <div class="tn"><div class="nm">Benjamin Cowen</div><div class="pl">YouTube &middot; Into The Cryptoverse</div></div>
-            <div class="tn"><div class="nm">Kyla Scanlon</div><div class="pl">Short-form + newsletter</div></div>
-            <div class="tn"><div class="nm">Blockworks shows</div><div class="pl">Forward Guidance &middot; Bell Curve &middot; Empire</div></div>
-            <div class="tn"><div class="nm">Jack Farley</div><div class="pl">Monetary Matters</div></div>
-            <div class="tn"><div class="nm">Laura Shin</div><div class="pl">Unchained &middot; podcast + newsletter</div></div>
-          </div>
-          <button type="button" class="tier-turn" data-turn>SEE THE NAMES &#8635;</button>
+    <div class="tier-card">
+      <div class="tier-head">
+        <div class="tname">Tier 2 &middot; Earn with access</div>
+        <div class="tstrat">Hard to buy, high trust. Won with product access and data stories, not rate cards.</div>
+      </div>
+      <div class="tier-more" id="tm-2" aria-hidden="true">
+        <div class="tier-names">
+          <div class="tn"><div class="nm">Benjamin Cowen</div><div class="pl">YouTube &middot; Into The Cryptoverse</div></div>
+          <div class="tn"><div class="nm">Kyla Scanlon</div><div class="pl">Short-form + newsletter</div></div>
+          <div class="tn"><div class="nm">Blockworks shows</div><div class="pl">Forward Guidance &middot; Bell Curve &middot; Empire</div></div>
+          <div class="tn"><div class="nm">Jack Farley</div><div class="pl">Monetary Matters</div></div>
+          <div class="tn"><div class="nm">Nic Carter</div><div class="pl">X + podcast</div></div>
+          <div class="tn"><div class="nm">Laura Shin</div><div class="pl">Unchained &middot; podcast + newsletter</div></div>
+          <div class="tn"><div class="nm">Alex Thorn</div><div class="pl">Head of firmwide research, Galaxy Digital</div></div>
         </div>
       </div>
+      <button type="button" class="flipbtn texp" data-texp aria-expanded="false" aria-controls="tm-2"><span class="show">SHOW THE 7 NAMES &darr;</span><span class="hide">HIDE THE NAMES &uarr;</span></button>
     </div>
-    <div class="tier-flip">
-      <div class="tier-inner">
-        <div class="tier-card tier-front">
-          <div class="tier-head">
-            <div class="tname">Tier 3 &middot; Build on relationships</div>
-            <div class="tstrat">Rarely take exchange money, reachable through my network. Education-first angle: onshore venue, segregated USD, no offshore counterparty risk.</div>
-          </div>
-          <button type="button" class="tier-turn" data-turn>SEE THE NAMES &#8635;</button>
-        </div>
-        <div class="tier-card tier-back" aria-hidden="true">
-          <div class="tname">Tier 3 &middot; 5 scored &middot; 4 warm</div>
-          <div class="tier-names">
-            <div class="tn"><div class="nm">TFTC / Marty Bent <span class="warm">warm intro</span></div><div class="pl">Podcast + media</div></div>
-            <div class="tn"><div class="nm">Rabbit Hole Recap <span class="warm">warm intro</span></div><div class="pl">Podcast &middot; Bent + Odell</div></div>
-            <div class="tn"><div class="nm">Will Foxley <span class="warm">warm intro</span></div><div class="pl">The Mining Pod &middot; Blockspace Media</div></div>
-            <div class="tn"><div class="nm">BitPlaza / Kyle Knight <span class="warm">warm intro</span></div><div class="pl">Bitcoin community</div></div>
-            <div class="tn"><div class="nm">Simply Bitcoin</div><div class="pl">YouTube &middot; daily</div></div>
-          </div>
-          <button type="button" class="tier-turn" data-turn>SEE THE NAMES &#8635;</button>
+    <div class="tier-card">
+      <div class="tier-head">
+        <div class="tname">Tier 3 &middot; Build on relationships</div>
+        <div class="tstrat">Rarely take exchange money, reachable through my network. Education-first angle: onshore venue, segregated USD, no offshore counterparty risk.</div>
+      </div>
+      <div class="tier-more" id="tm-3" aria-hidden="true">
+        <div class="tier-names">
+          <div class="tn"><div class="nm">TFTC / Marty Bent <span class="warm">warm intro</span></div><div class="pl">Podcast + media</div></div>
+          <div class="tn"><div class="nm">Rabbit Hole Recap <span class="warm">warm intro</span></div><div class="pl">Podcast &middot; Bent + Odell</div></div>
+          <div class="tn"><div class="nm">Will Foxley <span class="warm">warm intro</span></div><div class="pl">The Mining Pod &middot; Blockspace Media &middot; mining community</div></div>
+          <div class="tn"><div class="nm">BitPlaza / Kyle Knight <span class="warm">warm intro</span></div><div class="pl">Bitcoin community</div></div>
+          <div class="tn"><div class="nm">Aubrey Strobel <span class="warm">warm intro</span></div><div class="pl">Content</div></div>
+          <div class="tn"><div class="nm">Natalie Brunell</div><div class="pl">Coin Stories &middot; podcast + YouTube</div></div>
+          <div class="tn"><div class="nm">Simply Bitcoin</div><div class="pl">YouTube &middot; daily</div></div>
         </div>
       </div>
+      <button type="button" class="flipbtn texp" data-texp aria-expanded="false" aria-controls="tm-3"><span class="show">SHOW THE 7 NAMES &middot; 5 WARM &darr;</span><span class="hide">HIDE THE NAMES &uarr;</span></button>
     </div>
   </div>
   <p class="sleeper"><b>How a pilot works:</b> one tier, one format, a capped budget, and a cost-per-funded-account threshold agreed before launch. Hit it, renew and scale. Miss it, kill it and keep the learning. No pilot becomes a debate.</p>
+  <p class="sleeper" style="margin-top:10px"><b>The platform lane:</b> a warm intro to <a href="https://tyler.gold" target="_blank" rel="noopener">Tyler Gold</a>, original content and creators at X. The affiliate era ended on policy grounds; whatever replaces it gets negotiated at the platform level, not in creator DMs. I'd open that conversation in week one.</p>
   <p class="sleeper" style="margin-top:10px"><b>Why Tier 3 is the sleeper:</b> Bitcoin media is skeptical of leverage, which is exactly why an education-first partnership from a regulated venue lands where offshore money can't. I co-produced events with Marty Bent and Matt Odell at <a href="https://pubkey.bar" target="_blank" rel="noopener">PubKey</a>. That door is open.</p>
 </section>
 
@@ -915,7 +886,7 @@
   <div class="cad-stage">
     <div class="cad-ring" id="cadring">
     <div class="cad-card" role="button" tabindex="0"><div class="d">Monday</div><h4>The Funding Report</h4><p>Weekly recap: funding trends across listed perps, what they signal, one lesson. Discord first, X repost.</p></div>
-    <div class="cad-card" role="button" tabindex="0"><div class="d">Wednesday</div><h4>X Space: On Margin</h4><p>Live with a product guest or partner creator. First invites: Marty Bent, Matt Odell.</p></div>
+    <div class="cad-card" role="button" tabindex="0"><div class="d">Wednesday</div><h4>X Space: On Margin</h4><p>Live with a product guest or partner creator. First invites: Kalshi's own John Wang, Marty Bent, Natalie Brunell.</p></div>
     <div class="cad-card" role="button" tabindex="0"><div class="d">Friday</div><h4>Office Hours / AMA</h4><p>Discord voice with someone who can actually explain margin calls. New-trader questions become next week&rsquo;s content.</p></div>
     <div class="cad-card" role="button" tabindex="0"><div class="d">Monthly</div><h4>Trading Competition</h4><p>Leaderboards and prizes: the offshore volume engine rebuilt inside CFTC constraints. Scoped with legal first.</p></div>
     <div class="cad-card" role="button" tabindex="0"><div class="d">Quarterly</div><h4>IRL</h4><p>Watch parties, panels, conference-week takeovers with people I've produced rooms with: Matt Odell, Marty Bent, BTC Inc. Content kit ships within 48 hours.</p></div>
@@ -1363,7 +1334,7 @@
   Object.keys(spyMap).forEach(id=>{const s=$(id);if(s)spy.observe(s)});
 
   /* staggered reveal */
-  const rvSel='.sec-head,.read-row,.wk-bar,.wk-shell,.score-strip,.score-cap,.tool-tabs,.tool-shell,.tools-note,.tier-flip,.sleeper,.cad-stage,.cad-chips,.cad-hint,.ns-card,.ns-feed,.judge-grid,.receipt,.cta-row,.fine';
+  const rvSel='.sec-head,.read-row,.wk-bar,.wk-shell,.score-strip,.score-cap,.tool-tabs,.tool-shell,.tools-note,.tier-card,.sleeper,.cad-stage,.cad-chips,.cad-hint,.ns-card,.ns-feed,.judge-grid,.receipt,.cta-row,.fine';
   const rvEls=Array.from(document.querySelectorAll(rvSel));
   rvEls.forEach(el=>el.classList.add('rv'));
   const io=new IntersectionObserver(es=>{
@@ -1461,6 +1432,34 @@
     });
   }
 
+  /* bench tier cards: expand and shrink like the tool shell */
+  document.querySelectorAll('.tier-card').forEach(card=>{
+    const more=card.querySelector('.tier-more');
+    const btn=card.querySelector('[data-texp]');
+    if(!more||!btn)return;
+    const noMotion=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let open=false;
+    const toggle=()=>{
+      open=!open;
+      btn.setAttribute('aria-expanded',open?'true':'false');
+      more.setAttribute('aria-hidden',open?'false':'true');
+      if(noMotion){more.style.height=open?'auto':'0';return}
+      if(open){
+        more.style.height=more.scrollHeight+'px';
+        const done=e=>{if(e.target!==more)return;more.style.height='auto';more.removeEventListener('transitionend',done)};
+        more.addEventListener('transitionend',done);
+      }else{
+        more.style.height=more.scrollHeight+'px';
+        void more.offsetHeight;
+        more.style.height='0';
+      }
+    };
+    card.addEventListener('click',e=>{
+      if(e.target.closest('a'))return;
+      toggle();
+    });
+  });
+
   /* weekly rhythm carousel */
   const ring=$('cadring');
   if(ring){
@@ -1476,13 +1475,7 @@
     function cadSpin(){
       ring.style.transform='translateZ(-'+cR+'px) rotateY('+(-ci*360/cn)+'deg)';
       const idx=((ci%cn)+cn)%cn;
-      cCards.forEach((c,i)=>{
-        const front=(i===idx);
-        c.classList.toggle('front',front);
-        /* only the facing card is reachable; the rest are turned away */
-        c.tabIndex=front?0:-1;
-        c.setAttribute('aria-hidden',front?'false':'true');
-      });
+      cCards.forEach((c,i)=>c.classList.toggle('front',i===idx));
       chips.forEach((c,i)=>c.classList.toggle('on',i===idx));
     }
     function cadGo(i){
@@ -1500,38 +1493,27 @@
     cadLayout();
   }
 
-  /* Tier cards flip to their bench. Both faces are absolutely positioned, so the
-     wrapper carries no intrinsic height: we set it explicitly and let CSS animate the
-     change, which is why the shorter face leaves no dead space. */
-  const tierFlips=[];
-  document.querySelectorAll('.tier-flip').forEach(flip=>{
-    const inner=flip.querySelector('.tier-inner');
-    const front=inner.querySelector('.tier-front');
-    const back=inner.querySelector('.tier-back');
-    const face=()=>inner.classList.contains('flipped')?back:front;
-    const size=()=>{flip.style.height=face().offsetHeight+'px'};
-    const turn=()=>{
-      const open=!inner.classList.contains('flipped');
-      inner.classList.toggle('flipped',open);
-      back.setAttribute('aria-hidden',open?'false':'true');
-      front.setAttribute('aria-hidden',open?'true':'false');
-      flip.style.height=(open?back:front).offsetHeight+'px';
-      flip.querySelectorAll('[data-turn]').forEach(b=>{
-        b.textContent=open?'BACK TO THE STRATEGY ↻':'SEE THE NAMES ↻';
-      });
-      const target=(open?back:front).querySelector('[data-turn]');
-      if(target)setTimeout(()=>target.focus(),320);
+  /* flywheel pulse loop */
+  const fly=document.querySelector('.fly2');
+  if(!reduced&&fly){
+    const nodes=fly.querySelectorAll('.fnode');
+    let fi=0,flyTimer=null,hovering=false;
+    const tick=()=>{
+      if(hovering)return;
+      nodes.forEach(n=>n.classList.remove('pulse'));
+      nodes[fi].classList.add('pulse');
+      fi=(fi+1)%nodes.length;
     };
-    flip.querySelectorAll('[data-turn]').forEach(b=>b.addEventListener('click',e=>{e.stopPropagation();turn()}));
-    flip.addEventListener('click',e=>{if(!e.target.closest('[data-turn]')&&!e.target.closest('a'))turn()});
-    tierFlips.push(size);
-    size();
-  });
-  /* reflow on resize, and once after webfonts settle, since both change face heights */
-  const sizeTiers=()=>tierFlips.forEach(f=>f());
-  window.addEventListener('resize',sizeTiers,{passive:true});
-  if(document.fonts&&document.fonts.ready)document.fonts.ready.then(sizeTiers);
-  window.addEventListener('load',sizeTiers);
+    fly.addEventListener('mouseenter',()=>{hovering=true;nodes.forEach(n=>n.classList.remove('pulse'))});
+    fly.addEventListener('mouseleave',()=>{hovering=false});
+    const flyIO=new IntersectionObserver(es=>{
+      es.forEach(e=>{
+        if(e.isIntersecting&&!flyTimer){flyTimer=setInterval(tick,1300);tick()}
+        else if(!e.isIntersecting&&flyTimer){clearInterval(flyTimer);flyTimer=null;nodes.forEach(n=>n.classList.remove('pulse'))}
+      });
+    },{threshold:.4});
+    flyIO.observe(fly);
+  }
 })();
 </script>
 </body>

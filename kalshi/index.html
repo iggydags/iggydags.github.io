@@ -41,6 +41,20 @@
   html{scroll-padding-top:72px}
   @media(prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
   body{background:var(--bg);color:var(--text-primary);font-family:var(--sans);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  /* overflow-x:hidden makes body a scroll container, which stops scroll-snap on <html>
+     from engaging. `clip` guards horizontal overflow the same way without creating that
+     container. Older engines keep `hidden` and simply do not snap. */
+  @supports (overflow-x:clip){body{overflow-x:clip}}
+
+  /* Phone: settle section by section.
+     `proximity`, not `mandatory`: every section here is taller than a phone viewport,
+     and mandatory snap on oversized targets traps the reader mid-section. Proximity
+     only engages when a scroll ends near a boundary, so reading down a long section
+     is unaffected. */
+  @media(max-width:760px){
+    html{scroll-snap-type:y proximity;scroll-padding-top:58px}
+    header#top,main > section{scroll-snap-align:start}
+  }
   ::selection{background:var(--accent-dim);color:var(--on-accent)}
   a{color:var(--accent);text-decoration:none}
   a:hover{color:#6df0c4}
@@ -277,7 +291,7 @@
   .tn .nm{font-size:14.5px;font-weight:600;color:var(--text-primary);display:flex;gap:7px;align-items:baseline;flex-wrap:wrap}
   .tn .pl{font-family:var(--mono);font-size:11.5px;color:var(--text-muted);margin-top:1px}
   .warm{font-family:var(--mono);font-size:9.5px;color:var(--warn);border:1px solid rgba(230,177,46,.4);border-radius:4px;padding:1px 6px;letter-spacing:.05em}
-  .sleeper{font-size:14.5px;color:var(--text-secondary);margin-top:18px;max-width:840px;text-wrap:pretty}
+  .sleeper{font-size:14.5px;color:var(--text-secondary);margin:18px auto 0;max-width:840px;text-wrap:pretty;text-align:center}
   .sleeper-top{margin-top:0}
   .sleeper + .tiers{margin-top:26px}
   .sleeper b{color:var(--text-primary)}
@@ -312,7 +326,22 @@
   /* tier carousel: coverflow so side cards keep their content visible, like the rhythm ring */
   .tier-cro{transition:transform .65s cubic-bezier(.22,1,.36,1),opacity .65s,filter .65s,border-color .3s}
   @media(prefers-reduced-motion:reduce){.tier-cro{transition:none}}
-  .tier-stage .cad-card:not(.front){opacity:.4}
+  .tier-stage .cad-card:not(.front){opacity:.4;filter:blur(3px)}
+  /* colour-code the three routes so tiers read distinct at a glance */
+  #tierring .cad-card:nth-child(1){border-top:2px solid var(--accent)}
+  #tierring .cad-card:nth-child(1) .d{color:var(--accent)}
+  #tierring .cad-card:nth-child(2){border-top:2px solid var(--blue)}
+  #tierring .cad-card:nth-child(2) .d{color:var(--blue)}
+  #tierring .cad-card:nth-child(3){border-top:2px solid var(--warn)}
+  #tierring .cad-card:nth-child(3) .d{color:var(--warn)}
+  #tierchips .cad-chip:nth-child(2).on{border-color:var(--blue);color:var(--blue)}
+  #tierchips .cad-chip:nth-child(3).on{border-color:var(--warn);color:var(--warn)}
+  #tierring .cad-card:nth-child(1).front:hover{border-color:var(--accent-dim);border-top-color:var(--accent)}
+  #tierring .cad-card:nth-child(2).front:hover{border-color:var(--blue);border-top-color:var(--blue)}
+  #tierring .cad-card:nth-child(3).front:hover{border-color:var(--warn);border-top-color:var(--warn)}
+  #tierchips .cad-chip:nth-child(1):hover{color:var(--accent)}
+  #tierchips .cad-chip:nth-child(2):hover{color:var(--blue)}
+  #tierchips .cad-chip:nth-child(3):hover{color:var(--warn)}
   .cad-hint{font-family:var(--mono);font-size:11px;color:var(--text-muted);text-align:center;letter-spacing:.04em;margin-bottom:44px}
   .cad-hint-top{margin-bottom:16px}
   .sleeper-top{margin-bottom:32px}
@@ -498,6 +527,7 @@
   </div>
   </div>
   </div>
+  </div>
 </header>
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
@@ -561,40 +591,40 @@
     <div class="cad-ring" id="tierring">
     <div class="cad-card tier-cro" role="button" tabindex="0">
       <div class="d">Tier 1 &middot; Pay for reach</div>
-      <p>Already monetized by offshore exchanges. Kalshi is the first sponsor whose US viewers can actually sign up.</p>
+      <p>Trading channels already running offshore-exchange sponsorships. There's a rate card; this is a <b>straightforward buy</b>. The edge: their US viewers can't legally onboard to the sponsors they watch. Kalshi is the first one that converts.</p>
       <div class="tier-names">
         <div class="tn"><div class="nm">Crypto Banter</div><div class="pl">YouTube &middot; daily live &middot; Ran Neuner</div></div>
         <div class="tn"><div class="nm">Scott Melker</div><div class="pl">X + YouTube + podcast</div></div>
         <div class="tn"><div class="nm">Coin Bureau</div><div class="pl">YouTube &middot; Guy Turner</div></div>
         <div class="tn"><div class="nm">CryptosRUs</div><div class="pl">YouTube &middot; daily &middot; George Tung</div></div>
         <div class="tn"><div class="nm">Humphrey Yang</div><div class="pl">TikTok / Shorts</div></div>
-        <div class="tn"><div class="nm">Bitcoin News <span class="warm">warm intro</span></div><div class="pl">Rob Wallace</div></div>
       </div>
     </div>
     <div class="cad-card tier-cro" role="button" tabindex="0">
       <div class="d">Tier 2 &middot; Earn with access</div>
-      <p>Hard to buy, high trust. Won with product access and data stories, not rate cards.</p>
+      <p>Analysts and finance media with no rate card to buy. The way in is <b>product access and exclusive data</b>: give them a story worth covering. What they confer is credibility with serious traders.</p>
       <div class="tier-names">
+        <div class="tn"><div class="nm">Tina Nguyen <span class="warm">warm intro</span></div><div class="pl">Senior tech reporter, The Verge</div></div>
         <div class="tn"><div class="nm">Benjamin Cowen</div><div class="pl">YouTube &middot; Into The Cryptoverse</div></div>
+        <div class="tn"><div class="nm">Alex Thorn <span class="warm">warm intro</span></div><div class="pl">Head of firmwide research, Galaxy Digital</div></div>
         <div class="tn"><div class="nm">Kyla Scanlon</div><div class="pl">Short-form + newsletter</div></div>
         <div class="tn"><div class="nm">Blockworks shows</div><div class="pl">Forward Guidance &middot; Bell Curve &middot; Empire</div></div>
         <div class="tn"><div class="nm">Jack Farley</div><div class="pl">Monetary Matters</div></div>
         <div class="tn"><div class="nm">Nic Carter <span class="warm">warm intro</span></div><div class="pl">X + podcast</div></div>
         <div class="tn"><div class="nm">Laura Shin</div><div class="pl">Unchained &middot; podcast + newsletter</div></div>
-        <div class="tn"><div class="nm">Alex Thorn <span class="warm">warm intro</span></div><div class="pl">Head of firmwide research, Galaxy Digital</div></div>
+        <div class="tn"><div class="nm">Aubrey Strobel <span class="warm">warm intro</span></div><div class="pl">Content</div></div>
       </div>
     </div>
     <div class="cad-card tier-cro" role="button" tabindex="0">
       <div class="d">Tier 3 &middot; Build on relationships</div>
-      <p>Rarely take exchange money, reachable through my network. Education-first angle: onshore venue, segregated USD, no offshore counterparty risk.</p>
+      <p>Bitcoin media that won't take exchange money on principle. No pitch works here; <b>the way in is personal</b>, through my network. The angle: education-first, from an onshore venue with segregated USD.</p>
       <div class="tier-names">
         <div class="tn"><div class="nm">TFTC / Marty Bent <span class="warm">warm intro</span></div><div class="pl">Podcast + media</div></div>
         <div class="tn"><div class="nm">Rabbit Hole Recap <span class="warm">warm intro</span></div><div class="pl">Podcast &middot; Bent + Odell</div></div>
         <div class="tn"><div class="nm">Will Foxley <span class="warm">warm intro</span></div><div class="pl">The Mining Pod &middot; Blockspace Media &middot; mining community</div></div>
         <div class="tn"><div class="nm">BitPlaza / Kyle Knight <span class="warm">warm intro</span></div><div class="pl">Bitcoin community</div></div>
-        <div class="tn"><div class="nm">Aubrey Strobel <span class="warm">warm intro</span></div><div class="pl">Content</div></div>
-        <div class="tn"><div class="nm">Natalie Brunell</div><div class="pl">Coin Stories &middot; podcast + YouTube</div></div>
         <div class="tn"><div class="nm">Simply Bitcoin</div><div class="pl">YouTube &middot; daily</div></div>
+        <div class="tn"><div class="nm">Bitcoin News <span class="warm">warm intro</span></div><div class="pl">Rob Wallace</div></div>
       </div>
     </div>
     </div>
@@ -791,18 +821,16 @@
   <h3 class="sub-label">The weekly rhythm</h3>
   <div class="cad-stage">
     <div class="cad-ring" id="cadring">
-    <div class="cad-card" role="button" tabindex="0"><div class="d">Monday</div><h4>The Funding Report</h4><p>Weekly recap: funding trends across listed perps, what they signal, one lesson. Discord first, X repost.</p></div>
-    <div class="cad-card" role="button" tabindex="0"><div class="d">Wednesday</div><h4>X Space: On Margin</h4><p>Live with a product guest or partner creator. First invites: Kalshi's own John Wang, Marty Bent, Natalie Brunell.</p></div>
-    <div class="cad-card" role="button" tabindex="0"><div class="d">Friday</div><h4>Office Hours / AMA</h4><p>Discord voice with someone who can actually explain margin calls. New-trader questions become next week&rsquo;s content.</p></div>
+    <div class="cad-card" role="button" tabindex="0"><div class="d">Monday</div><h4>The Funding Report</h4><p>Weekly recap, written by me: funding trends across listed perps, what they signal, one lesson. <b>Discord-first: the depth arc.</b> X gets the repost.</p></div>
+    <div class="cad-card" role="button" tabindex="0"><div class="d">Wednesday</div><h4>X Space: On Margin</h4><p>Live on X, hosted by me, with a rotating product guest or partner creator: <b>the reach arc</b>, where new audiences find the door. First invites: Kalshi&rsquo;s own John Wang, Marty Bent.</p></div>
     <div class="cad-card" role="button" tabindex="0"><div class="d">Monthly</div><h4>Trading Competition</h4><p>Leaderboards and prizes: the offshore volume engine rebuilt inside CFTC constraints. Scoped with legal first.</p></div>
     <div class="cad-card" role="button" tabindex="0"><div class="d">Quarterly</div><h4>IRL</h4><p>Watch parties, panels, conference-week takeovers with people I've produced rooms with: Matt Odell, Marty Bent, BTC Inc. Content kit ships within 48 hours.</p></div>
-    <div class="cad-card" role="button" tabindex="0"><div class="d">Always on</div><h4>The Perps Desk</h4><p>Dedicated Discord channels with fast, real answers. Builders and API traders get their own lane.</p></div>
+    <div class="cad-card" role="button" tabindex="0"><div class="d">Always on</div><h4>The Perps Desk</h4><p>Dedicated Discord channels with fast, real answers, plus weekly office hours I anchor, where new-trader questions become next week&rsquo;s content. Builders and API traders get their own lane.</p></div>
     </div>
   </div>
   <div class="cad-chips" id="cadchips">
     <button class="cad-chip on" type="button">Mon</button>
     <button class="cad-chip" type="button">Wed</button>
-    <button class="cad-chip" type="button">Fri</button>
     <button class="cad-chip" type="button">Monthly</button>
     <button class="cad-chip" type="button">Quarterly</button>
     <button class="cad-chip" type="button">Always on</button>
@@ -844,50 +872,50 @@
   <div class="wk-shell">
   <div class="wk-panel" id="wk-1" data-print-label="Week 1 · Map the terrain" role="tabpanel" aria-labelledby="wt-1">
     <ul>
-      <li><span class="tag tag-s">Systems</span><span>Sit with product and markets until I can explain <b>margin, funding, and liquidation without notes</b>. Product fluency before content calendar.</span></li>
-      <li><span class="tag tag-c">Community</span><span><b>Compliance session first, not last.</b> Know the lines on promotion, incentives, and disclosure before designing anything.</span></li>
-      <li><span class="tag tag-e">Education</span><span>Audit what exists: <a href="https://kalshi.com/perpetuals/learn" target="_blank" rel="noopener">learn hub</a>, help center, Discord, r/Kalshi, Kalshi Pro. What's taught, what's missing, where users get stuck.</span></li>
       <li><span class="tag tag-p">Partnerships</span><span>Expand the creator universe to <a href="#bench"><b>50+ scored targets</b></a> across trading YouTube, crypto X, finance short-form, and Bitcoin media.</span></li>
+      <li><span class="tag tag-e">Education</span><span>Audit what exists: <a href="https://kalshi.com/perpetuals/learn" target="_blank" rel="noopener">learn hub</a>, help center, Discord, r/Kalshi, Kalshi Pro. What's taught, what's missing, where users get stuck.</span></li>
+      <li><span class="tag tag-c">Community</span><span><b>Compliance session first, not last.</b> Know the lines on promotion, incentives, and disclosure before designing anything.</span></li>
+      <li><span class="tag tag-s">Systems</span><span>Sit with product and markets until I can explain <b>margin, funding, and liquidation without notes</b>. Product fluency before content calendar.</span></li>
       <li><span class="tag tag-s">Systems</span><span>Define attribution <b>before</b> outreach: creator codes, dedicated landing pages, cohort tracking from first click to funded margin account.</span></li>
     </ul>
   </div>
   <div class="wk-panel" id="wk-2" data-print-label="Week 2 · First contact" role="tabpanel" aria-labelledby="wt-2" hidden>
     <ul>
       <li><span class="tag tag-p">Partnerships</span><span>Open the first <b>25 creator conversations</b>, prioritized by tier. Warm intros first, proven-sponsorable second, credibility plays third.</span></li>
+      <li><span class="tag tag-p">Partnerships</span><span>Draft campaign frameworks by tier: paid placements where creators already take exchange sponsors, product-access angles where they don't.</span></li>
       <li><span class="tag tag-e">Education</span><span>Ship <b>funding-rate curriculum v1</b>. <a href="#tools">The three tools on this page</a> are my prototypes of the format: tools you can feel, not paragraphs you skim.</span></li>
       <li><span class="tag tag-c">Community</span><span>Stand up the <b>perps desk in Discord</b>: dedicated channels, a weekly funding recap thread, office hours with someone who can answer mechanics questions.</span></li>
-      <li><span class="tag tag-p">Partnerships</span><span>Draft campaign frameworks by tier: paid placements where creators already take exchange sponsors, product-access angles where they don't.</span></li>
     </ul>
   </div>
   <div class="wk-panel" id="wk-3" data-print-label="Week 3 · First closes" role="tabpanel" aria-labelledby="wt-3" hidden>
     <ul>
       <li><span class="tag tag-p">Partnerships</span><span>Close <b>three pilot partnerships</b>: one proven-sponsorable trading channel, one credibility voice, one Bitcoin-native show through existing relationships. Each capped, with renewal thresholds set up front.</span></li>
-      <li><span class="tag tag-c">Community</span><span>Launch the weekly <b>X Space / AMA cadence</b> with product guests. First two episodes booked with named guests, not &ldquo;TBD.&rdquo;</span></li>
       <li><span class="tag tag-e">Education</span><span>Take the <b>paper-trading and trading-competition concept</b> to product and compliance. The offshore playbook, redesigned for a regulated venue.</span></li>
+      <li><span class="tag tag-c">Community</span><span>Launch the weekly <b>X Space / AMA cadence</b> with product guests. First two episodes booked with named guests, not &ldquo;TBD.&rdquo;</span></li>
       <li><span class="tag tag-s">Systems</span><span>Creator CRM live: pipeline, terms, deliverables, performance per creator. Repeatable by anyone, not just me.</span></li>
     </ul>
   </div>
   <div class="wk-panel" id="wk-4" data-print-label="Week 4 · Campaign live" role="tabpanel" aria-labelledby="wt-4" hidden>
     <ul>
       <li><span class="tag tag-p">Partnerships</span><span><b>First campaign in market</b> with at least one pilot creator: educational content, tracked landing page, disclosed partnership, clean CTA.</span></li>
-      <li><span class="tag tag-s">Systems</span><span>Measurement dashboard live. Weekly readout: what we spent, what it drove, cost per funded account by channel.</span></li>
       <li><span class="tag tag-e">Education</span><span>Funding curriculum v2 in creator-ready formats: 60-second verticals, a five-minute explainer script, embeddable tools.</span></li>
       <li><span class="tag tag-c">Community</span><span>Post-mortem what didn't work and <b>cut it</b>. Momentum comes from pruning, not stacking.</span></li>
+      <li><span class="tag tag-s">Systems</span><span>Measurement dashboard live. Weekly readout: what we spent, what it drove, cost per funded account by channel.</span></li>
     </ul>
   </div>
   <div class="wk-panel" id="wk-5" data-print-label="Week 5 · Double down" role="tabpanel" aria-labelledby="wt-5" hidden>
     <ul>
-      <li><span class="tag tag-s">Systems</span><span>Read the week-4 data and act on it: <b>kill the weakest placement, double the strongest</b>. Cost per funded account decides, not vibes.</span></li>
       <li><span class="tag tag-p">Partnerships</span><span>Second wave: <b>25 more conversations</b> informed by what converted, plus renewals with the pilots that worked.</span></li>
       <li><span class="tag tag-e">Education</span><span>Ship modules 3&ndash;4 (leverage &amp; liquidation, funding as a signal). Winning formats become <b>recurring series</b>, not one-offs.</span></li>
       <li><span class="tag tag-c">Community</span><span>Launch the first <b>competition or paper-trading league</b>, whichever cleared compliance in week 3. Leaderboard lives in Discord.</span></li>
+      <li><span class="tag tag-s">Systems</span><span>Read the week-4 data and act on it: <b>kill the weakest placement, double the strongest</b>. Cost per funded account decides, not vibes.</span></li>
     </ul>
   </div>
   <div class="wk-panel" id="wk-6" data-print-label="Week 6 · Systemize" role="tabpanel" aria-labelledby="wt-6" hidden>
     <ul>
-      <li><span class="tag tag-s">Systems</span><span>Document the machine: <b>creator playbook, CRM, measurement cadence</b> written so anyone can run them. Repeatable beats heroic.</span></li>
       <li><span class="tag tag-p">Partnerships</span><span><b>Second campaign live</b> with a different tier than the first. Two campaigns, two audiences, comparable data.</span></li>
       <li><span class="tag tag-c">Community</span><span>Scope the first <b>IRL event</b>: a conference-week takeover or NYC night, with the content kit planned before the room is booked.</span></li>
+      <li><span class="tag tag-s">Systems</span><span>Document the machine: <b>creator playbook, CRM, measurement cadence</b> written so anyone can run them. Repeatable beats heroic.</span></li>
       <li><span class="tag tag-s">Systems</span><span>Present the <b>quarter-two roadmap with six weeks of real numbers</b> behind it: what to scale, what to cut, what to build next.</span></li>
     </ul>
   </div>
@@ -898,7 +926,7 @@
     <div class="score-cell"><div class="n">0/5</div><div class="l">partnerships closed</div></div>
     <div class="score-cell"><div class="n">0/2</div><div class="l">campaigns live, measured</div></div>
     <div class="score-cell"><div class="n">0/4</div><div class="l">curriculum modules shipped</div></div>
-    <div class="score-cell"><div class="n">0/3</div><div class="l">weekly rituals running</div></div>
+    <div class="score-cell"><div class="n">0/2</div><div class="l">weekly rituals running</div></div>
     <div class="score-cell"><div class="n">0/1</div><div class="l">competition through legal</div></div>
   </div>
   <p class="score-cap" id="scorecap">Scorecard through week 1. Click through the weeks and watch the outcomes land.</p>
@@ -1019,11 +1047,11 @@
   const TARGETS=[50,5,2,4,3,1];
   const CUM=[ // cumulative outcomes through each week
     [0, 0,0,0,0,0],   // wk1: mapping, no outcomes yet
-    [25,0,0,2,2,0],   // wk2: first 25 convos, curriculum v1 (modules 1-2), funding report + office hours
-    [25,3,0,2,3,0],   // wk3: 3 pilots closed, X Space cadence = 3rd ritual
-    [25,3,1,2,3,0],   // wk4: first campaign live
-    [50,5,1,4,3,1],   // wk5: second wave, modules 3-4, competition launched
-    [50,5,2,4,3,1]    // wk6: second campaign live
+    [25,0,0,2,1,0],   // wk2: first 25 convos, curriculum v1 (modules 1-2), funding report live
+    [25,3,0,2,2,0],   // wk3: 3 pilots closed, X Space cadence = 2nd ritual
+    [25,3,1,2,2,0],   // wk4: first campaign live
+    [50,5,1,4,2,1],   // wk5: second wave, modules 3-4, competition launched
+    [50,5,2,4,2,1]    // wk6: second campaign live
   ];
   const cells=document.querySelectorAll('#scorestrip .score-cell .n');
   let lastVals=null,curWk=1;

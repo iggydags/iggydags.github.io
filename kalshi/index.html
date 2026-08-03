@@ -6,7 +6,7 @@
 <title>Michael D'Agostino · Growth, Perpetuals · Kalshi</title>
 <meta name="description" content="A six-week perps growth plan for Kalshi, with the first deliverables already built.">
 <meta name="robots" content="noindex, nofollow">
-<meta name="theme-color" content="#0f1210">
+<meta name="theme-color" content="#111111">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Michael D'Agostino &middot; Growth, Perpetuals &middot; Kalshi">
 <meta property="og:description" content="A six-week perps growth plan, with the first deliverables already built: three working education tools, a scored creator bench, and a measurement frame.">
@@ -16,7 +16,7 @@
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Michael D'Agostino &middot; Growth, Perpetuals &middot; Kalshi">
 <meta name="twitter:description" content="A six-week perps growth plan, with the first deliverables already built.">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='7' fill='%230f1210'/><path d='M6 22L12 16L18 19L26 9' fill='none' stroke='%232ee6a8' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/></svg>">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='7' fill='%23111111'/><path d='M6 22L12 16L18 19L26 9' fill='none' stroke='%232ee6a8' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/></svg>">
 <script>document.documentElement.classList.add('js')</script>
 <style>
   :root{
@@ -24,13 +24,13 @@
     /* Surfaces sit close to neutral: desaturated 62% toward gray in linear-light space,
        then rescaled to the original relative luminance, so nothing got lighter or darker.
        Greenness (G minus the mean of R and B) drops from 7-13.5 to 2.5-5. */
-    --bg:#0f1210; --surface-1:#131715; --surface-2:#191e1b; --surface-3:#1f2521;
-    --border:#242826; --border-strong:#323835;
+    --bg:#111111; --surface-1:#161616; --surface-2:#1c1d1d; --surface-3:#232423;
+    --border:#272727; --border-strong:#363736;
     --text-primary:#e8efeb; --text-secondary:#95a69d; --text-muted:#7a8b82;
     --accent:#2ee6a8; --accent-dim:#1db583; --on-accent:#04120c;
     --warn:#e6b12e; --neg:#e66767; --blue:#7db2f0;
     /* chart palette, kept in sync with the SVG generators in JS */
-    --chart-fund:#199e70; --chart-int:#3987e5; --chart-grid:#242826; --chart-axis:#323835; --chart-label:#7a8b82;
+    --chart-fund:#199e70; --chart-int:#3987e5; --chart-grid:#272727; --chart-axis:#363736; --chart-label:#7a8b82;
     --mono:ui-monospace,'SF Mono','Cascadia Code',Menlo,Consolas,monospace;
     --sans:-apple-system,BlinkMacSystemFont,'Segoe UI',Inter,Roboto,Helvetica,Arial,sans-serif;
     /* fluid gutter drives .wrap and .nav-inner together */
@@ -65,7 +65,7 @@
   .wrap{max-width:1080px;margin:0 auto;padding:0 var(--gutter)}
 
   /* nav */
-  nav{position:sticky;top:0;z-index:50;background:rgba(15,18,16,.94);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border-bottom:1px solid var(--border)}
+  nav{position:sticky;top:0;z-index:50;background:rgba(17,17,17,.94);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border-bottom:1px solid var(--border)}
   .nav-inner{max-width:1080px;margin:0 auto;padding:0 var(--gutter);display:flex;align-items:center;justify-content:space-between;gap:12px;height:56px}
   .nav-brand{font-family:var(--mono);font-size:12.5px;letter-spacing:.06em;color:var(--text-primary);white-space:nowrap;flex-shrink:0}
   .nav-brand span{color:var(--text-muted)}
@@ -261,7 +261,7 @@
   .legend{display:flex;gap:18px;margin-top:8px;flex-wrap:wrap}
   .legend span{display:flex;align-items:center;gap:7px;font-family:var(--mono);font-size:11px;color:var(--text-secondary)}
   .legend i{width:14px;height:3px;border-radius:2px;display:inline-block}
-  #tooltip,#l-tooltip{position:absolute;pointer-events:none;background:#0f1210ee;border:1px solid var(--border-strong);border-radius:8px;padding:8px 12px;font-family:var(--mono);font-size:11px;color:var(--text-secondary);display:none;white-space:nowrap;z-index:10}
+  #tooltip,#l-tooltip{position:absolute;pointer-events:none;background:#111111ee;border:1px solid var(--border-strong);border-radius:8px;padding:8px 12px;font-family:var(--mono);font-size:11px;color:var(--text-secondary);display:none;white-space:nowrap;z-index:10}
   #tooltip b,#l-tooltip b{color:var(--text-primary)}
   .sim-notes{padding:16px var(--pad-sim);border-top:1px solid var(--border);display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:16px}
   .sim-notes div{font-size:13.5px;color:var(--text-secondary)}
@@ -301,23 +301,31 @@
 
   /* community & measurement */
   .sub-label{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--text-muted);margin-bottom:14px;font-weight:700}
-  /* community flywheel: four stages, arrows between, and a return bar that closes the loop */
-  .flow{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));align-items:stretch;gap:0}
-  .flow-step{background:var(--surface-2);border:1px solid var(--border);border-radius:10px;padding:16px 18px;display:flex;flex-direction:column;gap:6px;min-width:0}
-  .flow-step .fs-n{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;color:var(--text-muted)}
-  .flow-step .fs-t{font-size:15px;font-weight:650;line-height:1.25;letter-spacing:-.01em}
-  .flow-step .fs-d{font-size:12.5px;color:var(--text-secondary);line-height:1.5;text-wrap:pretty}
-  .flow-step.is-payoff{border-color:var(--accent-dim);background:var(--surface-3)}
-  .flow-step.is-payoff .fs-n,.flow-step.is-payoff .fs-t{color:var(--accent)}
-  .flow-arr{align-self:center;color:var(--accent);font-family:var(--mono);font-size:15px;padding:0 10px;flex-shrink:0}
-  .flow-loop{display:flex;align-items:center;gap:12px;margin:10px 0 26px;padding:9px 16px;border:1px dashed var(--border-strong);border-radius:999px;font-family:var(--mono);font-size:11px;letter-spacing:.05em;color:var(--text-muted)}
-  .flow-loop .fl-arr{color:var(--accent);font-size:15px}
-  .flow-step{transition:border-color .3s,box-shadow .3s}
-  @media(max-width:900px){
-    .flow{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
-    .flow-arr{display:none}
+  /* Community flywheel. A vertical stepper rather than columns: four boxes across a
+     terminal panel left each stage ~150px, so every title wrapped to three lines. Here
+     each stage gets the full measure and the connecting rail carries the sequence. */
+  .flow{list-style:none;position:relative;margin:0 0 6px;padding-left:0}
+  .flow-step{position:relative;display:grid;grid-template-columns:30px minmax(0,1fr);grid-template-rows:auto auto;column-gap:16px;row-gap:2px;padding:0 0 20px}
+  .flow-step:last-child{padding-bottom:0}
+  /* the rail: a line from each marker down to the next */
+  .flow-step:not(:last-child)::before{content:'';position:absolute;left:14px;top:26px;bottom:0;width:1px;background:var(--border-strong)}
+  .flow-step .fs-n{grid-row:1;grid-column:1;width:30px;height:30px;border-radius:50%;border:1px solid var(--border-strong);background:var(--surface-2);color:var(--text-secondary);font-family:var(--mono);font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;position:relative;z-index:1;transition:border-color .3s,color .3s,background .3s}
+  .flow-step .fs-t{grid-row:1;grid-column:2;align-self:center;font-size:15.5px;font-weight:650;letter-spacing:-.01em;line-height:1.3}
+  .flow-step .fs-d{grid-row:2;grid-column:2;font-size:13.5px;color:var(--text-secondary);line-height:1.55;text-wrap:pretty;padding-top:2px}
+  /* the payoff stage is where the loop pays off, so it carries the accent */
+  .flow-step.is-payoff .fs-n{border-color:var(--accent);color:var(--accent);background:rgba(46,230,168,.08)}
+  .flow-step.is-payoff .fs-t{color:var(--accent)}
+  /* the return: dashed rail above it signals the loop closing rather than continuing */
+  .flow-step.is-loop::before{display:none}
+  .flow-step.is-loop{padding-top:4px}
+  .flow-step.is-loop .fs-n{border-style:dashed;border-color:var(--accent-dim);color:var(--accent);font-size:14px;background:transparent}
+  .flow-step.is-loop .fs-t{font-family:var(--mono);font-size:11.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--text-muted)}
+  .flow-step.is-loop .fs-d{color:var(--text-muted)}
+  @media(max-width:520px){
+    .flow-step{grid-template-columns:26px minmax(0,1fr);column-gap:12px}
+    .flow-step .fs-n{width:26px;height:26px;font-size:11px}
+    .flow-step:not(:last-child)::before{left:12px;top:22px}
   }
-  @media(max-width:520px){.flow{grid-template-columns:1fr}}
   .cad-stage{position:relative;height:300px;perspective:1300px;margin-bottom:14px;overflow:hidden}
   .cad-ring{position:absolute;inset:0;transform-style:preserve-3d;transition:transform .65s cubic-bezier(.22,1,.36,1)}
   @media(prefers-reduced-motion:reduce){.cad-ring{transition:none}}
@@ -421,7 +429,8 @@
   .m-row{transition:background .15s}
   /* one shared, always-visible focus ring rather than per-component removals */
   :is(a,button,[tabindex]):focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:6px}
-  .flow-step.pulse{border-color:var(--accent);box-shadow:0 0 0 3px rgba(46,230,168,.09)}
+  /* the pulse walks the rail, so it lights the marker rather than outlining a box */
+  .flow-step.pulse .fs-n{border-color:var(--accent);color:var(--accent);box-shadow:0 0 0 3px rgba(46,230,168,.1)}
 
   /* ---------- print / save-as-PDF ----------
      Two problems to solve: the reveal animation leaves everything below the fold at
@@ -459,8 +468,8 @@
     .term-panel{padding:16px 0}
     /* SVG colours are presentation attributes, so any CSS rule outranks them */
     svg text{fill:#39453f!important}
-    svg line[stroke="#242826"]{stroke:#e2e6e4!important}
-    svg line[stroke="#323835"]{stroke:#b2bab6!important}
+    svg line[stroke="#272727"]{stroke:#e2e6e4!important}
+    svg line[stroke="#363736"]{stroke:#b2bab6!important}
     section,.sim,.tier-card,.cad-card,.receipt,.callout,.m-row,.read-row,.ns-card,.jg-card{break-inside:avoid}
     .cad-stage{height:auto!important;perspective:none}
     .cad-ring{position:static;transform:none!important}
@@ -920,32 +929,33 @@
     </div>
     <div class="term-panel" id="tp-community" role="tabpanel" aria-labelledby="tt-community" data-print-label="Proof &middot; Community" hidden>
     <h3 class="sub-label">Community flywheel</h3>
-      <div class="flow">
-        <div class="flow-step">
-          <span class="fs-n">01</span>
+      <ol class="flow">
+        <li class="flow-step">
+          <span class="fs-n">1</span>
           <span class="fs-t">Host the room</span>
           <span class="fs-d">A named ritual, a real guest, a fixed time. Discord or IRL.</span>
-        </div>
-        <span class="flow-arr" aria-hidden="true">&rarr;</span>
-        <div class="flow-step">
-          <span class="fs-n">02</span>
+        </li>
+        <li class="flow-step">
+          <span class="fs-n">2</span>
           <span class="fs-t">Capture everything</span>
-          <span class="fs-d">One operator, two angles, full audio. Nothing happens off-record by accident.</span>
-        </div>
-        <span class="flow-arr" aria-hidden="true">&rarr;</span>
-        <div class="flow-step">
-          <span class="fs-n">03</span>
-          <span class="fs-t">Cut it same week</span>
-          <span class="fs-d">Verticals for X and TikTok, one long cut for YouTube, quotes for the recap.</span>
-        </div>
-        <span class="flow-arr" aria-hidden="true">&rarr;</span>
-        <div class="flow-step is-payoff">
-          <span class="fs-n">04</span>
+          <span class="fs-d">One operator, two angles, full audio. Nothing good happens off-record by accident.</span>
+        </li>
+        <li class="flow-step">
+          <span class="fs-n">3</span>
+          <span class="fs-t">Cut it the same week</span>
+          <span class="fs-d">Verticals for X and TikTok, one long cut for YouTube, pull-quotes for the recap.</span>
+        </li>
+        <li class="flow-step is-payoff">
+          <span class="fs-n">4</span>
           <span class="fs-t">Clips fill the next room</span>
-          <span class="fs-d">Attendance compounds, and the invite list writes itself.</span>
-        </div>
-      </div>
-      <div class="flow-loop"><span class="fl-arr" aria-hidden="true">&#8617;</span><span class="fl-t">Each turn costs less and reaches further</span></div>
+          <span class="fs-d">Attendance compounds and the invite list starts writing itself.</span>
+        </li>
+        <li class="flow-step is-loop">
+          <span class="fs-n" aria-hidden="true">&#8635;</span>
+          <span class="fs-t">Back to one, cheaper</span>
+          <span class="fs-d">Each turn costs less reach to fill and returns more footage than the last.</span>
+        </li>
+      </ol>
       <p class="sleeper sleeper-top">I ran this loop weekly for two years at <a href="https://pubkey.bar" target="_blank" rel="noopener">PubKey</a>. The rooms are the content engine, not a line item beside it.</p>
 
     <h3 class="sub-label">The weekly rhythm</h3>
@@ -1177,10 +1187,10 @@
     let g='';
     for(let i=0;i<=3;i++){
       const t=min+(max-min)*i/3;
-      g+='<line x1="'+P.l+'" y1="'+y(t).toFixed(1)+'" x2="'+(W-P.r)+'" y2="'+y(t).toFixed(1)+'" stroke="#242826" stroke-width="1"/>';
+      g+='<line x1="'+P.l+'" y1="'+y(t).toFixed(1)+'" x2="'+(W-P.r)+'" y2="'+y(t).toFixed(1)+'" stroke="#272727" stroke-width="1"/>';
       g+='<text x="'+(P.l-8)+'" y="'+(y(t)+4).toFixed(1)+'" text-anchor="end" font-size="'+LS+'" fill="#7a8b82" font-family="ui-monospace,Menlo,monospace">'+fmt$(t)+'</text>';
     }
-    if(min<0&&max>0){g+='<line x1="'+P.l+'" y1="'+y(0).toFixed(1)+'" x2="'+(W-P.r)+'" y2="'+y(0).toFixed(1)+'" stroke="#323835" stroke-width="1.5"/>'}
+    if(min<0&&max>0){g+='<line x1="'+P.l+'" y1="'+y(0).toFixed(1)+'" x2="'+(W-P.r)+'" y2="'+y(0).toFixed(1)+'" stroke="#363736" stroke-width="1.5"/>'}
     [0,Math.round(days/2),days].forEach(d=>{
       g+='<text x="'+x(d).toFixed(1)+'" y="'+(H-8)+'" text-anchor="middle" font-size="'+LS+'" fill="#7a8b82" font-family="ui-monospace,Menlo,monospace">d'+d+'</text>';
     });
@@ -1191,9 +1201,9 @@
     if(Math.abs(l1-l2)<14){if(l1<l2){l1-=7;l2+=7}else{l1+=7;l2-=7}}
     g+='<text x="'+(W-P.r-4)+'" y="'+(l1-6)+'" text-anchor="end" font-size="'+LS+'" font-weight="700" fill="'+fundCol+'" font-family="ui-monospace,Menlo,monospace">funding</text>';
     g+='<text x="'+(W-P.r-4)+'" y="'+(l2-6)+'" text-anchor="end" font-size="'+LS+'" font-weight="700" fill="#3987e5" font-family="ui-monospace,Menlo,monospace">interest</text>';
-    g+='<line id="xh" x1="0" y1="'+P.t+'" x2="0" y2="'+(H-P.b)+'" stroke="#323835" stroke-width="1" style="display:none"/>';
-    g+='<circle id="m1" r="4" fill="'+fundCol+'" stroke="#131715" stroke-width="2" style="display:none"/>';
-    g+='<circle id="m2" r="4" fill="#3987e5" stroke="#131715" stroke-width="2" style="display:none"/>';
+    g+='<line id="xh" x1="0" y1="'+P.t+'" x2="0" y2="'+(H-P.b)+'" stroke="#363736" stroke-width="1" style="display:none"/>';
+    g+='<circle id="m1" r="4" fill="'+fundCol+'" stroke="#161616" stroke-width="2" style="display:none"/>';
+    g+='<circle id="m2" r="4" fill="#3987e5" stroke="#161616" stroke-width="2" style="display:none"/>';
     svg.innerHTML=g;
 
     const tip=$('tooltip');
@@ -1266,7 +1276,7 @@
     /* grid + y labels */
     for(let i=0;i<=3;i++){
       const t=yMin+(yMax-yMin)*i/3;
-      g+='<line x1="'+P.l+'" y1="'+y(t).toFixed(1)+'" x2="'+(W-P.r)+'" y2="'+y(t).toFixed(1)+'" stroke="#242826" stroke-width="1"/>';
+      g+='<line x1="'+P.l+'" y1="'+y(t).toFixed(1)+'" x2="'+(W-P.r)+'" y2="'+y(t).toFixed(1)+'" stroke="#272727" stroke-width="1"/>';
       g+='<text x="'+(P.l-8)+'" y="'+(y(t)+4).toFixed(1)+'" text-anchor="end" font-size="'+LS+'" fill="#7a8b82" font-family="ui-monospace,Menlo,monospace">'+f$(t)+'</text>';
     }
     /* x labels: drop the intermediate ticks once the labels would start colliding */
@@ -1275,7 +1285,7 @@
       g+='<text x="'+x(v).toFixed(1)+'" y="'+(H-8)+'" text-anchor="middle" font-size="'+LS+'" fill="#7a8b82" font-family="ui-monospace,Menlo,monospace">'+(v>0?'+':'')+(v*100)+'%</text>';
     });
     /* entry line at 0 */
-    g+='<line x1="'+x(0).toFixed(1)+'" y1="'+P.t+'" x2="'+x(0).toFixed(1)+'" y2="'+(H-P.b)+'" stroke="#323835" stroke-width="1" stroke-dasharray="2 3"/>';
+    g+='<line x1="'+x(0).toFixed(1)+'" y1="'+P.t+'" x2="'+x(0).toFixed(1)+'" y2="'+(H-P.b)+'" stroke="#363736" stroke-width="1" stroke-dasharray="2 3"/>';
     g+='<text x="'+(x(0)+5).toFixed(1)+'" y="'+(P.t+11)+'" font-size="'+LS+'" fill="#7a8b82" font-family="ui-monospace,Menlo,monospace">entry</text>';
     /* liquidation floor */
     g+='<line x1="'+P.l+'" y1="'+y(maint).toFixed(1)+'" x2="'+(W-P.r)+'" y2="'+y(maint).toFixed(1)+'" stroke="#e66767" stroke-width="1.5" stroke-dasharray="5 4"/>';
@@ -1289,10 +1299,10 @@
     /* margin posted marker at entry */
     g+='<circle cx="'+x(0).toFixed(1)+'" cy="'+y(M).toFixed(1)+'" r="3" fill="#7a8b82"/>';
     /* current position dot */
-    g+='<circle cx="'+x(Math.max(X0,Math.min(X1,p))).toFixed(1)+'" cy="'+y(eq).toFixed(1)+'" r="6" fill="'+dotColor+'" stroke="#131715" stroke-width="2.5"/>';
+    g+='<circle cx="'+x(Math.max(X0,Math.min(X1,p))).toFixed(1)+'" cy="'+y(eq).toFixed(1)+'" r="6" fill="'+dotColor+'" stroke="#161616" stroke-width="2.5"/>';
     /* hover layer */
-    g+='<line id="l-xh" x1="0" y1="'+P.t+'" x2="0" y2="'+(H-P.b)+'" stroke="#323835" stroke-width="1" style="display:none"/>';
-    g+='<circle id="l-hd" r="4" fill="#199e70" stroke="#131715" stroke-width="2" style="display:none"/>';
+    g+='<line id="l-xh" x1="0" y1="'+P.t+'" x2="0" y2="'+(H-P.b)+'" stroke="#363736" stroke-width="1" style="display:none"/>';
+    g+='<circle id="l-hd" r="4" fill="#199e70" stroke="#161616" stroke-width="2" style="display:none"/>';
     svg.innerHTML=g;
 
     const tip=$('l-tooltip');
@@ -1449,7 +1459,7 @@
     const area=line+' L'+x(HIST.length-1).toFixed(1)+','+(H-Pd)+' L'+x(0).toFixed(1)+','+(H-Pd)+' Z';
     svg.innerHTML='<path d="'+area+'" fill="rgba(46,230,168,.08)"/>'+
       '<path d="'+line+'" fill="none" stroke="#2ee6a8" stroke-width="2" stroke-linecap="round"/>'+
-      '<circle cx="'+x(HIST.length-1)+'" cy="'+y(HIST[HIST.length-1])+'" r="4" fill="#2ee6a8" stroke="#191e1b" stroke-width="2"/>';
+      '<circle cx="'+x(HIST.length-1)+'" cy="'+y(HIST[HIST.length-1])+'" r="4" fill="#2ee6a8" stroke="#1c1d1d" stroke-width="2"/>';
   }
   drawSpark();
   let toastTimer;

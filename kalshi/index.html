@@ -39,6 +39,20 @@
   html{scroll-padding-top:72px}
   @media(prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
   body{background:var(--bg);color:var(--text-primary);font-family:var(--sans);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  /* overflow-x:hidden makes body a scroll container, which stops scroll-snap on <html>
+     from engaging. `clip` guards against horizontal overflow the same way without
+     creating that container. Older engines keep `hidden` and simply do not snap. */
+  @supports (overflow-x:clip){body{overflow-x:clip}}
+
+  /* Phone: settle section by section.
+     `proximity`, not `mandatory` — every section here is taller than a phone viewport,
+     and mandatory snap on oversized targets traps the user mid-section and can make
+     content unreachable. Proximity only engages when a scroll ends near a boundary,
+     so reading down a long section is completely unaffected. */
+  @media(max-width:760px){
+    html{scroll-snap-type:y proximity;scroll-padding-top:58px}
+    header#top,main > section{scroll-snap-align:start}
+  }
   ::selection{background:var(--accent-dim);color:var(--on-accent)}
   a{color:var(--accent);text-decoration:none}
   a:hover{color:#6df0c4}

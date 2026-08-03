@@ -6,7 +6,7 @@
 <title>Michael D'Agostino · Growth, Perpetuals · Kalshi</title>
 <meta name="description" content="A six-week perps growth plan for Kalshi, with the first deliverables already built.">
 <meta name="robots" content="noindex, nofollow">
-<meta name="theme-color" content="#0a0f0d">
+<meta name="theme-color" content="#0f1210">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Michael D'Agostino &middot; Growth, Perpetuals &middot; Kalshi">
 <meta property="og:description" content="A six-week perps growth plan, with the first deliverables already built: three working education tools, a scored creator bench, and a measurement frame.">
@@ -16,18 +16,21 @@
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Michael D'Agostino &middot; Growth, Perpetuals &middot; Kalshi">
 <meta name="twitter:description" content="A six-week perps growth plan, with the first deliverables already built.">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='7' fill='%230a0f0d'/><path d='M6 22L12 16L18 19L26 9' fill='none' stroke='%232ee6a8' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/></svg>">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='7' fill='%230f1210'/><path d='M6 22L12 16L18 19L26 9' fill='none' stroke='%232ee6a8' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/></svg>">
 <script>document.documentElement.classList.add('js')</script>
 <style>
   :root{
     color-scheme: dark;
-    --bg:#0a130e; --surface-1:#0d1913; --surface-2:#112017; --surface-3:#15271e;
-    --border:#1e2a24; --border-strong:#2a3a32;
+    /* Surfaces sit close to neutral: desaturated 62% toward gray in linear-light space,
+       then rescaled to the original relative luminance, so nothing got lighter or darker.
+       Greenness (G minus the mean of R and B) drops from 7-13.5 to 2.5-5. */
+    --bg:#0f1210; --surface-1:#131715; --surface-2:#191e1b; --surface-3:#1f2521;
+    --border:#242826; --border-strong:#323835;
     --text-primary:#e8efeb; --text-secondary:#95a69d; --text-muted:#7a8b82;
     --accent:#2ee6a8; --accent-dim:#1db583; --on-accent:#04120c;
     --warn:#e6b12e; --neg:#e66767; --blue:#7db2f0;
     /* chart palette, kept in sync with the SVG generators in JS */
-    --chart-fund:#199e70; --chart-int:#3987e5; --chart-grid:#1e2a24; --chart-axis:#2a3a32; --chart-label:#7a8b82;
+    --chart-fund:#199e70; --chart-int:#3987e5; --chart-grid:#242826; --chart-axis:#323835; --chart-label:#7a8b82;
     --mono:ui-monospace,'SF Mono','Cascadia Code',Menlo,Consolas,monospace;
     --sans:-apple-system,BlinkMacSystemFont,'Segoe UI',Inter,Roboto,Helvetica,Arial,sans-serif;
     /* fluid gutter drives .wrap and .nav-inner together */
@@ -62,7 +65,7 @@
   .wrap{max-width:1080px;margin:0 auto;padding:0 var(--gutter)}
 
   /* nav */
-  nav{position:sticky;top:0;z-index:50;background:rgba(10,15,13,.94);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border-bottom:1px solid var(--border)}
+  nav{position:sticky;top:0;z-index:50;background:rgba(15,18,16,.94);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border-bottom:1px solid var(--border)}
   .nav-inner{max-width:1080px;margin:0 auto;padding:0 var(--gutter);display:flex;align-items:center;justify-content:space-between;gap:12px;height:56px}
   .nav-brand{font-family:var(--mono);font-size:12.5px;letter-spacing:.06em;color:var(--text-primary);white-space:nowrap;flex-shrink:0}
   .nav-brand span{color:var(--text-muted)}
@@ -101,7 +104,7 @@
   .mcard-inner{position:relative;-webkit-transform-style:preserve-3d;transform-style:preserve-3d;transition:transform .65s cubic-bezier(.3,.9,.32,1)}
   @media(prefers-reduced-motion:reduce){.mcard-inner{transition:none}}
   .mcard-inner.flipped{transform:rotateY(180deg)}
-  .mcard{background:#111a16;border:1px solid var(--border-strong);border-radius:14px;overflow:hidden;box-shadow:0 24px 60px -24px rgba(0,0,0,.6);cursor:pointer;backface-visibility:hidden;-webkit-backface-visibility:hidden}
+  .mcard{background:var(--surface-2);border:1px solid var(--border-strong);border-radius:14px;overflow:hidden;box-shadow:0 24px 60px -24px rgba(0,0,0,.6);cursor:pointer;backface-visibility:hidden;-webkit-backface-visibility:hidden}
   .mcard-back{position:absolute;inset:0;transform:rotateY(180deg);display:flex;flex-direction:column}
   /* backface-visibility only hides the reverse face visually; it stays keyboard-focusable.
      visibility:hidden pulls it out of the tab order too, delayed to the midpoint of the flip. */
@@ -258,7 +261,7 @@
   .legend{display:flex;gap:18px;margin-top:8px;flex-wrap:wrap}
   .legend span{display:flex;align-items:center;gap:7px;font-family:var(--mono);font-size:11px;color:var(--text-secondary)}
   .legend i{width:14px;height:3px;border-radius:2px;display:inline-block}
-  #tooltip,#l-tooltip{position:absolute;pointer-events:none;background:#0a0f0dee;border:1px solid var(--border-strong);border-radius:8px;padding:8px 12px;font-family:var(--mono);font-size:11px;color:var(--text-secondary);display:none;white-space:nowrap;z-index:10}
+  #tooltip,#l-tooltip{position:absolute;pointer-events:none;background:#0f1210ee;border:1px solid var(--border-strong);border-radius:8px;padding:8px 12px;font-family:var(--mono);font-size:11px;color:var(--text-secondary);display:none;white-space:nowrap;z-index:10}
   #tooltip b,#l-tooltip b{color:var(--text-primary)}
   .sim-notes{padding:16px var(--pad-sim);border-top:1px solid var(--border);display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:16px}
   .sim-notes div{font-size:13.5px;color:var(--text-secondary)}
@@ -298,18 +301,23 @@
 
   /* community & measurement */
   .sub-label{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--text-muted);margin-bottom:14px;font-weight:700}
-  .fly2{display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap;margin-bottom:8px}
-  .fnode{font-family:var(--mono);font-size:12px;padding:11px 17px;border:1px solid var(--border-strong);border-radius:999px;background:var(--surface-2);color:var(--text-primary);text-align:center}
-  .fnode.hot{border-color:var(--accent-dim);color:var(--accent)}
-  .farr{color:var(--accent);font-family:var(--mono);font-size:16px;flex-shrink:0}
-  .fly-return{display:flex;align-items:center;justify-content:center;gap:10px;margin:6px auto 44px;font-family:var(--mono);font-size:11px;color:var(--text-muted);letter-spacing:.04em;max-width:860px}
-  .fly-return .ah{color:var(--text-muted);font-size:14px;flex-shrink:0}
-  .fly-return .dash{flex:1;border-top:1px dashed var(--border-strong);height:0;min-width:60px}
-  .fly-return span:last-child{flex-shrink:0}
-  @media(max-width:560px){
-    .fly2{flex-direction:column;align-items:stretch;gap:8px}
-    .farr{transform:rotate(90deg);align-self:center}
+  /* community flywheel: four stages, arrows between, and a return bar that closes the loop */
+  .flow{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));align-items:stretch;gap:0}
+  .flow-step{background:var(--surface-2);border:1px solid var(--border);border-radius:10px;padding:16px 18px;display:flex;flex-direction:column;gap:6px;min-width:0}
+  .flow-step .fs-n{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;color:var(--text-muted)}
+  .flow-step .fs-t{font-size:15px;font-weight:650;line-height:1.25;letter-spacing:-.01em}
+  .flow-step .fs-d{font-size:12.5px;color:var(--text-secondary);line-height:1.5;text-wrap:pretty}
+  .flow-step.is-payoff{border-color:var(--accent-dim);background:var(--surface-3)}
+  .flow-step.is-payoff .fs-n,.flow-step.is-payoff .fs-t{color:var(--accent)}
+  .flow-arr{align-self:center;color:var(--accent);font-family:var(--mono);font-size:15px;padding:0 10px;flex-shrink:0}
+  .flow-loop{display:flex;align-items:center;gap:12px;margin:10px 0 26px;padding:9px 16px;border:1px dashed var(--border-strong);border-radius:999px;font-family:var(--mono);font-size:11px;letter-spacing:.05em;color:var(--text-muted)}
+  .flow-loop .fl-arr{color:var(--accent);font-size:15px}
+  .flow-step{transition:border-color .3s,box-shadow .3s}
+  @media(max-width:900px){
+    .flow{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+    .flow-arr{display:none}
   }
+  @media(max-width:520px){.flow{grid-template-columns:1fr}}
   .cad-stage{position:relative;height:300px;perspective:1300px;margin-bottom:14px;overflow:hidden}
   .cad-ring{position:absolute;inset:0;transform-style:preserve-3d;transition:transform .65s cubic-bezier(.22,1,.36,1)}
   @media(prefers-reduced-motion:reduce){.cad-ring{transition:none}}
@@ -324,14 +332,8 @@
   .cad-chip:hover{color:var(--text-primary)}
   .cad-chip.on{border-color:var(--accent);color:var(--accent)}
   /* proof terminal: one framed window, four pillars behind tabs */
-  /* Surfaces inside the terminal step toward neutral: same lightness, less green in the
-     mix. Scoped as token overrides on .term so every nested card, border and tab bar
-     inherits it without touching the rest of the page. */
-  .term{
-    --surface-1:#101413; --surface-2:#151917; --surface-3:#1a1f1d;
-    --border:#232927; --border-strong:#313734;
-    background:var(--surface-1);border:1px solid var(--border-strong);border-radius:14px;overflow:hidden;
-  }
+  /* the neutral treatment now lives in :root, so the terminal needs no local override */
+  .term{background:var(--surface-1);border:1px solid var(--border-strong);border-radius:14px;overflow:hidden}
   .term-tabs{display:flex;border-bottom:1px solid var(--border-strong);background:var(--surface-2);overflow-x:auto;scrollbar-width:none;-ms-overflow-style:none}
   .term-tabs::-webkit-scrollbar{display:none}
   .term-tab{font-family:var(--mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;background:none;border:none;border-bottom:2px solid transparent;color:var(--text-muted);padding:16px 20px;min-height:48px;cursor:pointer;white-space:nowrap;transition:color .15s,border-color .15s}
@@ -347,7 +349,9 @@
 
   /* tier carousel: coverflow so side cards keep their content visible, like the rhythm ring */
   .tier-cro{transition:transform .65s cubic-bezier(.22,1,.36,1),opacity .65s,filter .65s,border-color .3s}
-  @media(prefers-reduced-motion:reduce){.tier-cro{transition:none}}
+  /* the stage now resizes per facing card, so animate it rather than jumping */
+  .tier-stage{transition:height .45s cubic-bezier(.22,1,.36,1)}
+  @media(prefers-reduced-motion:reduce){.tier-cro,.tier-stage{transition:none}}
   .tier-stage .cad-card:not(.front){opacity:.4;filter:blur(3px)}
   /* colour-code the three routes so tiers read distinct at a glance */
   #tierring .cad-card:nth-child(1){border-top:2px solid var(--accent)}
@@ -364,9 +368,9 @@
   #tierchips .cad-chip:nth-child(1):hover{color:var(--accent)}
   #tierchips .cad-chip:nth-child(2):hover{color:var(--blue)}
   #tierchips .cad-chip:nth-child(3):hover{color:var(--warn)}
-  .cad-hint{font-family:var(--mono);font-size:11px;color:var(--text-muted);text-align:center;letter-spacing:.04em;margin-bottom:44px}
+  .cad-hint{font-family:var(--mono);font-size:11px;color:var(--text-muted);text-align:center;letter-spacing:.04em;margin-bottom:22px}
   .cad-hint-top{margin-bottom:16px}
-  .sleeper-top{margin-bottom:32px}
+  .sleeper-top{margin-bottom:18px}
   #tierchips{margin-bottom:28px;gap:14px}
   .ns-card{border:1px solid var(--accent-dim);background:var(--surface-1);border-radius:12px;padding:22px 24px;display:grid;grid-template-columns:170px minmax(0,1fr);gap:18px;align-items:baseline}
   .ns-card .ns-tag{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);font-weight:700}
@@ -417,8 +421,7 @@
   .m-row{transition:background .15s}
   /* one shared, always-visible focus ring rather than per-component removals */
   :is(a,button,[tabindex]):focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:6px}
-  .fnode{transition:border-color .3s,color .3s,box-shadow .3s}
-  .fnode.pulse{border-color:var(--accent);color:var(--accent);box-shadow:0 0 0 3px rgba(46,230,168,.1)}
+  .flow-step.pulse{border-color:var(--accent);box-shadow:0 0 0 3px rgba(46,230,168,.09)}
 
   /* ---------- print / save-as-PDF ----------
      Two problems to solve: the reveal animation leaves everything below the fold at
@@ -456,8 +459,8 @@
     .term-panel{padding:16px 0}
     /* SVG colours are presentation attributes, so any CSS rule outranks them */
     svg text{fill:#39453f!important}
-    svg line[stroke="#1e2a24"]{stroke:#e2e6e4!important}
-    svg line[stroke="#2a3a32"]{stroke:#b2bab6!important}
+    svg line[stroke="#242826"]{stroke:#e2e6e4!important}
+    svg line[stroke="#323835"]{stroke:#b2bab6!important}
     section,.sim,.tier-card,.cad-card,.receipt,.callout,.m-row,.read-row,.ns-card,.jg-card{break-inside:avoid}
     .cad-stage{height:auto!important;perspective:none}
     .cad-ring{position:static;transform:none!important}
@@ -689,17 +692,12 @@
   <div class="term">
     <div class="term-tabs" role="tablist" aria-label="Proof of work by pillar">
       <button class="term-tab" role="tab" id="tt-creators" aria-selected="true" aria-controls="tp-creators">Creators</button>
-      <button class="term-tab" role="tab" id="tt-education" aria-selected="false" aria-controls="tp-education">Education</button>
+      <button class="term-tab" role="tab" id="tt-education" aria-selected="false" aria-controls="tp-education">Education tools</button>
       <button class="term-tab" role="tab" id="tt-community" aria-selected="false" aria-controls="tp-community">Community</button>
       <button class="term-tab" role="tab" id="tt-measure" aria-selected="false" aria-controls="tp-measure">Measurement</button>
     </div>
     <div class="term-panel" id="tp-creators" role="tabpanel" aria-labelledby="tt-creators" data-print-label="Proof &middot; Creators">
         <p class="sleeper sleeper-top"><b>How a pilot works:</b> we pick <b>one</b> of the three routes below. One format, a capped budget, and a cost-per-funded-account threshold agreed before launch. Hit it, renew and scale. Miss it, kill it and keep the learning. No pilot becomes a debate.</p>
-      <div class="cad-chips" id="tierchips">
-        <button type="button" class="cad-chip">Tier 1 &middot; Reach</button>
-        <button type="button" class="cad-chip">Tier 2 &middot; Access</button>
-        <button type="button" class="cad-chip">Tier 3 &middot; Relationships</button>
-      </div>
       <div class="cad-stage tier-stage">
         <div class="cad-ring" id="tierring">
         <div class="cad-card tier-cro" role="button" tabindex="0">
@@ -742,11 +740,16 @@
         </div>
         </div>
       </div>
+      <div class="cad-chips" id="tierchips">
+        <button type="button" class="cad-chip">Tier 1 &middot; Reach</button>
+        <button type="button" class="cad-chip">Tier 2 &middot; Access</button>
+        <button type="button" class="cad-chip">Tier 3 &middot; Relationships</button>
+      </div>
       <div class="cad-hint">Click a card or chip to spin &middot; the pilot commits to one route at a time</div>
       <p class="sleeper"><b>The platform lane:</b> a warm intro to <a href="https://tyler.gold" target="_blank" rel="noopener">Tyler Gold</a>, original content and creators at X. The affiliate era ended on policy grounds; whatever replaces it gets negotiated at the platform level, not in creator DMs. I'd open that conversation in week one.</p>
       <p class="sleeper" style="margin-top:10px"><b>Why Tier 3 is the sleeper:</b> Bitcoin media is skeptical of leverage, which is exactly why an education-first partnership from a regulated venue lands where offshore money can't. I co-produced events with Marty Bent and Matt Odell at <a href="https://pubkey.bar" target="_blank" rel="noopener">PubKey</a>. That door is open.</p>
     </div>
-    <div class="term-panel" id="tp-education" role="tabpanel" aria-labelledby="tt-education" data-print-label="Proof &middot; Education" hidden>
+    <div class="term-panel" id="tp-education" role="tabpanel" aria-labelledby="tt-education" data-print-label="Proof &middot; Education tools" hidden>
       <div class="tool-tabs" role="tablist" aria-label="Educational tools">
         <button class="tool-tab" role="tab" id="et-1" aria-selected="true" aria-controls="ep-1">1 &middot; Funding Drag</button>
         <button class="tool-tab" role="tab" id="et-2" aria-selected="false" aria-controls="ep-2">2 &middot; Liquidation Cushion</button>
@@ -916,6 +919,35 @@
       <p class="tools-note">Each module ships in three formats: a 60-second vertical, a five-minute creator-ready explainer, and an interactive tool like these. Rate mechanics above are simplified for teaching: illustrative, not Kalshi's exact formula.</p>
     </div>
     <div class="term-panel" id="tp-community" role="tabpanel" aria-labelledby="tt-community" data-print-label="Proof &middot; Community" hidden>
+    <h3 class="sub-label">Community flywheel</h3>
+      <div class="flow">
+        <div class="flow-step">
+          <span class="fs-n">01</span>
+          <span class="fs-t">Host the room</span>
+          <span class="fs-d">A named ritual, a real guest, a fixed time. Discord or IRL.</span>
+        </div>
+        <span class="flow-arr" aria-hidden="true">&rarr;</span>
+        <div class="flow-step">
+          <span class="fs-n">02</span>
+          <span class="fs-t">Capture everything</span>
+          <span class="fs-d">One operator, two angles, full audio. Nothing happens off-record by accident.</span>
+        </div>
+        <span class="flow-arr" aria-hidden="true">&rarr;</span>
+        <div class="flow-step">
+          <span class="fs-n">03</span>
+          <span class="fs-t">Cut it same week</span>
+          <span class="fs-d">Verticals for X and TikTok, one long cut for YouTube, quotes for the recap.</span>
+        </div>
+        <span class="flow-arr" aria-hidden="true">&rarr;</span>
+        <div class="flow-step is-payoff">
+          <span class="fs-n">04</span>
+          <span class="fs-t">Clips fill the next room</span>
+          <span class="fs-d">Attendance compounds, and the invite list writes itself.</span>
+        </div>
+      </div>
+      <div class="flow-loop"><span class="fl-arr" aria-hidden="true">&#8617;</span><span class="fl-t">Each turn costs less and reaches further</span></div>
+      <p class="sleeper sleeper-top">I ran this loop weekly for two years at <a href="https://pubkey.bar" target="_blank" rel="noopener">PubKey</a>. The rooms are the content engine, not a line item beside it.</p>
+
     <h3 class="sub-label">The weekly rhythm</h3>
       <div class="cad-stage">
         <div class="cad-ring" id="cadring">
@@ -1145,10 +1177,10 @@
     let g='';
     for(let i=0;i<=3;i++){
       const t=min+(max-min)*i/3;
-      g+='<line x1="'+P.l+'" y1="'+y(t).toFixed(1)+'" x2="'+(W-P.r)+'" y2="'+y(t).toFixed(1)+'" stroke="#1e2a24" stroke-width="1"/>';
+      g+='<line x1="'+P.l+'" y1="'+y(t).toFixed(1)+'" x2="'+(W-P.r)+'" y2="'+y(t).toFixed(1)+'" stroke="#242826" stroke-width="1"/>';
       g+='<text x="'+(P.l-8)+'" y="'+(y(t)+4).toFixed(1)+'" text-anchor="end" font-size="'+LS+'" fill="#7a8b82" font-family="ui-monospace,Menlo,monospace">'+fmt$(t)+'</text>';
     }
-    if(min<0&&max>0){g+='<line x1="'+P.l+'" y1="'+y(0).toFixed(1)+'" x2="'+(W-P.r)+'" y2="'+y(0).toFixed(1)+'" stroke="#2a3a32" stroke-width="1.5"/>'}
+    if(min<0&&max>0){g+='<line x1="'+P.l+'" y1="'+y(0).toFixed(1)+'" x2="'+(W-P.r)+'" y2="'+y(0).toFixed(1)+'" stroke="#323835" stroke-width="1.5"/>'}
     [0,Math.round(days/2),days].forEach(d=>{
       g+='<text x="'+x(d).toFixed(1)+'" y="'+(H-8)+'" text-anchor="middle" font-size="'+LS+'" fill="#7a8b82" font-family="ui-monospace,Menlo,monospace">d'+d+'</text>';
     });
@@ -1159,9 +1191,9 @@
     if(Math.abs(l1-l2)<14){if(l1<l2){l1-=7;l2+=7}else{l1+=7;l2-=7}}
     g+='<text x="'+(W-P.r-4)+'" y="'+(l1-6)+'" text-anchor="end" font-size="'+LS+'" font-weight="700" fill="'+fundCol+'" font-family="ui-monospace,Menlo,monospace">funding</text>';
     g+='<text x="'+(W-P.r-4)+'" y="'+(l2-6)+'" text-anchor="end" font-size="'+LS+'" font-weight="700" fill="#3987e5" font-family="ui-monospace,Menlo,monospace">interest</text>';
-    g+='<line id="xh" x1="0" y1="'+P.t+'" x2="0" y2="'+(H-P.b)+'" stroke="#2a3a32" stroke-width="1" style="display:none"/>';
-    g+='<circle id="m1" r="4" fill="'+fundCol+'" stroke="#0d1412" stroke-width="2" style="display:none"/>';
-    g+='<circle id="m2" r="4" fill="#3987e5" stroke="#0d1412" stroke-width="2" style="display:none"/>';
+    g+='<line id="xh" x1="0" y1="'+P.t+'" x2="0" y2="'+(H-P.b)+'" stroke="#323835" stroke-width="1" style="display:none"/>';
+    g+='<circle id="m1" r="4" fill="'+fundCol+'" stroke="#131715" stroke-width="2" style="display:none"/>';
+    g+='<circle id="m2" r="4" fill="#3987e5" stroke="#131715" stroke-width="2" style="display:none"/>';
     svg.innerHTML=g;
 
     const tip=$('tooltip');
@@ -1234,7 +1266,7 @@
     /* grid + y labels */
     for(let i=0;i<=3;i++){
       const t=yMin+(yMax-yMin)*i/3;
-      g+='<line x1="'+P.l+'" y1="'+y(t).toFixed(1)+'" x2="'+(W-P.r)+'" y2="'+y(t).toFixed(1)+'" stroke="#1e2a24" stroke-width="1"/>';
+      g+='<line x1="'+P.l+'" y1="'+y(t).toFixed(1)+'" x2="'+(W-P.r)+'" y2="'+y(t).toFixed(1)+'" stroke="#242826" stroke-width="1"/>';
       g+='<text x="'+(P.l-8)+'" y="'+(y(t)+4).toFixed(1)+'" text-anchor="end" font-size="'+LS+'" fill="#7a8b82" font-family="ui-monospace,Menlo,monospace">'+f$(t)+'</text>';
     }
     /* x labels: drop the intermediate ticks once the labels would start colliding */
@@ -1243,7 +1275,7 @@
       g+='<text x="'+x(v).toFixed(1)+'" y="'+(H-8)+'" text-anchor="middle" font-size="'+LS+'" fill="#7a8b82" font-family="ui-monospace,Menlo,monospace">'+(v>0?'+':'')+(v*100)+'%</text>';
     });
     /* entry line at 0 */
-    g+='<line x1="'+x(0).toFixed(1)+'" y1="'+P.t+'" x2="'+x(0).toFixed(1)+'" y2="'+(H-P.b)+'" stroke="#2a3a32" stroke-width="1" stroke-dasharray="2 3"/>';
+    g+='<line x1="'+x(0).toFixed(1)+'" y1="'+P.t+'" x2="'+x(0).toFixed(1)+'" y2="'+(H-P.b)+'" stroke="#323835" stroke-width="1" stroke-dasharray="2 3"/>';
     g+='<text x="'+(x(0)+5).toFixed(1)+'" y="'+(P.t+11)+'" font-size="'+LS+'" fill="#7a8b82" font-family="ui-monospace,Menlo,monospace">entry</text>';
     /* liquidation floor */
     g+='<line x1="'+P.l+'" y1="'+y(maint).toFixed(1)+'" x2="'+(W-P.r)+'" y2="'+y(maint).toFixed(1)+'" stroke="#e66767" stroke-width="1.5" stroke-dasharray="5 4"/>';
@@ -1257,10 +1289,10 @@
     /* margin posted marker at entry */
     g+='<circle cx="'+x(0).toFixed(1)+'" cy="'+y(M).toFixed(1)+'" r="3" fill="#7a8b82"/>';
     /* current position dot */
-    g+='<circle cx="'+x(Math.max(X0,Math.min(X1,p))).toFixed(1)+'" cy="'+y(eq).toFixed(1)+'" r="6" fill="'+dotColor+'" stroke="#0d1412" stroke-width="2.5"/>';
+    g+='<circle cx="'+x(Math.max(X0,Math.min(X1,p))).toFixed(1)+'" cy="'+y(eq).toFixed(1)+'" r="6" fill="'+dotColor+'" stroke="#131715" stroke-width="2.5"/>';
     /* hover layer */
-    g+='<line id="l-xh" x1="0" y1="'+P.t+'" x2="0" y2="'+(H-P.b)+'" stroke="#2a3a32" stroke-width="1" style="display:none"/>';
-    g+='<circle id="l-hd" r="4" fill="#199e70" stroke="#0d1412" stroke-width="2" style="display:none"/>';
+    g+='<line id="l-xh" x1="0" y1="'+P.t+'" x2="0" y2="'+(H-P.b)+'" stroke="#323835" stroke-width="1" style="display:none"/>';
+    g+='<circle id="l-hd" r="4" fill="#199e70" stroke="#131715" stroke-width="2" style="display:none"/>';
     svg.innerHTML=g;
 
     const tip=$('l-tooltip');
@@ -1417,7 +1449,7 @@
     const area=line+' L'+x(HIST.length-1).toFixed(1)+','+(H-Pd)+' L'+x(0).toFixed(1)+','+(H-Pd)+' Z';
     svg.innerHTML='<path d="'+area+'" fill="rgba(46,230,168,.08)"/>'+
       '<path d="'+line+'" fill="none" stroke="#2ee6a8" stroke-width="2" stroke-linecap="round"/>'+
-      '<circle cx="'+x(HIST.length-1)+'" cy="'+y(HIST[HIST.length-1])+'" r="4" fill="#2ee6a8" stroke="#111a16" stroke-width="2"/>';
+      '<circle cx="'+x(HIST.length-1)+'" cy="'+y(HIST[HIST.length-1])+'" r="4" fill="#2ee6a8" stroke="#191e1b" stroke-width="2"/>';
   }
   drawSpark();
   let toastTimer;
@@ -1481,10 +1513,6 @@
         cR=Math.round(w/2/Math.tan(Math.PI/cn))+(extra||70);
         cCards.forEach((c,i)=>{c.style.transform='translate(-50%,-50%) rotateY('+(i*360/cn)+'deg) translateZ('+cR+'px)'});
       }
-      if(autoH){
-        const maxH=Math.max.apply(null,cCards.map(c=>c.offsetHeight));
-        ring.parentElement.style.height=(maxH+24)+'px';
-      }
       cadSpin();
     }
     function cadSpin(){
@@ -1501,6 +1529,20 @@
       }
       cCards.forEach((c,i)=>c.classList.toggle('front',i===idx));
       chips.forEach((c,i)=>c.classList.toggle('on',i===idx));
+      if(autoH){
+        /* Size the stage to what is actually on screen: the facing card at full scale,
+           the flanking cards at the .85 they are scaled to. Sizing to the tallest card
+           regardless of which one faced is what left dead space under the shorter tiers. */
+        /* coverflow keeps its flanking cards on screen at .85 scale, so they count
+           toward the height. A ring rotates the others out of view, so only the
+           facing card does. */
+        const side=cover?0.85:0;
+        const need=Math.max.apply(null,cCards.map((c,i)=>{
+          const d=((i-idx)%cn+cn)%cn;
+          return c.offsetHeight*(d===0?1:side);
+        }));
+        ring.parentElement.style.height=Math.ceil(need+12)+'px';
+      }
     }
     function cadGo(i){
       const idx=((ci%cn)+cn)%cn;
@@ -1522,7 +1564,7 @@
      tab is selected. Every layout here reads offsetWidth/offsetHeight, so it measures 0
      on first run and has to be recomputed once the panel is actually visible. */
   const carouselLayouts=[
-    makeCarousel('cadring','cadchips',false,70,false),
+    makeCarousel('cadring','cadchips',true,70,false),
     makeCarousel('tierring','tierchips',true,0,true),
   ].filter(Boolean);
 
@@ -1546,10 +1588,10 @@
     });
   }
 
-  /* flywheel pulse loop */
-  const fly=document.querySelector('.fly2');
+  /* flywheel: walk the pulse through the four stages so the loop reads as a loop */
+  const fly=document.querySelector('.flow');
   if(!reduced&&fly){
-    const nodes=fly.querySelectorAll('.fnode');
+    const nodes=fly.querySelectorAll('.flow-step');
     let fi=0,flyTimer=null,hovering=false;
     const tick=()=>{
       if(hovering)return;

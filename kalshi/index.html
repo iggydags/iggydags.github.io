@@ -323,6 +323,21 @@
   .cad-chip{font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;padding:8px 13px;border-radius:999px;border:1px solid var(--border-strong);background:transparent;color:var(--text-muted);cursor:pointer;min-height:34px}
   .cad-chip:hover{color:var(--text-primary)}
   .cad-chip.on{border-color:var(--accent);color:var(--accent)}
+  /* proof terminal: one framed window, four pillars behind tabs */
+  .term{background:var(--surface-1);border:1px solid var(--border-strong);border-radius:14px;overflow:hidden}
+  .term-tabs{display:flex;border-bottom:1px solid var(--border-strong);background:var(--surface-2);overflow-x:auto;scrollbar-width:none;-ms-overflow-style:none}
+  .term-tabs::-webkit-scrollbar{display:none}
+  .term-tab{font-family:var(--mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;background:none;border:none;border-bottom:2px solid transparent;color:var(--text-muted);padding:16px 20px;min-height:48px;cursor:pointer;white-space:nowrap;transition:color .15s,border-color .15s}
+  .term-tab:hover{color:var(--text-secondary)}
+  .term-tab[aria-selected="true"]{color:var(--accent);border-bottom-color:var(--accent)}
+  .term-panel{padding:clamp(18px,3.5vw,32px)}
+  @media(max-width:640px){.term-panel{padding:16px}}
+  .term-panel[hidden]{display:none}
+  /* the terminal already frames its contents, so the tool shell drops its own border */
+  .term-panel .tool-shell{border:none;border-radius:0;background:transparent}
+  .term-panel > :first-child{margin-top:0}
+  .term-panel .sub-label:first-child{margin-top:0}
+
   /* tier carousel: coverflow so side cards keep their content visible, like the rhythm ring */
   .tier-cro{transition:transform .65s cubic-bezier(.22,1,.36,1),opacity .65s,filter .65s,border-color .3s}
   @media(prefers-reduced-motion:reduce){.tier-cro{transition:none}}
@@ -416,20 +431,22 @@
     body{background:#fff;font-size:11pt;overflow:visible}
     html.js .rv{opacity:1!important;transform:none!important;transition:none!important}
     nav,.pbar,.toast,.mcard-btns,.mcard-live,.flipbtn,
-    .wk-bar,.tool-tabs,.sec-note{display:none!important}
+    .wk-bar,.tool-tabs,.term-tabs,.sec-note{display:none!important}
     .mcard{box-shadow:none;cursor:auto}
     .mcard-inner{transform:none!important}
     .mcard-back{display:none!important}
     /* printing while the card is flipped would otherwise leave an empty frame */
     .mcard-inner.flipped > .mcard{visibility:visible!important}
-    /* expand every tab panel and label it, since the tab bar is gone */
-    .wk-panel[hidden],.tool-panel[hidden]{display:block!important}
-    .wk-panel::before,.tool-panel::before{
+    /* expand every tab panel and label it, since the tab bars are gone */
+    .wk-panel[hidden],.tool-panel[hidden],.term-panel[hidden]{display:block!important}
+    .wk-panel::before,.tool-panel::before,.term-panel::before{
       content:attr(data-print-label);display:block;font-family:var(--mono);font-size:10pt;
       font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);
       margin-bottom:14px;padding-bottom:8px;border-bottom:1px solid var(--border);
     }
-    .wk-panel + .wk-panel,.tool-panel + .tool-panel{border-top:1px solid var(--border)}
+    .wk-panel + .wk-panel,.tool-panel + .tool-panel,.term-panel + .term-panel{border-top:1px solid var(--border)}
+    .term{border-color:var(--border)}
+    .term-panel{padding:16px 0}
     /* SVG colours are presentation attributes, so any CSS rule outranks them */
     svg text{fill:#39453f!important}
     svg line[stroke="#1e2a24"]{stroke:#e2e6e4!important}
@@ -456,10 +473,10 @@
     <a class="nav-brand" href="#top">M. D'AGOSTINO <span>/ PERPS GROWTH</span></a>
     <div class="nav-links">
       <div class="nav-scroll">
-        <a href="#bench">Partnerships</a>
-        <a href="#tools">Education</a>
-        <a href="#community">Community</a>
-        <a href="#plan">Roadmap</a>
+        <a href="#mandate">The mandate</a>
+        <a href="#plan">6 weeks</a>
+        <a href="#proof">Proof</a>
+        <a href="#close">Resolve</a>
       </div>
       <a class="cta" href="mailto:michaeldagostino15@gmail.com">Email me</a>
     </div>
@@ -534,13 +551,13 @@
 
 <main>
 
-<section id="read" aria-labelledby="h-read">
+<section id="mandate" aria-labelledby="h-mandate">
   <div class="sec-head">
     <div>
-      <div class="sec-label" id="h-read">01 / The read</div>
+      <div class="sec-label" id="h-mandate">01 / The mandate</div>
     </div>
   </div>
-  <div class="read-rows">
+    <div class="read-rows">
     <div class="read-row">
       <div>
         <div class="read-src">Job post &middot; 01</div>
@@ -548,7 +565,7 @@
       </div>
       <div>
         <p>Offshore exchanges are paying to reach US trading audiences they <b>cannot legally onboard</b>. Kalshi is the first sponsor for whom those viewers actually convert. I'd claim that bench: 50+ scored targets in week one, three pilots closed by day 21.</p>
-        <a href="#bench">The 20-name starting bench &darr;</a>
+        <a href="#proof">The 20-name starting bench &darr;</a>
       </div>
     </div>
     <div class="read-row">
@@ -558,7 +575,7 @@
       </div>
       <div>
         <p><a href="https://kalshi.com/perpetuals/learn" target="_blank" rel="noopener">The learn hub</a> teaches funding with three static diagrams. The concept that costs traders the most money is the one that most needs to be <b>playable</b>. Five modules, each shipping in three formats: vertical, explainer, embeddable tool.</p>
-        <a href="#tools">Three tools, already built &darr;</a>
+        <a href="#proof">Three tools, already built &darr;</a>
       </div>
     </div>
     <div class="read-row">
@@ -568,294 +585,16 @@
       </div>
       <div>
         <p>Rented reach thinned out after <a href="https://www.theblock.co/post/390983/kalshi-removes-x-affiliate-badges-after-policy-shift-tightens-promotion-rules" target="_blank" rel="noopener">X's February policy shift</a>. Community is <b>rituals with names, times, and hosts</b>, plus the IRL loop that fills them. I ran that loop weekly for two years at PubKey.</p>
-        <a href="#community">The weekly cadence &darr;</a>
+        <a href="#proof">The weekly cadence &darr;</a>
       </div>
     </div>
   </div>
-</section>
-
-<section id="bench" aria-labelledby="h-bench">
-  <div class="sec-head">
-    <div>
-      <div class="sec-label" id="h-bench">02 / Three routes in</div>
-      <div class="sec-note sec-note-under">A sample of the 50+ target universe I'd build in week one.</div>
-    </div>
-  </div>
-  <p class="sleeper sleeper-top"><b>How a pilot works:</b> we pick <b>one</b> of the three routes below. One format, a capped budget, and a cost-per-funded-account threshold agreed before launch. Hit it, renew and scale. Miss it, kill it and keep the learning. No pilot becomes a debate.</p>
-  <div class="cad-chips" id="tierchips">
-    <button type="button" class="cad-chip">Tier 1 &middot; Reach</button>
-    <button type="button" class="cad-chip">Tier 2 &middot; Access</button>
-    <button type="button" class="cad-chip">Tier 3 &middot; Relationships</button>
-  </div>
-  <div class="cad-stage tier-stage">
-    <div class="cad-ring" id="tierring">
-    <div class="cad-card tier-cro" role="button" tabindex="0">
-      <div class="d">Tier 1 &middot; Pay for reach</div>
-      <p>Trading channels already running offshore-exchange sponsorships. There's a rate card; this is a <b>straightforward buy</b>. The edge: their US viewers can't legally onboard to the sponsors they watch. Kalshi is the first one that converts.</p>
-      <div class="tier-names">
-        <div class="tn"><div class="nm">Crypto Banter</div><div class="pl">YouTube &middot; daily live &middot; Ran Neuner</div></div>
-        <div class="tn"><div class="nm">Scott Melker</div><div class="pl">X + YouTube + podcast</div></div>
-        <div class="tn"><div class="nm">Coin Bureau</div><div class="pl">YouTube &middot; Guy Turner</div></div>
-        <div class="tn"><div class="nm">CryptosRUs</div><div class="pl">YouTube &middot; daily &middot; George Tung</div></div>
-        <div class="tn"><div class="nm">Humphrey Yang</div><div class="pl">TikTok / Shorts</div></div>
-      </div>
-    </div>
-    <div class="cad-card tier-cro" role="button" tabindex="0">
-      <div class="d">Tier 2 &middot; Earn with access</div>
-      <p>Analysts and finance media with no rate card to buy. The way in is <b>product access and exclusive data</b>: give them a story worth covering. What they confer is credibility with serious traders.</p>
-      <div class="tier-names">
-        <div class="tn"><div class="nm">Tina Nguyen <span class="warm">warm intro</span></div><div class="pl">Senior tech reporter, The Verge</div></div>
-        <div class="tn"><div class="nm">Benjamin Cowen</div><div class="pl">YouTube &middot; Into The Cryptoverse</div></div>
-        <div class="tn"><div class="nm">Alex Thorn <span class="warm">warm intro</span></div><div class="pl">Head of firmwide research, Galaxy Digital</div></div>
-        <div class="tn"><div class="nm">Kyla Scanlon</div><div class="pl">Short-form + newsletter</div></div>
-        <div class="tn"><div class="nm">Blockworks shows</div><div class="pl">Forward Guidance &middot; Bell Curve &middot; Empire</div></div>
-        <div class="tn"><div class="nm">Jack Farley</div><div class="pl">Monetary Matters</div></div>
-        <div class="tn"><div class="nm">Nic Carter <span class="warm">warm intro</span></div><div class="pl">X + podcast</div></div>
-        <div class="tn"><div class="nm">Laura Shin</div><div class="pl">Unchained &middot; podcast + newsletter</div></div>
-        <div class="tn"><div class="nm">Aubrey Strobel <span class="warm">warm intro</span></div><div class="pl">Content</div></div>
-      </div>
-    </div>
-    <div class="cad-card tier-cro" role="button" tabindex="0">
-      <div class="d">Tier 3 &middot; Build on relationships</div>
-      <p>Bitcoin media that won't take exchange money on principle. No pitch works here; <b>the way in is personal</b>, through my network. The angle: education-first, from an onshore venue with segregated USD.</p>
-      <div class="tier-names">
-        <div class="tn"><div class="nm">TFTC / Marty Bent <span class="warm">warm intro</span></div><div class="pl">Podcast + media</div></div>
-        <div class="tn"><div class="nm">Rabbit Hole Recap <span class="warm">warm intro</span></div><div class="pl">Podcast &middot; Bent + Odell</div></div>
-        <div class="tn"><div class="nm">Will Foxley <span class="warm">warm intro</span></div><div class="pl">The Mining Pod &middot; Blockspace Media &middot; mining community</div></div>
-        <div class="tn"><div class="nm">BitPlaza / Kyle Knight <span class="warm">warm intro</span></div><div class="pl">Bitcoin community</div></div>
-        <div class="tn"><div class="nm">Simply Bitcoin</div><div class="pl">YouTube &middot; daily</div></div>
-        <div class="tn"><div class="nm">Bitcoin News <span class="warm">warm intro</span></div><div class="pl">Rob Wallace</div></div>
-      </div>
-    </div>
-    </div>
-  </div>
-  <div class="cad-hint">Click a card or chip to spin &middot; the pilot commits to one route at a time</div>
-  <p class="sleeper"><b>The platform lane:</b> a warm intro to <a href="https://tyler.gold" target="_blank" rel="noopener">Tyler Gold</a>, original content and creators at X. The affiliate era ended on policy grounds; whatever replaces it gets negotiated at the platform level, not in creator DMs. I'd open that conversation in week one.</p>
-  <p class="sleeper" style="margin-top:10px"><b>Why Tier 3 is the sleeper:</b> Bitcoin media is skeptical of leverage, which is exactly why an education-first partnership from a regulated venue lands where offshore money can't. I co-produced events with Marty Bent and Matt Odell at <a href="https://pubkey.bar" target="_blank" rel="noopener">PubKey</a>. That door is open.</p>
-</section>
-
-<section id="tools" aria-labelledby="h-tools">
-  <div class="sec-head">
-    <div>
-      <div class="sec-label" id="h-tools">03 / Three tools, already built</div>
-      <div class="sec-note sec-note-under">Live prototypes, built for this page. Drag the sliders. Creators get these free; every embed is a tracked front door.</div>
-    </div>
-  </div>
-
-  <div class="tool-tabs" role="tablist" aria-label="Educational tools">
-    <button class="tool-tab" role="tab" id="et-1" aria-selected="true" aria-controls="ep-1">1 &middot; Funding Drag</button>
-    <button class="tool-tab" role="tab" id="et-2" aria-selected="false" aria-controls="ep-2">2 &middot; Liquidation Cushion</button>
-    <button class="tool-tab" role="tab" id="et-3" aria-selected="false" aria-controls="ep-3">3 &middot; Who Pays Whom</button>
-  </div>
-
-  <div class="tool-shell">
-  <div class="tool-panel" id="ep-1" data-print-label="Tool 1 · Funding Drag" role="tabpanel" aria-labelledby="et-1">
-    <div class="sim">
-      <div class="sim-head">
-        <span class="t">Funding Rate Simulator</span>
-        <span class="s">prototype &middot; illustrative, not investment advice</span>
-      </div>
-      <div class="sim-body">
-        <div class="sim-controls">
-          <div class="ctl">
-            <label>Position size <output id="o-size">$5,000</output></label>
-            <input type="range" id="i-size" min="500" max="50000" step="500" value="5000">
-          </div>
-          <div class="ctl">
-            <label>Leverage <output id="o-lev">4.0x</output></label>
-            <input type="range" id="i-lev" min="1" max="6" step="0.5" value="4">
-          </div>
-          <div class="ctl">
-            <label>Direction</label>
-            <div class="seg">
-              <button id="b-long" class="on" type="button">LONG</button>
-              <button id="b-short" type="button">SHORT</button>
-            </div>
-          </div>
-          <div class="ctl">
-            <label>Avg funding / 8h <output id="o-fund">+0.010%</output></label>
-            <input type="range" id="i-fund" min="-0.03" max="0.05" step="0.005" value="0.01">
-          </div>
-          <div class="ctl">
-            <label>Holding period <output id="o-days">30 days</output></label>
-            <input type="range" id="i-days" min="1" max="60" step="1" value="30">
-          </div>
-        </div>
-        <div class="sim-right">
-          <div class="tiles">
-            <div class="tile"><div class="v" id="t-fund">&ndash;</div><div class="k" id="t-fund-k">net funding over period</div></div>
-            <div class="tile"><div class="v" id="t-margin">&ndash;</div><div class="k">of your posted margin</div></div>
-            <div class="tile"><div class="v" id="t-break">&ndash;</div><div class="k" id="t-break-k">price move to break even on funding</div></div>
-            <div class="tile"><div class="v pos" id="t-int">&ndash;</div><div class="k">margin interest offset (illustrative 3% APY)</div></div>
-          </div>
-          <div class="chart-box">
-            <div class="chart-title">Cumulative flows over the holding period</div>
-            <svg id="chart" viewBox="0 0 560 250" width="100%" role="img" aria-label="Line chart of cumulative funding flow and margin interest over the holding period"></svg>
-            <div id="tooltip"></div>
-            <div class="legend">
-              <span><i id="lg-fund" style="background:#199e70"></i> Funding flow (your cost or income)</span>
-              <span><i style="background:#3987e5"></i> Margin interest earned</span>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="sim-notes">
-        <div><b>It settles every 8 hours.</b> Three times a day longs and shorts exchange a payment that tethers the perp to spot. Small per period, real over weeks.</div>
-        <div><b>A winning trade can still lose.</b> If funding runs against you long enough it eats the price move. Beginners learn this the expensive way. We teach it the free way.</div>
-        <div><b>The Kalshi angle.</b> <a href="https://kalshi.com/perpetuals/learn/how-to-trade" target="_blank" rel="noopener">Funding capped at &plusmn;2.00% per cycle</a>, and idle margin earns interest. Honest, teachable differentiators. Say them loudly.</div>
-      </div>
-    </div>
-  </div>
-
-  <div class="tool-panel" id="ep-2" data-print-label="Tool 2 · Liquidation Cushion" role="tabpanel" aria-labelledby="et-2" hidden>
-    <div class="sim">
-      <div class="sim-head">
-        <span class="t">Liquidation Cushion</span>
-        <span class="s">prototype &middot; their static worked example, made draggable</span>
-      </div>
-      <div class="sim-body">
-        <div class="sim-controls">
-          <div class="ctl">
-            <label>Position size <output id="l-o-size">$5,000</output></label>
-            <input type="range" id="l-size" min="500" max="50000" step="500" value="5000">
-          </div>
-          <div class="ctl">
-            <label>Leverage <output id="l-o-lev">5.0x</output></label>
-            <input type="range" id="l-lev" min="1" max="6" step="0.5" value="5">
-          </div>
-          <div class="ctl">
-            <label>Direction</label>
-            <div class="seg">
-              <button id="l-long" class="on" type="button">LONG</button>
-              <button id="l-short" type="button">SHORT</button>
-            </div>
-          </div>
-          <div class="ctl">
-            <label>Maint. margin <span class="hint">(% of initial margin)</span> <output id="l-o-mm">50%</output></label>
-            <input type="range" id="l-mm" min="20" max="60" step="5" value="50">
-          </div>
-          <div class="ctl">
-            <label>Price moves <output id="l-o-px">0.0%</output></label>
-            <input type="range" id="l-px" min="-30" max="30" step="0.5" value="0">
-          </div>
-        </div>
-        <div class="sim-right">
-          <div class="tiles">
-            <div class="tile"><div class="v" id="l-t-liq">&ndash;</div><div class="k">price move that liquidates you</div></div>
-            <div class="tile"><div class="v" id="l-t-eq">&ndash;</div><div class="k">equity right now</div></div>
-            <div class="tile"><div class="v" id="l-t-roe">&ndash;</div><div class="k">return on your margin</div></div>
-            <div class="tile" style="display:flex;align-items:center;justify-content:center"><span class="status safe" id="l-t-status">SAFE</span></div>
-          </div>
-          <div class="chart-box">
-            <div class="chart-title">Your equity vs price move &middot; drag &ldquo;price moves&rdquo; or hover the chart</div>
-            <svg id="l-chart" viewBox="0 0 560 250" width="100%" role="img" aria-label="Equity versus price move, with the liquidation floor marked"></svg>
-            <div id="l-tooltip"></div>
-          </div>
-        </div>
-      </div>
-      <div class="sim-notes">
-        <div><b>Leverage sets the distance.</b> At 5x with 50% maintenance, a 10% move against you is liquidation. At 2x it's 25%. The dial you choose is the risk you carry.</div>
-        <div><b>Liquidation is not a stop loss.</b> It's forced closure at the worst moment, and in fast markets execution isn't guaranteed at the trigger. Set your own exits first.</div>
-        <div><b>The Kalshi angle.</b> Single-digit leverage caps mean the cushion starts wider than offshore's 50&ndash;100x, where a 1&ndash;2% wick is fatal. That's a feature. Teach it that way.</div>
-      </div>
-    </div>
-  </div>
-
-  <div class="tool-panel" id="ep-3" data-print-label="Tool 3 · Who Pays Whom" role="tabpanel" aria-labelledby="et-3" hidden>
-    <div class="sim">
-      <div class="sim-head">
-        <span class="t">Who Pays Whom</span>
-        <span class="s">prototype &middot; their three static diagrams, made live</span>
-      </div>
-      <div class="sim-body">
-        <div class="sim-controls">
-          <div class="ctl">
-            <label>Perp vs index <span class="hint">push past 2% to hit the cap</span> <output id="w-o-prem">+0.30%</output></label>
-            <input type="range" id="w-prem" min="-3" max="3" step="0.05" value="0.3">
-          </div>
-          <div class="ctl">
-            <label>Your side</label>
-            <div class="seg">
-              <button id="w-long" class="on" type="button">LONG</button>
-              <button id="w-short" type="button">SHORT</button>
-            </div>
-          </div>
-          <div class="ctl">
-            <label>Notional <output id="w-o-not">$10,000</output></label>
-            <input type="range" id="w-not" min="1000" max="100000" step="1000" value="10000">
-          </div>
-        </div>
-        <div class="sim-right">
-          <div class="wpw">
-            <div class="wpw-side" id="w-box-long"><span class="who">LONGS</span><span class="amt" id="w-amt-long">&ndash;</span></div>
-            <div class="wpw-arrow"><span id="w-arr">&rarr;</span><span class="r" id="w-rate">&ndash;</span></div>
-            <div class="wpw-side" id="w-box-short"><span class="who">SHORTS</span><span class="amt" id="w-amt-short">&ndash;</span></div>
-          </div>
-          <div class="tiles">
-            <div class="tile"><div class="v" id="w-t-state">&ndash;</div><div class="k" id="w-t-state-k">market state</div></div>
-            <div class="tile"><div class="v" id="w-t-you">&ndash;</div><div class="k" id="w-t-you-k">your flow per cycle</div></div>
-            <div class="tile"><div class="v" id="w-t-day">&ndash;</div><div class="k">per day (3 cycles)</div></div>
-          </div>
-        </div>
-      </div>
-      <div class="sim-notes">
-        <div><b>Premium: longs pay shorts.</b> When the perp trades above the index the crowd is leaning long, and funding charges them to pull it back down.</div>
-        <div><b>Discount: shorts pay longs.</b> Below the index, shorts pay. Funding is the market paying you to take the unpopular side.</div>
-        <div><b>Read it as a signal.</b> Persistent positive funding means crowded longs. That's module 4: funding as sentiment, not just a fee.</div>
-        <div><b>The cap is the story.</b> Drag past &plusmn;2.00% and the rate stops moving while the dislocation keeps growing. Offshore, that gap keeps billing you. <a href="https://kalshi.com/perpetuals/learn/how-to-trade" target="_blank" rel="noopener">Kalshi caps it</a>. Hardest thing to teach in a paragraph, easiest to feel on a slider.</div>
-      </div>
-    </div>
-  </div>
-  </div>
-
-  <p class="tools-note">Each module ships in three formats: a 60-second vertical, a five-minute creator-ready explainer, and an interactive tool like these. Rate mechanics above are simplified for teaching: illustrative, not Kalshi's exact formula.</p>
-</section>
-
-<section id="community" aria-labelledby="h-community">
-  <div class="sec-head">
-    <div>
-      <div class="sec-label" id="h-community">04 / Community flywheel</div>
-    </div>
-  </div>
-
-  <h3 class="sub-label">The weekly rhythm</h3>
-  <div class="cad-stage">
-    <div class="cad-ring" id="cadring">
-    <div class="cad-card" role="button" tabindex="0"><div class="d">Monday</div><h4>The Funding Report</h4><p>Weekly recap, written by me: funding trends across listed perps, what they signal, one lesson. <b>Discord-first: the depth arc.</b> X gets the repost.</p></div>
-    <div class="cad-card" role="button" tabindex="0"><div class="d">Wednesday</div><h4>X Space: On Margin</h4><p>Live on X, hosted by me, with a rotating product guest or partner creator: <b>the reach arc</b>, where new audiences find the door. First invites: Kalshi&rsquo;s own John Wang, Marty Bent.</p></div>
-    <div class="cad-card" role="button" tabindex="0"><div class="d">Monthly</div><h4>Trading Competition</h4><p>Leaderboards and prizes: the offshore volume engine rebuilt inside CFTC constraints. Scoped with legal first.</p></div>
-    <div class="cad-card" role="button" tabindex="0"><div class="d">Quarterly</div><h4>IRL</h4><p>Watch parties, panels, conference-week takeovers with people I've produced rooms with: Matt Odell, Marty Bent, BTC Inc. Content kit ships within 48 hours.</p></div>
-    <div class="cad-card" role="button" tabindex="0"><div class="d">Always on</div><h4>The Perps Desk</h4><p>Dedicated Discord channels with fast, real answers, plus weekly office hours I anchor, where new-trader questions become next week&rsquo;s content. Builders and API traders get their own lane.</p></div>
-    </div>
-  </div>
-  <div class="cad-chips" id="cadchips">
-    <button class="cad-chip on" type="button">Mon</button>
-    <button class="cad-chip" type="button">Wed</button>
-    <button class="cad-chip" type="button">Monthly</button>
-    <button class="cad-chip" type="button">Quarterly</button>
-    <button class="cad-chip" type="button">Always on</button>
-  </div>
-  <div class="cad-hint">Click the card to spin through the week.</div>
-
-  <h3 class="sub-label">How it's judged</h3>
-  <div class="ns-card">
-    <span class="ns-tag">North star</span>
-    <span class="ns-body"><b>Partner-attributed funded perps accounts</b>Creator codes, dedicated landing pages, cohort windows. Funded margin account, not signups. Vanity-proof.</span>
-  </div>
-  <div class="ns-feed">every layer below feeds it</div>
-  <div class="judge-grid">
-    <div class="jg-card"><div class="jg-layer" style="color:var(--blue)">Partnerships</div><p><b>Cost per funded account, by creator and tier</b>Spend and deliverables from the CRM against attributed conversions. Kills weak placements fast.</p></div>
-    <div class="jg-card"><div class="jg-layer" style="color:var(--accent)">Education</div><p><b>Tool engagement &rarr; application rate</b>Interactive-tool sessions versus margin-account application starts. Tests whether teaching converts.</p></div>
-    <div class="jg-card"><div class="jg-layer" style="color:var(--warn)">Community</div><p><b>Weekly actives &amp; ritual attendance</b>Discord analytics plus Spaces/AMA attendance trend lines. Retention beats reach.</p></div>
-    <div class="jg-card"><div class="jg-layer" style="color:var(--text-secondary)">Health check</div><p><b>Attributed traders still active at day 30</b>Cohort retention by source. A creator who brings traders that stay is worth 10x one who brings tourists.</p></div>
-  </div>
-
 </section>
 
 <section id="plan" aria-labelledby="h-plan">
   <div class="sec-head">
     <div>
-      <div class="sec-label" id="h-plan">05 / The six weeks</div>
+      <div class="sec-label" id="h-plan">02 / The six weeks</div>
       <div class="sec-note sec-note-under">Click a week for the detail. Headline commitments below.</div>
     </div>
   </div>
@@ -872,7 +611,7 @@
   <div class="wk-shell">
   <div class="wk-panel" id="wk-1" data-print-label="Week 1 · Map the terrain" role="tabpanel" aria-labelledby="wt-1">
     <ul>
-      <li><span class="tag tag-p">Partnerships</span><span>Expand the creator universe to <a href="#bench"><b>50+ scored targets</b></a> across trading YouTube, crypto X, finance short-form, and Bitcoin media.</span></li>
+      <li><span class="tag tag-p">Partnerships</span><span>Expand the creator universe to <a href="#proof"><b>50+ scored targets</b></a> across trading YouTube, crypto X, finance short-form, and Bitcoin media.</span></li>
       <li><span class="tag tag-e">Education</span><span>Audit what exists: <a href="https://kalshi.com/perpetuals/learn" target="_blank" rel="noopener">learn hub</a>, help center, Discord, r/Kalshi, Kalshi Pro. What's taught, what's missing, where users get stuck.</span></li>
       <li><span class="tag tag-c">Community</span><span><b>Compliance session first, not last.</b> Know the lines on promotion, incentives, and disclosure before designing anything.</span></li>
       <li><span class="tag tag-s">Systems</span><span>Sit with product and markets until I can explain <b>margin, funding, and liquidation without notes</b>. Product fluency before content calendar.</span></li>
@@ -883,7 +622,7 @@
     <ul>
       <li><span class="tag tag-p">Partnerships</span><span>Open the first <b>25 creator conversations</b>, prioritized by tier. Warm intros first, proven-sponsorable second, credibility plays third.</span></li>
       <li><span class="tag tag-p">Partnerships</span><span>Draft campaign frameworks by tier: paid placements where creators already take exchange sponsors, product-access angles where they don't.</span></li>
-      <li><span class="tag tag-e">Education</span><span>Ship <b>funding-rate curriculum v1</b>. <a href="#tools">The three tools on this page</a> are my prototypes of the format: tools you can feel, not paragraphs you skim.</span></li>
+      <li><span class="tag tag-e">Education</span><span>Ship <b>funding-rate curriculum v1</b>. <a href="#proof">The three tools on this page</a> are my prototypes of the format: tools you can feel, not paragraphs you skim.</span></li>
       <li><span class="tag tag-c">Community</span><span>Stand up the <b>perps desk in Discord</b>: dedicated channels, a weekly funding recap thread, office hours with someone who can answer mechanics questions.</span></li>
     </ul>
   </div>
@@ -932,8 +671,282 @@
   <p class="score-cap" id="scorecap">Scorecard through week 1. Click through the weeks and watch the outcomes land.</p>
 </section>
 
-<section class="last" aria-labelledby="h-ask">
-  <div class="sec-label">06 / The ask</div>
+<section id="proof" aria-labelledby="h-proof">
+  <div class="sec-head">
+    <div>
+      <div class="sec-label" id="h-proof">03 / The proof terminal</div>
+      <div class="sec-note sec-note-under">One working sample per pillar, built for this page.</div>
+    </div>
+  </div>
+
+  <div class="term">
+    <div class="term-tabs" role="tablist" aria-label="Proof of work by pillar">
+      <button class="term-tab" role="tab" id="tt-creators" aria-selected="true" aria-controls="tp-creators">Creators</button>
+      <button class="term-tab" role="tab" id="tt-education" aria-selected="false" aria-controls="tp-education">Education</button>
+      <button class="term-tab" role="tab" id="tt-community" aria-selected="false" aria-controls="tp-community">Community</button>
+      <button class="term-tab" role="tab" id="tt-measure" aria-selected="false" aria-controls="tp-measure">Measurement</button>
+    </div>
+    <div class="term-panel" id="tp-creators" role="tabpanel" aria-labelledby="tt-creators" data-print-label="Proof &middot; Creators">
+        <p class="sleeper sleeper-top"><b>How a pilot works:</b> we pick <b>one</b> of the three routes below. One format, a capped budget, and a cost-per-funded-account threshold agreed before launch. Hit it, renew and scale. Miss it, kill it and keep the learning. No pilot becomes a debate.</p>
+      <div class="cad-chips" id="tierchips">
+        <button type="button" class="cad-chip">Tier 1 &middot; Reach</button>
+        <button type="button" class="cad-chip">Tier 2 &middot; Access</button>
+        <button type="button" class="cad-chip">Tier 3 &middot; Relationships</button>
+      </div>
+      <div class="cad-stage tier-stage">
+        <div class="cad-ring" id="tierring">
+        <div class="cad-card tier-cro" role="button" tabindex="0">
+          <div class="d">Tier 1 &middot; Pay for reach</div>
+          <p>Trading channels already running offshore-exchange sponsorships. There's a rate card; this is a <b>straightforward buy</b>. The edge: their US viewers can't legally onboard to the sponsors they watch. Kalshi is the first one that converts.</p>
+          <div class="tier-names">
+            <div class="tn"><div class="nm">Crypto Banter</div><div class="pl">YouTube &middot; daily live &middot; Ran Neuner</div></div>
+            <div class="tn"><div class="nm">Scott Melker</div><div class="pl">X + YouTube + podcast</div></div>
+            <div class="tn"><div class="nm">Coin Bureau</div><div class="pl">YouTube &middot; Guy Turner</div></div>
+            <div class="tn"><div class="nm">CryptosRUs</div><div class="pl">YouTube &middot; daily &middot; George Tung</div></div>
+            <div class="tn"><div class="nm">Humphrey Yang</div><div class="pl">TikTok / Shorts</div></div>
+          </div>
+        </div>
+        <div class="cad-card tier-cro" role="button" tabindex="0">
+          <div class="d">Tier 2 &middot; Earn with access</div>
+          <p>Analysts and finance media with no rate card to buy. The way in is <b>product access and exclusive data</b>: give them a story worth covering. What they confer is credibility with serious traders.</p>
+          <div class="tier-names">
+            <div class="tn"><div class="nm">Tina Nguyen <span class="warm">warm intro</span></div><div class="pl">Senior tech reporter, The Verge</div></div>
+            <div class="tn"><div class="nm">Benjamin Cowen</div><div class="pl">YouTube &middot; Into The Cryptoverse</div></div>
+            <div class="tn"><div class="nm">Alex Thorn <span class="warm">warm intro</span></div><div class="pl">Head of firmwide research, Galaxy Digital</div></div>
+            <div class="tn"><div class="nm">Kyla Scanlon</div><div class="pl">Short-form + newsletter</div></div>
+            <div class="tn"><div class="nm">Blockworks shows</div><div class="pl">Forward Guidance &middot; Bell Curve &middot; Empire</div></div>
+            <div class="tn"><div class="nm">Jack Farley</div><div class="pl">Monetary Matters</div></div>
+            <div class="tn"><div class="nm">Nic Carter <span class="warm">warm intro</span></div><div class="pl">X + podcast</div></div>
+            <div class="tn"><div class="nm">Laura Shin</div><div class="pl">Unchained &middot; podcast + newsletter</div></div>
+            <div class="tn"><div class="nm">Aubrey Strobel <span class="warm">warm intro</span></div><div class="pl">Content</div></div>
+          </div>
+        </div>
+        <div class="cad-card tier-cro" role="button" tabindex="0">
+          <div class="d">Tier 3 &middot; Build on relationships</div>
+          <p>Bitcoin media that won't take exchange money on principle. No pitch works here; <b>the way in is personal</b>, through my network. The angle: education-first, from an onshore venue with segregated USD.</p>
+          <div class="tier-names">
+            <div class="tn"><div class="nm">TFTC / Marty Bent <span class="warm">warm intro</span></div><div class="pl">Podcast + media</div></div>
+            <div class="tn"><div class="nm">Rabbit Hole Recap <span class="warm">warm intro</span></div><div class="pl">Podcast &middot; Bent + Odell</div></div>
+            <div class="tn"><div class="nm">Will Foxley <span class="warm">warm intro</span></div><div class="pl">The Mining Pod &middot; Blockspace Media &middot; mining community</div></div>
+            <div class="tn"><div class="nm">BitPlaza / Kyle Knight <span class="warm">warm intro</span></div><div class="pl">Bitcoin community</div></div>
+            <div class="tn"><div class="nm">Simply Bitcoin</div><div class="pl">YouTube &middot; daily</div></div>
+            <div class="tn"><div class="nm">Bitcoin News <span class="warm">warm intro</span></div><div class="pl">Rob Wallace</div></div>
+          </div>
+        </div>
+        </div>
+      </div>
+      <div class="cad-hint">Click a card or chip to spin &middot; the pilot commits to one route at a time</div>
+      <p class="sleeper"><b>The platform lane:</b> a warm intro to <a href="https://tyler.gold" target="_blank" rel="noopener">Tyler Gold</a>, original content and creators at X. The affiliate era ended on policy grounds; whatever replaces it gets negotiated at the platform level, not in creator DMs. I'd open that conversation in week one.</p>
+      <p class="sleeper" style="margin-top:10px"><b>Why Tier 3 is the sleeper:</b> Bitcoin media is skeptical of leverage, which is exactly why an education-first partnership from a regulated venue lands where offshore money can't. I co-produced events with Marty Bent and Matt Odell at <a href="https://pubkey.bar" target="_blank" rel="noopener">PubKey</a>. That door is open.</p>
+    </div>
+    <div class="term-panel" id="tp-education" role="tabpanel" aria-labelledby="tt-education" data-print-label="Proof &middot; Education" hidden>
+      <div class="tool-tabs" role="tablist" aria-label="Educational tools">
+        <button class="tool-tab" role="tab" id="et-1" aria-selected="true" aria-controls="ep-1">1 &middot; Funding Drag</button>
+        <button class="tool-tab" role="tab" id="et-2" aria-selected="false" aria-controls="ep-2">2 &middot; Liquidation Cushion</button>
+        <button class="tool-tab" role="tab" id="et-3" aria-selected="false" aria-controls="ep-3">3 &middot; Who Pays Whom</button>
+      </div>
+
+      <div class="tool-shell">
+      <div class="tool-panel" id="ep-1" data-print-label="Tool 1 · Funding Drag" role="tabpanel" aria-labelledby="et-1">
+        <div class="sim">
+          <div class="sim-head">
+            <span class="t">Funding Rate Simulator</span>
+            <span class="s">prototype &middot; illustrative, not investment advice</span>
+          </div>
+          <div class="sim-body">
+            <div class="sim-controls">
+              <div class="ctl">
+                <label>Position size <output id="o-size">$5,000</output></label>
+                <input type="range" id="i-size" min="500" max="50000" step="500" value="5000">
+              </div>
+              <div class="ctl">
+                <label>Leverage <output id="o-lev">4.0x</output></label>
+                <input type="range" id="i-lev" min="1" max="6" step="0.5" value="4">
+              </div>
+              <div class="ctl">
+                <label>Direction</label>
+                <div class="seg">
+                  <button id="b-long" class="on" type="button">LONG</button>
+                  <button id="b-short" type="button">SHORT</button>
+                </div>
+              </div>
+              <div class="ctl">
+                <label>Avg funding / 8h <output id="o-fund">+0.010%</output></label>
+                <input type="range" id="i-fund" min="-0.03" max="0.05" step="0.005" value="0.01">
+              </div>
+              <div class="ctl">
+                <label>Holding period <output id="o-days">30 days</output></label>
+                <input type="range" id="i-days" min="1" max="60" step="1" value="30">
+              </div>
+            </div>
+            <div class="sim-right">
+              <div class="tiles">
+                <div class="tile"><div class="v" id="t-fund">&ndash;</div><div class="k" id="t-fund-k">net funding over period</div></div>
+                <div class="tile"><div class="v" id="t-margin">&ndash;</div><div class="k">of your posted margin</div></div>
+                <div class="tile"><div class="v" id="t-break">&ndash;</div><div class="k" id="t-break-k">price move to break even on funding</div></div>
+                <div class="tile"><div class="v pos" id="t-int">&ndash;</div><div class="k">margin interest offset (illustrative 3% APY)</div></div>
+              </div>
+              <div class="chart-box">
+                <div class="chart-title">Cumulative flows over the holding period</div>
+                <svg id="chart" viewBox="0 0 560 250" width="100%" role="img" aria-label="Line chart of cumulative funding flow and margin interest over the holding period"></svg>
+                <div id="tooltip"></div>
+                <div class="legend">
+                  <span><i id="lg-fund" style="background:#199e70"></i> Funding flow (your cost or income)</span>
+                  <span><i style="background:#3987e5"></i> Margin interest earned</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="sim-notes">
+            <div><b>It settles every 8 hours.</b> Three times a day longs and shorts exchange a payment that tethers the perp to spot. Small per period, real over weeks.</div>
+            <div><b>A winning trade can still lose.</b> If funding runs against you long enough it eats the price move. Beginners learn this the expensive way. We teach it the free way.</div>
+            <div><b>The Kalshi angle.</b> <a href="https://kalshi.com/perpetuals/learn/how-to-trade" target="_blank" rel="noopener">Funding capped at &plusmn;2.00% per cycle</a>, and idle margin earns interest. Honest, teachable differentiators. Say them loudly.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tool-panel" id="ep-2" data-print-label="Tool 2 · Liquidation Cushion" role="tabpanel" aria-labelledby="et-2" hidden>
+        <div class="sim">
+          <div class="sim-head">
+            <span class="t">Liquidation Cushion</span>
+            <span class="s">prototype &middot; their static worked example, made draggable</span>
+          </div>
+          <div class="sim-body">
+            <div class="sim-controls">
+              <div class="ctl">
+                <label>Position size <output id="l-o-size">$5,000</output></label>
+                <input type="range" id="l-size" min="500" max="50000" step="500" value="5000">
+              </div>
+              <div class="ctl">
+                <label>Leverage <output id="l-o-lev">5.0x</output></label>
+                <input type="range" id="l-lev" min="1" max="6" step="0.5" value="5">
+              </div>
+              <div class="ctl">
+                <label>Direction</label>
+                <div class="seg">
+                  <button id="l-long" class="on" type="button">LONG</button>
+                  <button id="l-short" type="button">SHORT</button>
+                </div>
+              </div>
+              <div class="ctl">
+                <label>Maint. margin <span class="hint">(% of initial margin)</span> <output id="l-o-mm">50%</output></label>
+                <input type="range" id="l-mm" min="20" max="60" step="5" value="50">
+              </div>
+              <div class="ctl">
+                <label>Price moves <output id="l-o-px">0.0%</output></label>
+                <input type="range" id="l-px" min="-30" max="30" step="0.5" value="0">
+              </div>
+            </div>
+            <div class="sim-right">
+              <div class="tiles">
+                <div class="tile"><div class="v" id="l-t-liq">&ndash;</div><div class="k">price move that liquidates you</div></div>
+                <div class="tile"><div class="v" id="l-t-eq">&ndash;</div><div class="k">equity right now</div></div>
+                <div class="tile"><div class="v" id="l-t-roe">&ndash;</div><div class="k">return on your margin</div></div>
+                <div class="tile" style="display:flex;align-items:center;justify-content:center"><span class="status safe" id="l-t-status">SAFE</span></div>
+              </div>
+              <div class="chart-box">
+                <div class="chart-title">Your equity vs price move &middot; drag &ldquo;price moves&rdquo; or hover the chart</div>
+                <svg id="l-chart" viewBox="0 0 560 250" width="100%" role="img" aria-label="Equity versus price move, with the liquidation floor marked"></svg>
+                <div id="l-tooltip"></div>
+              </div>
+            </div>
+          </div>
+          <div class="sim-notes">
+            <div><b>Leverage sets the distance.</b> At 5x with 50% maintenance, a 10% move against you is liquidation. At 2x it's 25%. The dial you choose is the risk you carry.</div>
+            <div><b>Liquidation is not a stop loss.</b> It's forced closure at the worst moment, and in fast markets execution isn't guaranteed at the trigger. Set your own exits first.</div>
+            <div><b>The Kalshi angle.</b> Single-digit leverage caps mean the cushion starts wider than offshore's 50&ndash;100x, where a 1&ndash;2% wick is fatal. That's a feature. Teach it that way.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tool-panel" id="ep-3" data-print-label="Tool 3 · Who Pays Whom" role="tabpanel" aria-labelledby="et-3" hidden>
+        <div class="sim">
+          <div class="sim-head">
+            <span class="t">Who Pays Whom</span>
+            <span class="s">prototype &middot; their three static diagrams, made live</span>
+          </div>
+          <div class="sim-body">
+            <div class="sim-controls">
+              <div class="ctl">
+                <label>Perp vs index <span class="hint">push past 2% to hit the cap</span> <output id="w-o-prem">+0.30%</output></label>
+                <input type="range" id="w-prem" min="-3" max="3" step="0.05" value="0.3">
+              </div>
+              <div class="ctl">
+                <label>Your side</label>
+                <div class="seg">
+                  <button id="w-long" class="on" type="button">LONG</button>
+                  <button id="w-short" type="button">SHORT</button>
+                </div>
+              </div>
+              <div class="ctl">
+                <label>Notional <output id="w-o-not">$10,000</output></label>
+                <input type="range" id="w-not" min="1000" max="100000" step="1000" value="10000">
+              </div>
+            </div>
+            <div class="sim-right">
+              <div class="wpw">
+                <div class="wpw-side" id="w-box-long"><span class="who">LONGS</span><span class="amt" id="w-amt-long">&ndash;</span></div>
+                <div class="wpw-arrow"><span id="w-arr">&rarr;</span><span class="r" id="w-rate">&ndash;</span></div>
+                <div class="wpw-side" id="w-box-short"><span class="who">SHORTS</span><span class="amt" id="w-amt-short">&ndash;</span></div>
+              </div>
+              <div class="tiles">
+                <div class="tile"><div class="v" id="w-t-state">&ndash;</div><div class="k" id="w-t-state-k">market state</div></div>
+                <div class="tile"><div class="v" id="w-t-you">&ndash;</div><div class="k" id="w-t-you-k">your flow per cycle</div></div>
+                <div class="tile"><div class="v" id="w-t-day">&ndash;</div><div class="k">per day (3 cycles)</div></div>
+              </div>
+            </div>
+          </div>
+          <div class="sim-notes">
+            <div><b>Premium: longs pay shorts.</b> When the perp trades above the index the crowd is leaning long, and funding charges them to pull it back down.</div>
+            <div><b>Discount: shorts pay longs.</b> Below the index, shorts pay. Funding is the market paying you to take the unpopular side.</div>
+            <div><b>Read it as a signal.</b> Persistent positive funding means crowded longs. That's module 4: funding as sentiment, not just a fee.</div>
+            <div><b>The cap is the story.</b> Drag past &plusmn;2.00% and the rate stops moving while the dislocation keeps growing. Offshore, that gap keeps billing you. <a href="https://kalshi.com/perpetuals/learn/how-to-trade" target="_blank" rel="noopener">Kalshi caps it</a>. Hardest thing to teach in a paragraph, easiest to feel on a slider.</div>
+          </div>
+        </div>
+      </div>
+      </div>
+
+      <p class="tools-note">Each module ships in three formats: a 60-second vertical, a five-minute creator-ready explainer, and an interactive tool like these. Rate mechanics above are simplified for teaching: illustrative, not Kalshi's exact formula.</p>
+    </div>
+    <div class="term-panel" id="tp-community" role="tabpanel" aria-labelledby="tt-community" data-print-label="Proof &middot; Community" hidden>
+    <h3 class="sub-label">The weekly rhythm</h3>
+      <div class="cad-stage">
+        <div class="cad-ring" id="cadring">
+        <div class="cad-card" role="button" tabindex="0"><div class="d">Monday</div><h4>The Funding Report</h4><p>Weekly recap, written by me: funding trends across listed perps, what they signal, one lesson. <b>Discord-first: the depth arc.</b> X gets the repost.</p></div>
+        <div class="cad-card" role="button" tabindex="0"><div class="d">Wednesday</div><h4>X Space: On Margin</h4><p>Live on X, hosted by me, with a rotating product guest or partner creator: <b>the reach arc</b>, where new audiences find the door. First invites: Kalshi&rsquo;s own John Wang, Marty Bent.</p></div>
+        <div class="cad-card" role="button" tabindex="0"><div class="d">Monthly</div><h4>Trading Competition</h4><p>Leaderboards and prizes: the offshore volume engine rebuilt inside CFTC constraints. Scoped with legal first.</p></div>
+        <div class="cad-card" role="button" tabindex="0"><div class="d">Quarterly</div><h4>IRL</h4><p>Watch parties, panels, conference-week takeovers with people I've produced rooms with: Matt Odell, Marty Bent, BTC Inc. Content kit ships within 48 hours.</p></div>
+        <div class="cad-card" role="button" tabindex="0"><div class="d">Always on</div><h4>The Perps Desk</h4><p>Dedicated Discord channels with fast, real answers, plus weekly office hours I anchor, where new-trader questions become next week&rsquo;s content. Builders and API traders get their own lane.</p></div>
+        </div>
+      </div>
+      <div class="cad-chips" id="cadchips">
+        <button class="cad-chip on" type="button">Mon</button>
+        <button class="cad-chip" type="button">Wed</button>
+        <button class="cad-chip" type="button">Monthly</button>
+        <button class="cad-chip" type="button">Quarterly</button>
+        <button class="cad-chip" type="button">Always on</button>
+      </div>
+      <div class="cad-hint">Click the card to spin through the week.</div>
+    </div>
+    <div class="term-panel" id="tp-measure" role="tabpanel" aria-labelledby="tt-measure" data-print-label="Proof &middot; Measurement" hidden>
+    <h3 class="sub-label">How it's judged</h3>
+      <div class="ns-card">
+        <span class="ns-tag">North star</span>
+        <span class="ns-body"><b>Partner-attributed funded perps accounts</b>Creator codes, dedicated landing pages, cohort windows. Funded margin account, not signups. Vanity-proof.</span>
+      </div>
+      <div class="ns-feed">every layer below feeds it</div>
+      <div class="judge-grid">
+        <div class="jg-card"><div class="jg-layer" style="color:var(--blue)">Partnerships</div><p><b>Cost per funded account, by creator and tier</b>Spend and deliverables from the CRM against attributed conversions. Kills weak placements fast.</p></div>
+        <div class="jg-card"><div class="jg-layer" style="color:var(--accent)">Education</div><p><b>Tool engagement &rarr; application rate</b>Interactive-tool sessions versus margin-account application starts. Tests whether teaching converts.</p></div>
+        <div class="jg-card"><div class="jg-layer" style="color:var(--warn)">Community</div><p><b>Weekly actives &amp; ritual attendance</b>Discord analytics plus Spaces/AMA attendance trend lines. Retention beats reach.</p></div>
+        <div class="jg-card"><div class="jg-layer" style="color:var(--text-secondary)">Health check</div><p><b>Attributed traders still active at day 30</b>Cohort retention by source. A creator who brings traders that stay is worth 10x one who brings tourists.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="last" id="close" aria-labelledby="h-ask">
+  <div class="sec-label">04 / Resolve the market</div>
   <h2 id="h-ask" style="max-width:760px;text-wrap:balance">I'd like 30 minutes to walk through the plan and hear where I'm wrong.</h2>
 
   <div class="receipts">
@@ -1334,7 +1347,7 @@
   },{passive:true});
 
   /* scrollspy */
-  const spyMap={'plan':'a[href="#plan"]','tools':'a[href="#tools"]','bench':'a[href="#bench"]','community':'a[href="#community"]'};
+  const spyMap={'mandate':'a[href="#mandate"]','plan':'a[href="#plan"]','proof':'a[href="#proof"]','close':'a[href="#close"]'};
   const spy=new IntersectionObserver(es=>{
     es.forEach(e=>{
       const link=document.querySelector('.nav-links '+spyMap[e.target.id]);
@@ -1414,13 +1427,13 @@
       this.innerHTML='FILLED &middot; 97&cent; &darr;';
     }
     toast('<b>Order filled.</b> Reviewing the evidence&hellip;');
-    smoothTo($('read'));
+    smoothTo($('mandate'));
   });
   $('btn-no').addEventListener('click',function(){
     const card=$('mcard');
     card.classList.remove('shake');void card.offsetWidth;card.classList.add('shake');
     toast('<b>Order rejected:</b> thin liquidity on NO. The evidence is below.');
-    setTimeout(()=>smoothTo($('read')),450);
+    setTimeout(()=>smoothTo($('mandate')),450);
   });
 
   /* card flip: market <-> stats */
@@ -1496,9 +1509,35 @@
     window.addEventListener('resize',cadLayout,{passive:true});
     if(document.fonts&&document.fonts.ready)document.fonts.ready.then(cadLayout);
     cadLayout();
+    return cadLayout;
   }
-  makeCarousel('cadring','cadchips',false,70,false);
-  makeCarousel('tierring','tierchips',true,0,true);
+  /* both carousels now live inside terminal panels, which are display:none until their
+     tab is selected. Every layout here reads offsetWidth/offsetHeight, so it measures 0
+     on first run and has to be recomputed once the panel is actually visible. */
+  const carouselLayouts=[
+    makeCarousel('cadring','cadchips',false,70,false),
+    makeCarousel('tierring','tierchips',true,0,true),
+  ].filter(Boolean);
+
+  /* Terminal tabs. Reuses the same tabs() widget as the week and tool tabs, so roving
+     tabindex and arrow keys come for free. On activation we clear any inline height or
+     opacity swapPanel may have left on a nested shell (a terminal switch mid-animation
+     would otherwise strand it), then re-measure everything that depends on width. */
+  if($('tt-creators')){
+    tabs(['tt-creators','tt-education','tt-community','tt-measure'],
+         ['tp-creators','tp-education','tp-community','tp-measure']);
+    const relayout=()=>{
+      document.querySelectorAll('.tool-shell,.wk-shell').forEach(sh=>{
+        sh.style.height='';sh.style.transition='';delete sh.dataset.busy;
+        sh.querySelectorAll('.tool-panel,.wk-panel').forEach(pn=>{pn.style.opacity='';pn.style.transition=''});
+      });
+      draw();drawLiq();drawSpark();
+      carouselLayouts.forEach(f=>f());
+    };
+    ['tt-creators','tt-education','tt-community','tt-measure'].forEach(id=>{
+      $(id).addEventListener('click',()=>{relayout();setTimeout(relayout,480)});
+    });
+  }
 
   /* flywheel pulse loop */
   const fly=document.querySelector('.fly2');

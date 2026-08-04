@@ -173,14 +173,6 @@
   .def dt{font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink)}
   .def dd{font-size:15.5px;line-height:1.6;color:var(--ink-2);max-width:60ch;text-wrap:pretty}
   .def dd b{color:var(--ink);font-weight:600}
-  .cal td:first-child{width:64px;font-family:var(--mono);font-size:11px;color:var(--ink-3);font-weight:400}
-  .cal td:nth-child(2){color:var(--ink);font-weight:500}
-  .cal td:nth-child(3),.cal td:nth-child(4){font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);white-space:nowrap}
-  .cal tr.internal td:nth-child(2){color:var(--ink-2);font-weight:400;font-style:italic}
-  .capstrip{margin-top:34px;padding-top:22px;border-top:1px solid var(--ink);display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:24px}
-  @media(max-width:760px){.capstrip{grid-template-columns:repeat(2,minmax(0,1fr))}}
-  .capstrip .n{font-family:var(--serif);font-size:clamp(26px,3.4vw,36px);line-height:1;letter-spacing:-.03em}
-  .capstrip .l{margin-top:7px;font-size:13px;line-height:1.42;color:var(--ink-2);max-width:20ch}
 
   /* ================= drafts ================= */
   .draft-meta{display:flex;flex-wrap:wrap;gap:6px 26px;font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);margin-bottom:28px}
@@ -302,7 +294,7 @@
 
     <p class="ov-meta">
       <span>Unsolicited work product</span>
-      <span>10 sections &middot; 3 drafts</span>
+      <span>9 sections &middot; 3 drafts</span>
       <span><a href="https://iggydags.github.io" target="_blank" rel="noopener">iggydags.github.io</a></span>
     </p>
   </section>
@@ -657,53 +649,8 @@
     </div>
   </section>
 
-  <!-- ============ 06 THE CALENDAR ============ -->
-  <section class="view" id="v6" data-title="The calendar" data-num="06">
-    <div class="view-head"><h2>The calendar</h2></div>
-    <p class="lede">Nineteen items across thirteen weeks. Fourteen are published artifacts; five are the internal and infrastructure work that has to happen for the other fourteen to exist. A plan that hides the second kind is a plan that misses its dates.</p>
-
-    <div class="tscroll">
-      <table class="cal">
-        <caption>Titles are working titles. Pillar numbers map to the pillars section.</caption>
-        <thead><tr><th scope="col">Week</th><th scope="col">Working title</th><th scope="col">Format</th><th scope="col">Pillar</th></tr></thead>
-        <tbody>
-          <tr class="internal"><td>01</td><td>Voice and position brief</td><td>Internal</td><td>&mdash;</td></tr>
-          <tr class="internal"><td>02</td><td>Ship edra.ai/blog and fix the stories page</td><td>Infrastructure</td><td>&mdash;</td></tr>
-          <tr><td>02</td><td>What killed expert systems, and what changed</td><td>Engineering</td><td>03</td></tr>
-          <tr class="internal"><td>03</td><td>Migrate the launch post off LinkedIn Pulse</td><td>Infrastructure</td><td>&mdash;</td></tr>
-          <tr><td>03</td><td>What a four-week pilot actually looks like</td><td>Field note</td><td>02</td></tr>
-          <tr><td>04</td><td>ASOS had 400 knowledge base articles. Half were wrong.</td><td>Record</td><td>02</td></tr>
-          <tr><td>04</td><td>Your process documentation is fiction</td><td>Founder</td><td>01</td></tr>
-          <tr><td>05</td><td>The undocumented workaround that runs forty times a year</td><td>Field note</td><td>01</td></tr>
-          <tr><td>06</td><td>Confidence scoring, and when not to automate</td><td>Engineering</td><td>03</td></tr>
-          <tr><td>07</td><td>On being called a consulting company</td><td>Founder</td><td>04</td></tr>
-          <tr><td>08</td><td>Marosa: 70,000 messages, 25 percent automated</td><td>Record</td><td>02</td></tr>
-          <tr><td>08</td><td>Reading exhaust: what we look at first</td><td>Field note</td><td>01</td></tr>
-          <tr><td>09</td><td>Three ways to teach a model your business</td><td>Cornerstone</td><td>01</td></tr>
-          <tr><td>10</td><td>A week as a Forward Deployed AI Engineer at Edra</td><td>Engineering</td><td>04</td></tr>
-          <tr class="internal"><td>10</td><td>Rewrite the job descriptions</td><td>Infrastructure</td><td>04</td></tr>
-          <tr><td>11</td><td>The maintenance-cost question</td><td>Founder</td><td>03</td></tr>
-          <tr><td>12</td><td>Cushman &amp; Wakefield</td><td>Record</td><td>02</td></tr>
-          <tr><td>12</td><td>How we count</td><td>Cornerstone</td><td>02</td></tr>
-          <tr class="internal"><td>13</td><td>90-day readout</td><td>Internal</td><td>&mdash;</td></tr>
-        </tbody>
-      </table>
-    </div>
-
-    <div class="capstrip">
-      <div><div class="n">197</div><p class="l">hours of planned work, whole lifecycle per piece</p></div>
-      <div><div class="n">83%</div><p class="l">of realistic capacity, not nominal capacity</p></div>
-      <div><div class="n">8</div><p class="l">flex slots the headroom buys</p></div>
-      <div><div class="n">14&nbsp;+&nbsp;3</div><p class="l">planned artifacts, plus flex, reaches seventeen</p></div>
-    </div>
-
-    <p class="aside" style="margin-left:0;margin-top:34px"><span class="h">How the capacity number was reached</span>Twenty-six hours a week on calendar work, thirteen weeks, discounted to <b>70 percent</b> because that is what teams actually hit. Planning to 100 percent does not produce more output, it produces missed dates in week five. The remaining hours of a real week go to customer calls, founder sessions, sales enablement and industry engagement, none of which is counted above.</p>
-
-    <p class="aside" style="margin-left:0;margin-top:22px"><span class="h">What comes off first under pressure</span>A field note, never a deployment record. Cadence can absorb a shorter piece. <b>The proof pipeline cannot absorb a skipped month, because customer legal review does not compress.</b> The largest risk here is not writing hours at all: it is the review windows I do not control, and those do not appear in any number above.</p>
-  </section>
-
-  <!-- ============ 07 DRAFTS ============ -->
-  <section class="view" id="v7" data-title="Three artifacts, written today" data-num="07">
+  <!-- ============ 06 DRAFTS ============ -->
+  <section class="view" id="v6" data-title="Three artifacts, written today" data-num="06">
     <div class="view-head"><h2>Three artifacts, written today</h2></div>
     <p class="lede">A plan is easy to write and easy to disbelieve. These are the actual openings of the first three things I would ship, drafted from public sources on August 3, before anyone gave me access to anything. Take them as a work sample, not as finished copy. The versions that ship would be corrected by the people who did the work.</p>
 
@@ -760,8 +707,8 @@
     </div>
   </section>
 
-  <!-- ============ 08 MEASUREMENT ============ -->
-  <section class="view" id="v8" data-title="Measurement" data-num="08">
+  <!-- ============ 07 MEASUREMENT ============ -->
+  <section class="view" id="v7" data-title="Measurement" data-num="07">
     <div class="view-head"><h2>What I would measure, and what I would not do</h2></div>
     <p class="lede">Impressions are not a metric. The failure mode for this role is scope sprawl into things that feel like marketing and produce nothing.</p>
     <div class="cols">
@@ -804,8 +751,8 @@
     </div>
   </section>
 
-  <!-- ============ 09 CLOSE ============ -->
-  <section class="view" id="v9" data-title="Close" data-num="09">
+  <!-- ============ 08 CLOSE ============ -->
+  <section class="view" id="v8" data-title="Close" data-num="08">
     <h2 class="close-h">The proof is already public.<br>I would like to be the one who assembles it.</h2>
     <p class="close-links">
       <a href="mailto:michaeldagostino15@gmail.com?subject=Edra%20%C2%B7%20Founding%20Content%20Strategist">michaeldagostino15@gmail.com</a>

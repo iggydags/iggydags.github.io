@@ -330,9 +330,13 @@
     .flow-step:not(:last-child)::before{left:12px;top:22px}
   }
   .cad-stage{position:relative;height:300px;perspective:1300px;margin-bottom:14px;overflow:hidden}
-  .cad-ring{position:absolute;inset:0;transform-style:preserve-3d;transition:transform .65s cubic-bezier(.22,1,.36,1)}
+  /* the ring turns continuously; easing matched to the cards so nothing lags behind */
+  .cad-ring{position:absolute;inset:0;transform-style:preserve-3d;transition:transform .7s cubic-bezier(.33,.9,.28,1);will-change:transform}
   @media(prefers-reduced-motion:reduce){.cad-ring{transition:none}}
-  .cad-card{position:absolute;left:50%;top:50%;width:min(400px,82vw);transition:transform .65s cubic-bezier(.22,1,.36,1);background:var(--surface-1);border:1px solid var(--border);border-radius:10px;padding:22px 24px;cursor:pointer;backface-visibility:hidden;-webkit-backface-visibility:hidden;opacity:.3;filter:saturate(.5);transition:opacity .65s,filter .65s,border-color .3s}
+  /* One transition declaration, not two: this rule previously set transform and then
+     redeclared transition for opacity/filter, which silently dropped the transform
+     animation and made every spin snap instantly. */
+  .cad-card{position:absolute;left:50%;top:50%;width:min(400px,82vw);background:var(--surface-1);border:1px solid var(--border);border-radius:10px;padding:22px 24px;cursor:pointer;backface-visibility:hidden;-webkit-backface-visibility:hidden;opacity:.3;filter:saturate(.5);transition:transform .7s cubic-bezier(.33,.9,.28,1),opacity .5s ease,filter .5s ease,border-color .3s}
   .cad-card.front{opacity:1;filter:none;border-color:var(--border-strong)}
   .cad-card.front:hover{border-color:var(--accent-dim)}
   .cad-card .d{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin-bottom:6px}
@@ -359,7 +363,7 @@
   .term-panel .sub-label:first-child{margin-top:0}
 
   /* tier carousel: coverflow so side cards keep their content visible, like the rhythm ring */
-  .tier-cro{transition:transform .65s cubic-bezier(.22,1,.36,1),opacity .65s,filter .65s,border-color .3s}
+  .tier-cro{transition:transform .7s cubic-bezier(.33,.9,.28,1),opacity .5s ease,filter .5s ease,border-color .3s}
   /* the stage now resizes per facing card, so animate it rather than jumping */
   .tier-stage{transition:height .45s cubic-bezier(.22,1,.36,1)}
   @media(prefers-reduced-motion:reduce){.tier-cro,.tier-stage{transition:none}}
@@ -1525,6 +1529,13 @@
       }else{
         cR=Math.round(w/2/Math.tan(Math.PI/cn))+(extra||70);
         cCards.forEach((c,i)=>{c.style.transform='translate(-50%,-50%) rotateY('+(i*360/cn)+'deg) translateZ('+cR+'px)'});
+        /* A ring swings every card through the stage, so the stage has to clear the
+           tallest one or cards clip mid-rotation. Set once here rather than per spin:
+           animating height while the ring turns is what reads as lurching. */
+        if(autoH){
+          const tallest=Math.max.apply(null,cCards.map(c=>c.offsetHeight));
+          ring.parentElement.style.height=Math.ceil(tallest+24)+'px';
+        }
       }
       cadSpin();
     }
@@ -1543,17 +1554,13 @@
       }
       cCards.forEach((c,i)=>c.classList.toggle('front',i===idx));
       chips.forEach((c,i)=>c.classList.toggle('on',i===idx));
-      if(autoH){
-        /* Size the stage to what is actually on screen: the facing card at full scale,
-           the flanking cards at the .85 they are scaled to. Sizing to the tallest card
-           regardless of which one faced is what left dead space under the shorter tiers. */
-        /* coverflow keeps its flanking cards on screen at .85 scale, so they count
-           toward the height. A ring rotates the others out of view, so only the
-           facing card does. */
-        const side=cover?0.85:0;
+      /* Coverflow keeps its two flanking cards on screen at .85 scale, so the stage can
+         track whichever card is facing and skip the dead space under the shorter ones.
+         Ring mode sizes once in cadLayout instead, since its cards rotate through. */
+      if(autoH&&cover){
         const need=Math.max.apply(null,cCards.map((c,i)=>{
           const d=((i-idx)%cn+cn)%cn;
-          return c.offsetHeight*(d===0?1:side);
+          return c.offsetHeight*(d===0?1:0.85);
         }));
         ring.parentElement.style.height=Math.ceil(need+12)+'px';
       }
@@ -1578,7 +1585,10 @@
      tab is selected. Every layout here reads offsetWidth/offsetHeight, so it measures 0
      on first run and has to be recomputed once the panel is actually visible. */
   const carouselLayouts=[
-    makeCarousel('cadring','cadchips',true,0,true),
+    /* Rhythm has five cards. Coverflow only has three slots, so two cards had to sit
+       hidden at translateZ(-320px) and teleport in each step. A ring carries all five
+       and turns continuously. Tiers are three, which is exactly what coverflow fits. */
+    makeCarousel('cadring','cadchips',true,70,false),
     makeCarousel('tierring','tierchips',true,0,true),
   ].filter(Boolean);
 

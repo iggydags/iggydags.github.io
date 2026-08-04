@@ -182,6 +182,8 @@
   }
   .read-src{font-family:var(--mono);font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--text-primary);margin-bottom:8px}
   .read-q{font-size:21px;font-weight:700;letter-spacing:-.015em;line-height:1.2;color:var(--text-primary)}
+  .read-row p .ln{display:block}
+  .read-row p .ln+.ln{margin-top:7px}
   .read-row p{font-size:15.5px;color:var(--text-secondary);margin-bottom:12px;text-wrap:pretty}
   .read-row p b{color:var(--text-primary);font-weight:600}
   .read-row a{font-family:var(--mono);font-size:13px;font-weight:700;letter-spacing:.04em}
@@ -294,6 +296,7 @@
   .tn .nm{font-size:14.5px;font-weight:600;color:var(--text-primary);display:flex;gap:7px;align-items:baseline;flex-wrap:wrap}
   .tn .pl{font-family:var(--mono);font-size:11.5px;color:var(--text-muted);margin-top:1px}
   .warm{font-family:var(--mono);font-size:9.5px;color:var(--warn);border:1px solid rgba(230,177,46,.4);border-radius:4px;padding:1px 6px;letter-spacing:.05em}
+  .nopay{font-family:var(--mono);font-size:9.5px;color:var(--neg);border:1px solid rgba(230,103,103,.4);border-radius:4px;padding:1px 6px;letter-spacing:.05em}
   .sleeper{font-size:14.5px;color:var(--text-secondary);margin:18px auto 0;max-width:840px;text-wrap:pretty;text-align:center}
   .sleeper-top{margin-top:0}
   .sleeper + .tiers{margin-top:26px}
@@ -326,20 +329,10 @@
     .flow-step .fs-n{width:26px;height:26px;font-size:11px}
     .flow-step:not(:last-child)::before{left:12px;top:22px}
   }
-  /* the stage is resized per facing card by cadSpin, so it animates rather than jumping.
-     This lived on .tier-stage only, so the weekly ring's container snapped. */
-  .cad-stage{position:relative;height:300px;perspective:1300px;margin-bottom:14px;overflow:hidden;contain:layout paint;transition:height .45s cubic-bezier(.22,1,.36,1)}
-  @media(prefers-reduced-motion:reduce){.cad-stage{transition:none}}
+  .cad-stage{position:relative;height:300px;perspective:1300px;margin-bottom:14px;overflow:hidden}
   .cad-ring{position:absolute;inset:0;transform-style:preserve-3d;transition:transform .65s cubic-bezier(.22,1,.36,1)}
   @media(prefers-reduced-motion:reduce){.cad-ring{transition:none}}
-  /* One transition declaration, not two. The rule used to open with a transform
-     transition and then re-declare `transition` for opacity/filter further down the
-     same block, which silently dropped transform from the list. The cards snapped to
-     their new position instantly while the crossfade took .65s behind them, which is
-     what read as lag. Tier cards got transform back via .tier-cro; the weekly ring
-     never did. */
-  .cad-card{position:absolute;left:50%;top:50%;width:min(400px,82vw);background:var(--surface-1);border:1px solid var(--border);border-radius:10px;padding:22px 24px;cursor:pointer;backface-visibility:hidden;-webkit-backface-visibility:hidden;opacity:.3;filter:saturate(.5);will-change:transform,opacity;transition:transform .65s cubic-bezier(.22,1,.36,1),opacity .65s,filter .65s,border-color .3s}
-  @media(prefers-reduced-motion:reduce){.cad-card{transition:none}}
+  .cad-card{position:absolute;left:50%;top:50%;width:min(400px,82vw);transition:transform .65s cubic-bezier(.22,1,.36,1);background:var(--surface-1);border:1px solid var(--border);border-radius:10px;padding:22px 24px;cursor:pointer;backface-visibility:hidden;-webkit-backface-visibility:hidden;opacity:.3;filter:saturate(.5);transition:opacity .65s,filter .65s,border-color .3s}
   .cad-card.front{opacity:1;filter:none;border-color:var(--border-strong)}
   .cad-card.front:hover{border-color:var(--accent-dim)}
   .cad-card .d{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin-bottom:6px}
@@ -365,13 +358,12 @@
   .term-panel > :first-child{margin-top:0}
   .term-panel .sub-label:first-child{margin-top:0}
 
-  /* tier carousel: coverflow so side cards keep their content visible, like the rhythm ring.
-     .tier-cro / .tier-stage transitions are now inherited from .cad-card / .cad-stage. */
+  /* tier carousel: coverflow so side cards keep their content visible, like the rhythm ring */
+  .tier-cro{transition:transform .65s cubic-bezier(.22,1,.36,1),opacity .65s,filter .65s,border-color .3s}
+  /* the stage now resizes per facing card, so animate it rather than jumping */
+  .tier-stage{transition:height .45s cubic-bezier(.22,1,.36,1)}
+  @media(prefers-reduced-motion:reduce){.tier-cro,.tier-stage{transition:none}}
   .tier-stage .cad-card:not(.front){opacity:.4;filter:blur(3px)}
-  /* blur() re-rasterises the flanking cards every frame of the .65s move, which is the
-     one remaining per-frame cost here. Mobile GPUs eat it; scale + perspective already
-     carry the depth cue on a small screen, so drop it there. */
-  @media(max-width:760px){.tier-stage .cad-card:not(.front){filter:none}}
   /* colour-code the three routes so tiers read distinct at a glance */
   #tierring .cad-card:nth-child(1){border-top:2px solid var(--accent)}
   #tierring .cad-card:nth-child(1) .d{color:var(--accent)}
@@ -434,12 +426,7 @@
   .nav-links a.active{color:var(--accent)}
   html.js .rv{opacity:0;transform:translateY(14px);transition:opacity .55s ease,transform .55s cubic-bezier(.22,1,.36,1)}
   html.js .rv.in{opacity:1;transform:none}
-  /* The carousel stages are also reveal-on-scroll targets, and .rv's transition shorthand
-     was clobbering the height transition they need (cadSpin resizes the stage to whatever
-     card is facing). Without this the stage snapped to its new height the instant a card
-     was clicked while the card itself glided for .65s. Specificity has to beat html.js .rv. */
-  html.js .cad-stage.rv{transition:opacity .55s ease,transform .55s cubic-bezier(.22,1,.36,1),height .45s cubic-bezier(.22,1,.36,1)}
-  @media(prefers-reduced-motion:reduce){html.js .rv,html.js .cad-stage.rv{opacity:1;transform:none;transition:none}}
+  @media(prefers-reduced-motion:reduce){html.js .rv{opacity:1;transform:none;transition:none}}
   .receipt,.jg-card{transition:transform .18s ease,border-color .18s ease}
   .receipt:hover,.jg-card:hover{transform:translateY(-3px);border-color:var(--border-strong)}
   .m-row{transition:background .15s}
@@ -528,8 +515,8 @@
     <span class="dot"></span>
     <span class="read-time">3 minute read &middot; 3 working tools</span>
   </div>
-  <h1>Perps launched at <span id="vol">$5.5B</span> in two weeks.<br><span class="dim">Distribution is the bottleneck now.</span></h1>
-  <p class="hero-sub">I've outlined the first six weeks as a roadmap.<br><b>Three working education tools, a scored creator bench, and a measurement frame.</b></p>
+  <h1>Perps cleared <span id="vol">$16B</span> by mid-July.<br><span class="dim">Open interest is $12M.</span></h1>
+  <p class="hero-sub">Acquisition worked. Retention didn't. Who you bring in decides who stays.<br><b>Six weeks. Three working tools, a scored creator bench, one metric: funded accounts alive at day 30.</b></p>
   <div class="hero-who">
     <span>NYC</span><span class="sep">&middot;</span>
     <a href="mailto:michaeldagostino15@gmail.com">michaeldagostino15@gmail.com</a><span class="sep">&middot;</span>
@@ -599,8 +586,8 @@
         <div class="read-q">&ldquo;Securing key partnerships&rdquo;</div>
       </div>
       <div>
-        <p>Offshore exchanges are paying to reach US trading audiences they <b>cannot legally onboard</b>. Kalshi is the first sponsor for whom those viewers actually convert. I'd claim that bench: 50+ scored targets in week one, three pilots closed by day 21.</p>
-        <a href="#proof">The 20-name starting bench &darr;</a>
+        <p><span class="ln">Offshore exchanges pay to reach US audiences they <b>cannot legally onboard</b>.</span><span class="ln">Kalshi is the first sponsor those viewers can convert on.</span><span class="ln">I'd claim that bench: 50+ targets scored in week one on reach, overlap, sponsorability, <b>and compliance risk</b>.</span><span class="ln">Some of the biggest names can't take money at all.</span><span class="ln">Three pilots papered by day 21, live by day 30.</span></p>
+        <a href="#proof">The starting bench &darr;</a>
       </div>
     </div>
     <div class="read-row">
@@ -609,7 +596,7 @@
         <div class="read-q">&ldquo;Developing educational curriculum&rdquo;</div>
       </div>
       <div>
-        <p><a href="https://kalshi.com/perpetuals/learn" target="_blank" rel="noopener">The learn hub</a> teaches funding with three static diagrams. The concept that costs traders the most money is the one that most needs to be <b>playable</b>. Five modules, each shipping in three formats: vertical, explainer, embeddable tool.</p>
+        <p><span class="ln"><a href="https://kalshi.com/perpetuals/learn" target="_blank" rel="noopener">The learn hub</a> is deeper than it gets credit for: eight sections, a live leverage table off the API, five sub-articles, thirteen help-center pieces.</span><span class="ln">One interactive element.</span><span class="ln">Funding, the concept that costs traders the most, is still prose.</span><span class="ln"><b>That's the gap.</b></span><span class="ln">Five modules, three formats each: vertical, explainer, embeddable tool.</span></p>
         <a href="#proof">Three tools, already built &darr;</a>
       </div>
     </div>
@@ -619,7 +606,7 @@
         <div class="read-q">&ldquo;Growing community&rdquo;</div>
       </div>
       <div>
-        <p>Rented reach thinned out after <a href="https://www.theblock.co/post/390983/kalshi-removes-x-affiliate-badges-after-policy-shift-tightens-promotion-rules" target="_blank" rel="noopener">X's February policy shift</a>. Community is <b>rituals with names, times, and hosts</b>, plus the IRL loop that fills them. I ran that loop weekly for two years at PubKey.</p>
+        <p><span class="ln">February 13: X banned gambling paid partnerships.</span><span class="ln">Two weeks later <a href="https://www.theblock.co/post/390983/kalshi-removes-x-affiliate-badges-after-policy-shift-tightens-promotion-rules" target="_blank" rel="noopener">Kalshi pulled its own affiliate badges</a>.</span><span class="ln"><b>Polymarket kept theirs</b>, on a platform data deal.</span><span class="ln">Rented reach is gone.</span><span class="ln">Community is <b>rituals with names, times, and hosts</b>, plus the IRL loop that fills them.</span><span class="ln">I ran that loop weekly for two years at PubKey.</span></p>
         <a href="#proof">The weekly cadence &darr;</a>
       </div>
     </div>
@@ -663,7 +650,7 @@
   </div>
   <div class="wk-panel" id="wk-3" data-print-label="Week 3 · First closes" role="tabpanel" aria-labelledby="wt-3" hidden>
     <ul>
-      <li><span class="tag tag-p">Partnerships</span><span>Close <b>three pilot partnerships</b>: one proven-sponsorable trading channel, one credibility voice, one Bitcoin-native show through existing relationships. Each capped, with renewal thresholds set up front.</span></li>
+      <li><span class="tag tag-p">Partnerships</span><span><b>Three pilots papered and into legal</b>: one sponsorable trading channel, one credibility voice, one Bitcoin-native show through existing relationships. Capped, with renewal thresholds and disclosure terms set up front. Live by day 30. Legal review is a real calendar.</span></li>
       <li><span class="tag tag-e">Education</span><span>Take the <b>paper-trading and trading-competition concept</b> to product and compliance. The offshore playbook, redesigned for a regulated venue.</span></li>
       <li><span class="tag tag-c">Community</span><span>Launch the weekly <b>livestream / AMA cadence</b> with product guests. First two episodes booked with named guests, not &ldquo;TBD.&rdquo;</span></li>
       <li><span class="tag tag-s">Systems</span><span>Creator CRM live: pipeline, terms, deliverables, performance per creator. Repeatable by anyone, not just me.</span></li>
@@ -717,112 +704,57 @@
   <div class="term">
     <div class="term-tabs" role="tablist" aria-label="Proof of work by pillar">
       <button class="term-tab" role="tab" id="tt-creators" aria-selected="true" aria-controls="tp-creators">Creators</button>
-      <button class="term-tab" role="tab" id="tt-community" aria-selected="false" aria-controls="tp-community">Community</button>
       <button class="term-tab" role="tab" id="tt-education" aria-selected="false" aria-controls="tp-education">Education tools</button>
+      <button class="term-tab" role="tab" id="tt-community" aria-selected="false" aria-controls="tp-community">Community</button>
       <button class="term-tab" role="tab" id="tt-measure" aria-selected="false" aria-controls="tp-measure">Measurement</button>
     </div>
     <div class="term-panel" id="tp-creators" role="tabpanel" aria-labelledby="tt-creators" data-print-label="Proof &middot; Creators">
         <p class="sleeper sleeper-top"><b>How a pilot works:</b> we pick <b>one</b> of the three routes below. One format, a capped budget, and a cost-per-funded-account threshold agreed before launch. Hit it, renew and scale. Miss it, kill it and keep the learning. No pilot becomes a debate.</p>
-      <div class="cad-stage tier-stage">
-        <div class="cad-ring" id="tierring">
-        <div class="cad-card tier-cro" role="button" tabindex="0">
-          <div class="d">Tier 1 &middot; Pay for reach</div>
-          <p>Trading channels already running offshore-exchange sponsorships. There's a rate card; this is a <b>straightforward buy</b>. The edge: their US viewers can't legally onboard to the sponsors they watch. Kalshi is the first one that converts.</p>
-          <div class="tier-names">
-            <div class="tn"><div class="nm">Crypto Banter</div><div class="pl">YouTube &middot; daily live &middot; Ran Neuner</div></div>
-            <div class="tn"><div class="nm">Scott Melker</div><div class="pl">X + YouTube + podcast</div></div>
-            <div class="tn"><div class="nm">Coin Bureau</div><div class="pl">YouTube &middot; Guy Turner</div></div>
-            <div class="tn"><div class="nm">CryptosRUs</div><div class="pl">YouTube &middot; daily &middot; George Tung</div></div>
-            <div class="tn"><div class="nm">Humphrey Yang</div><div class="pl">TikTok / Shorts</div></div>
-          </div>
-        </div>
-        <div class="cad-card tier-cro" role="button" tabindex="0">
-          <div class="d">Tier 2 &middot; Earn with access</div>
-          <p>Analysts and finance media with no rate card to buy. The way in is <b>product access and exclusive data</b>: give them a story worth covering. What they confer is credibility with serious traders.</p>
-          <div class="tier-names">
-            <div class="tn"><div class="nm">Tina Nguyen <span class="warm">warm intro</span></div><div class="pl">Senior tech reporter, The Verge</div></div>
-            <div class="tn"><div class="nm">Benjamin Cowen</div><div class="pl">YouTube &middot; Into The Cryptoverse</div></div>
-            <div class="tn"><div class="nm">Alex Thorn <span class="warm">warm intro</span></div><div class="pl">Head of firmwide research, Galaxy Digital</div></div>
-            <div class="tn"><div class="nm">Kyla Scanlon</div><div class="pl">Short-form + newsletter</div></div>
-            <div class="tn"><div class="nm">Blockworks shows</div><div class="pl">Forward Guidance &middot; Bell Curve &middot; Empire</div></div>
-            <div class="tn"><div class="nm">Jack Farley</div><div class="pl">Monetary Matters</div></div>
-            <div class="tn"><div class="nm">Nic Carter <span class="warm">warm intro</span></div><div class="pl">X + podcast</div></div>
-            <div class="tn"><div class="nm">Laura Shin</div><div class="pl">Unchained &middot; podcast + newsletter</div></div>
-            <div class="tn"><div class="nm">Aubrey Strobel <span class="warm">warm intro</span></div><div class="pl">Content</div></div>
-          </div>
-        </div>
-        <div class="cad-card tier-cro" role="button" tabindex="0">
-          <div class="d">Tier 3 &middot; Build on relationships</div>
-          <p>Bitcoin media that won't take exchange money on principle. No pitch works here; <b>the way in is personal</b>, through my network. The angle: education-first, from an onshore venue with segregated USD.</p>
-          <div class="tier-names">
-            <div class="tn"><div class="nm">TFTC / Marty Bent <span class="warm">warm intro</span></div><div class="pl">Podcast + media</div></div>
-            <div class="tn"><div class="nm">Rabbit Hole Recap <span class="warm">warm intro</span></div><div class="pl">Podcast &middot; Bent + Odell</div></div>
-            <div class="tn"><div class="nm">Will Foxley <span class="warm">warm intro</span></div><div class="pl">The Mining Pod &middot; Blockspace Media &middot; mining community</div></div>
-            <div class="tn"><div class="nm">BitPlaza / Kyle Knight <span class="warm">warm intro</span></div><div class="pl">Bitcoin community</div></div>
-            <div class="tn"><div class="nm">Simply Bitcoin</div><div class="pl">YouTube &middot; daily</div></div>
-            <div class="tn"><div class="nm">Bitcoin News <span class="warm">warm intro</span></div><div class="pl">Rob Wallace</div></div>
-          </div>
-        </div>
-        </div>
-      </div>
       <div class="cad-chips" id="tierchips">
         <button type="button" class="cad-chip">Tier 1 &middot; Reach</button>
         <button type="button" class="cad-chip">Tier 2 &middot; Access</button>
         <button type="button" class="cad-chip">Tier 3 &middot; Relationships</button>
       </div>
-      <div class="cad-hint">Click a card or chip to spin &middot; the pilot commits to one route at a time</div>
-      <p class="sleeper"><b>The platform lane:</b> a warm intro to <a href="https://tyler.gold" target="_blank" rel="noopener">Tyler Gold</a>, original content and creators at X. The affiliate era ended on policy grounds; whatever replaces it gets negotiated at the platform level, not in creator DMs. I'd open that conversation in week one.</p>
-      <p class="sleeper" style="margin-top:10px"><b>Why Tier 3 is the sleeper:</b> Bitcoin media is skeptical of leverage, which is exactly why an education-first partnership from a regulated venue lands where offshore money can't. I co-produced events with Marty Bent and Matt Odell at <a href="https://pubkey.bar" target="_blank" rel="noopener">PubKey</a>. That door is open.</p>
-    </div>
-    <div class="term-panel" id="tp-community" role="tabpanel" aria-labelledby="tt-community" data-print-label="Proof &middot; Community" hidden>
-    <h3 class="sub-label">The weekly rhythm</h3>
-      <div class="cad-chips" id="cadchips">
-        <button class="cad-chip on" type="button">Mon &middot; Written</button>
-        <button class="cad-chip" type="button">Wed &middot; Live</button>
-        <button class="cad-chip" type="button">Monthly</button>
-        <button class="cad-chip" type="button">Quarterly</button>
-        <button class="cad-chip" type="button">Always on</button>
-      </div>
-      <div class="cad-stage">
-        <div class="cad-ring" id="cadring">
-        <div class="cad-card" role="button" tabindex="0"><div class="d">Monday &middot; Written</div><h4>The Funding Report</h4><p>Weekly recap, written by me: funding trends across listed perps, what they signal, one lesson. <b>Discord-first: the depth arc.</b> X gets the repost.</p></div>
-        <div class="cad-card" role="button" tabindex="0"><div class="d">Wednesday &middot; Livestream</div><h4>On Margin</h4><p>Weekly livestream, hosted by me, with a rotating product guest or partner creator: <b>the reach arc</b>, where new audiences find the door. Filmed, so every episode cuts into clips. First invites: Kalshi&rsquo;s own John Wang, Marty Bent.</p></div>
-        <div class="cad-card" role="button" tabindex="0"><div class="d">Monthly</div><h4>Trading Competition</h4><p>Leaderboards and prizes: the offshore volume engine rebuilt inside CFTC constraints. Scoped with legal first.</p></div>
-        <div class="cad-card" role="button" tabindex="0"><div class="d">Quarterly</div><h4>IRL</h4><p>Watch parties, panels, conference-week takeovers with people I've produced rooms with: Matt Odell, Marty Bent, BTC Inc. Content kit ships within 48 hours.</p></div>
-        <div class="cad-card" role="button" tabindex="0"><div class="d">Always on</div><h4>The Perps Desk</h4><p>Dedicated Discord channels with fast, real answers, plus weekly office hours I anchor, where new-trader questions become next week&rsquo;s content. Builders and API traders get their own lane.</p></div>
+      <div class="cad-stage tier-stage">
+        <div class="cad-ring" id="tierring">
+        <div class="cad-card tier-cro" role="button" tabindex="0">
+          <div class="d">Tier 1 &middot; Pay for reach</div>
+          <p>Trading channels already taking offshore-exchange money. There's a rate card, so the buy is easy. The diligence isn't: these people send US viewers to venues those viewers can't use. <b>Conduct review before contract.</b> Disclosure as a term, not a guideline. Worth it, because Kalshi is the first sponsor on their list that converts.</p>
+          <div class="tier-names">
+            <div class="tn"><div class="nm">Coin Bureau</div><div class="pl">YouTube &middot; Turner + Puckrin &middot; UK, so X's finance rules bite</div></div>
+            <div class="tn"><div class="nm">Crypto Banter</div><div class="pl">YouTube &middot; daily live &middot; Ran Neuner &middot; Bitget referral business</div></div>
+            <div class="tn"><div class="nm">Scott Melker</div><div class="pl">X + YouTube + podcast &middot; 1M+ followers</div></div>
+            <div class="tn"><div class="nm">CryptosRUs</div><div class="pl">YouTube &middot; daily &middot; George Tung</div></div>
+            <div class="tn"><div class="nm">Benjamin Cowen</div><div class="pl">Into The Cryptoverse &middot; cleanest record in the tier</div></div>
+          </div>
+        </div>
+        <div class="cad-card tier-cro" role="button" tabindex="0">
+          <div class="d">Tier 2 &middot; Earn with access</div>
+          <p>Analysts and finance media with no rate card. The way in is <b>product access and exclusive data</b>. What they confer is credibility with serious traders. Several can't take money at all. Treat them as a media buy and you lose them for good.</p>
+          <div class="tier-names">
+            <div class="tn"><div class="nm">Jack Farley</div><div class="pl">Monetary Matters &middot; independent &middot; macro and rates &middot; best fit here</div></div>
+            <div class="tn"><div class="nm">Blockworks shows</div><div class="pl">Forward Guidance (Felix Jauvin) &middot; Bell Curve &middot; Empire &middot; commercial team, not creators</div></div>
+            <div class="tn"><div class="nm">Alex Thorn <span class="warm">warm intro</span> <span class="nopay">no paid deal</span></div><div class="pl">Head of firmwide research, Galaxy &middot; public-co compliance &middot; guest, not partner</div></div>
+            <div class="tn"><div class="nm">Laura Shin <span class="nopay">no paid deal</span></div><div class="pl">Unchained &middot; independent journalist &middot; ad read, not a partnership</div></div>
+            <div class="tn"><div class="nm">Nic Carter <span class="warm">warm intro</span></div><div class="pl">Castle Island GP &middot; diligence the portfolio first</div></div>
+            <div class="tn"><div class="nm">Aubrey Strobel <span class="warm">warm intro</span></div><div class="pl">Co-founder, Halcyon PR &middot; agency channel, not talent</div></div>
+          </div>
+        </div>
+        <div class="cad-card tier-cro" role="button" tabindex="0">
+          <div class="d">Tier 3 &middot; Build on relationships</div>
+          <p>Bitcoin media that won't take exchange money on principle. No pitch works; <b>the way in is personal</b>, through my network. The angle: education-first, onshore, segregated USD. Small reach, skeptical of KYC'd venues. <b>Four names, not ten.</b> It earns its place on conversion quality, not volume.</p>
+          <div class="tier-names">
+            <div class="tn"><div class="nm">Will Foxley <span class="warm">warm intro</span></div><div class="pl">The Mining Pod &middot; Blockspace &middot; B2B mining and energy audience</div></div>
+            <div class="tn"><div class="nm">TFTC / Marty Bent <span class="warm">warm intro</span></div><div class="pl">Daily newsletter + podcast &middot; also Ten31 MP, disclose it</div></div>
+            <div class="tn"><div class="nm">Rabbit Hole Recap <span class="warm">warm intro</span></div><div class="pl">Bent + Odell &middot; overlaps TFTC, pick one</div></div>
+            <div class="tn"><div class="nm">Simply Bitcoin</div><div class="pl">YouTube &middot; daily &middot; tone is a compliance conversation</div></div>
+          </div>
+        </div>
         </div>
       </div>
-      <div class="cad-hint">Click the card to spin through the week.</div>
-
-    <h3 class="sub-label" style="margin-top:34px">Community flywheel</h3>
-      <ol class="flow">
-        <li class="flow-step">
-          <span class="fs-n">1</span>
-          <span class="fs-t">Host the room</span>
-          <span class="fs-d">A named ritual, a real guest, a fixed time. Discord or IRL.</span>
-        </li>
-        <li class="flow-step">
-          <span class="fs-n">2</span>
-          <span class="fs-t">Capture everything</span>
-          <span class="fs-d">One operator, two angles, full audio. Nothing good happens off-record by accident.</span>
-        </li>
-        <li class="flow-step">
-          <span class="fs-n">3</span>
-          <span class="fs-t">Cut it the same week</span>
-          <span class="fs-d">Verticals for X and TikTok, one long cut for YouTube, pull-quotes for the recap.</span>
-        </li>
-        <li class="flow-step is-payoff">
-          <span class="fs-n">4</span>
-          <span class="fs-t">Clips fill the next room</span>
-          <span class="fs-d">Attendance compounds and the invite list starts writing itself.</span>
-        </li>
-        <li class="flow-step is-loop">
-          <span class="fs-n" aria-hidden="true">&#8635;</span>
-          <span class="fs-t">Back to one, cheaper</span>
-          <span class="fs-d">Each turn costs less reach to fill and returns more footage than the last.</span>
-        </li>
-      </ol>
-
+      <p class="sleeper"><b>The platform lane is the real one.</b> Polymarket kept its X badges on a platform data deal. Kalshi pulled its own. That's a structural disadvantage on the most important surface, and creator outreach doesn't close it. Warm intro to <a href="https://tyler.gold" target="_blank" rel="noopener">Tyler Gold</a>, original content and creators at X. Week one. He's a counterparty, not talent.</p>
+      <p class="sleeper" style="margin-top:10px"><b>Disclosure is a contract term, not a guideline.</b> <a href="https://slate.com/technology/2026/06/polymarket-kalshi-ads-sponsored-content-t-pain.html" target="_blank" rel="noopener">Slate named Kalshi in June</a> over undisclosed sponsored posts. Disclosure across crypto promoters runs in the low single digits. Every deal I paper carries auditable #ad language and a spot-check cadence. Cheaper than the story.</p>
+      <p class="sleeper" style="margin-top:10px"><b>Why Tier 3 still earns its slots:</b> Bitcoin media is skeptical of leverage, which is exactly why education-first from a regulated venue lands where offshore money can't. I co-produced events with Marty Bent and Matt Odell at <a href="https://pubkey.bar" target="_blank" rel="noopener">PubKey</a>. That door is open.</p>
     </div>
     <div class="term-panel" id="tp-education" role="tabpanel" aria-labelledby="tt-education" data-print-label="Proof &middot; Education tools" hidden>
       <div class="tool-tabs" role="tablist" aria-label="Educational tools">
@@ -869,7 +801,7 @@
                 <div class="tile"><div class="v" id="t-fund">&ndash;</div><div class="k" id="t-fund-k">net funding over period</div></div>
                 <div class="tile"><div class="v" id="t-margin">&ndash;</div><div class="k">of your posted margin</div></div>
                 <div class="tile"><div class="v" id="t-break">&ndash;</div><div class="k" id="t-break-k">price move to break even on funding</div></div>
-                <div class="tile"><div class="v pos" id="t-int">&ndash;</div><div class="k">margin interest offset (illustrative 3% APY)</div></div>
+                <div class="tile"><div class="v pos" id="t-int">&ndash;</div><div class="k">margin interest offset (3.25% APY, Kalshi's published rate)</div></div>
               </div>
               <div class="chart-box">
                 <div class="chart-title">Cumulative flows over the holding period</div>
@@ -885,7 +817,7 @@
           <div class="sim-notes">
             <div><b>It settles every 8 hours.</b> Three times a day longs and shorts exchange a payment that tethers the perp to spot. Small per period, real over weeks.</div>
             <div><b>A winning trade can still lose.</b> If funding runs against you long enough it eats the price move. Beginners learn this the expensive way. We teach it the free way.</div>
-            <div><b>The Kalshi angle.</b> <a href="https://kalshi.com/perpetuals/learn/how-to-trade" target="_blank" rel="noopener">Funding capped at &plusmn;2.00% per cycle</a>, and idle margin earns interest. Honest, teachable differentiators. Say them loudly.</div>
+            <div><b>The Kalshi angle.</b> <a href="https://kalshi.com/perpetuals/learn/how-to-trade" target="_blank" rel="noopener">Funding capped at &plusmn;2.00% per cycle</a>. Margin at the clearinghouse earns <a href="https://help.kalshi.com/en/articles/13823847-apy-on-kalshi" target="_blank" rel="noopener">3.25% APY</a> over $250. Honest, teachable differentiators. Say them loudly.</div>
           </div>
         </div>
       </div>
@@ -939,7 +871,7 @@
           <div class="sim-notes">
             <div><b>Leverage sets the distance.</b> At 5x with 50% maintenance, a 10% move against you is liquidation. At 2x it's 25%. The dial you choose is the risk you carry.</div>
             <div><b>Liquidation is not a stop loss.</b> It's forced closure at the worst moment, and in fast markets execution isn't guaranteed at the trigger. Set your own exits first.</div>
-            <div><b>The Kalshi angle.</b> Single-digit leverage caps mean the cushion starts wider than offshore's 50&ndash;100x, where a 1&ndash;2% wick is fatal. That's a feature. Teach it that way.</div>
+            <div><b>The Kalshi angle.</b> Caps are per asset, off the API: <b>BTC 5.8x, ETH 4.4x, SOL 2.6x</b>. Against offshore's 50&ndash;100x, where a 1&ndash;2% wick is fatal, that cushion is a feature. Teach it that way.</div>
           </div>
         </div>
       </div>
@@ -948,7 +880,7 @@
         <div class="sim">
           <div class="sim-head">
             <span class="t">Who Pays Whom</span>
-            <span class="s">prototype &middot; their three static diagrams, made live</span>
+            <span class="s">prototype &middot; the funding diagrams, made live</span>
           </div>
           <div class="sim-body">
             <div class="sim-controls">
@@ -991,7 +923,57 @@
       </div>
       </div>
 
-      <p class="tools-note">Each module ships in three formats: a 60-second vertical, a five-minute creator-ready explainer, and an interactive tool like these. Rate mechanics above are simplified for teaching: illustrative, not Kalshi's exact formula.</p>
+      <p class="tools-note">Each module ships in three formats: a 60-second vertical, a five-minute creator-ready explainer, and an interactive tool like these. Rate mechanics above are simplified for teaching: illustrative, not Kalshi's exact formula. Kalshi doesn't publish a maintenance-margin number for perps, so the cushion tool takes it as an input rather than inventing one. Give me the real figure and it's a five-minute change.</p>
+    </div>
+    <div class="term-panel" id="tp-community" role="tabpanel" aria-labelledby="tt-community" data-print-label="Proof &middot; Community" hidden>
+    <h3 class="sub-label">The weekly rhythm</h3>
+      <div class="cad-chips" id="cadchips">
+        <button class="cad-chip on" type="button">Mon &middot; Written</button>
+        <button class="cad-chip" type="button">Wed &middot; Live</button>
+        <button class="cad-chip" type="button">Monthly</button>
+        <button class="cad-chip" type="button">Quarterly</button>
+        <button class="cad-chip" type="button">Always on</button>
+      </div>
+      <div class="cad-stage">
+        <div class="cad-ring" id="cadring">
+        <div class="cad-card" role="button" tabindex="0"><div class="d">Monday &middot; Written</div><h4>The Funding Report</h4><p>Weekly recap, written by me: funding trends across listed perps, what they signal, one lesson. <b>Discord-first: the depth arc.</b> X gets the repost.</p></div>
+        <div class="cad-card" role="button" tabindex="0"><div class="d">Wednesday &middot; Livestream</div><h4>On Margin</h4><p>Weekly livestream, hosted by me, with a rotating product guest or partner creator: <b>the reach arc</b>, where new audiences find the door. Filmed, so every episode cuts into clips. First invites: Kalshi&rsquo;s own John Wang, Marty Bent.</p></div>
+        <div class="cad-card" role="button" tabindex="0"><div class="d">Monthly</div><h4>Trading Competition</h4><p>Leaderboards and prizes: the offshore volume engine rebuilt inside CFTC constraints. Scoped with legal first.</p></div>
+        <div class="cad-card" role="button" tabindex="0"><div class="d">Quarterly</div><h4>IRL</h4><p>Watch parties, panels, conference-week takeovers with people I've produced rooms with: Matt Odell, Marty Bent, BTC Inc. Content kit ships within 48 hours.</p></div>
+        <div class="cad-card" role="button" tabindex="0"><div class="d">Always on</div><h4>The Perps Desk</h4><p>Dedicated Discord channels with fast, real answers, plus weekly office hours I anchor, where new-trader questions become next week&rsquo;s content. Builders and API traders get their own lane.</p></div>
+        </div>
+      </div>
+      <div class="cad-hint">Click the card to spin through the week.</div>
+
+    <h3 class="sub-label" style="margin-top:34px">Community flywheel</h3>
+      <ol class="flow">
+        <li class="flow-step">
+          <span class="fs-n">1</span>
+          <span class="fs-t">Host the room</span>
+          <span class="fs-d">A named ritual, a real guest, a fixed time. Discord or IRL.</span>
+        </li>
+        <li class="flow-step">
+          <span class="fs-n">2</span>
+          <span class="fs-t">Capture everything</span>
+          <span class="fs-d">One operator, two angles, full audio. Nothing good happens off-record by accident.</span>
+        </li>
+        <li class="flow-step">
+          <span class="fs-n">3</span>
+          <span class="fs-t">Cut it the same week</span>
+          <span class="fs-d">Verticals for X and TikTok, one long cut for YouTube, pull-quotes for the recap.</span>
+        </li>
+        <li class="flow-step is-payoff">
+          <span class="fs-n">4</span>
+          <span class="fs-t">Clips fill the next room</span>
+          <span class="fs-d">Attendance compounds and the invite list starts writing itself.</span>
+        </li>
+        <li class="flow-step is-loop">
+          <span class="fs-n" aria-hidden="true">&#8635;</span>
+          <span class="fs-t">Back to one, cheaper</span>
+          <span class="fs-d">Each turn costs less reach to fill and returns more footage than the last.</span>
+        </li>
+      </ol>
+
     </div>
     <div class="term-panel" id="tp-measure" role="tabpanel" aria-labelledby="tt-measure" data-print-label="Proof &middot; Measurement" hidden>
     <h3 class="sub-label">How it's judged</h3>
@@ -1027,7 +1009,7 @@
     <a class="btn btn-ghost" href="tel:+12039402112">203-940-2112</a>
   </div>
 
-  <p class="fine" role="doc-footnote">Independent work product prepared by Michael D'Agostino for a role application. Not affiliated with, produced by, or endorsed by Kalshi. HIRE-DAGS is not a real market. Yet. Volume figures as reported by <a href="https://www.cnbc.com/2026/06/09/kalshi-perpetual-futures-trading-perps-crosses-1-billion-in-volume-within-a-week-of-launch.html" target="_blank" rel="noopener">CNBC</a> and Bloomberg, June 2026. The tools on this page are simplified teaching illustrations (flat price, constant funding, isolated margin) and are not investment advice or a representation of Kalshi's products.</p>
+  <p class="fine" role="doc-footnote">Independent work product prepared by Michael D'Agostino for a role application. Not affiliated with, produced by, or endorsed by Kalshi. HIRE-DAGS is not a real market. Yet. Cumulative volume (~$16.1B) per Kalshi's Chief Risk Officer, July 2026. Open interest and 24h volume from public market data, checked 4 August 2026. Debut figures per <a href="https://www.cnbc.com/2026/06/09/kalshi-perpetual-futures-trading-perps-crosses-1-billion-in-volume-within-a-week-of-launch.html" target="_blank" rel="noopener">CNBC</a> and Bloomberg, June 2026. Leverage caps and APY are Kalshi's published figures and move without notice. The tools on this page are simplified teaching illustrations (flat price, constant funding, isolated margin) and are not investment advice or a representation of Kalshi's products.</p>
 </section>
 
 </main>
@@ -1170,7 +1152,7 @@
   function draw(){
     const size=+S.size.value,lev=+S.lev.value,f=+S.fund.value/100,days=+S.days.value;
     const margin=size/lev,cost=dir*size*f*days*3;
-    const interest=margin*0.03*(days/365);
+    const interest=margin*0.0325*(days/365);
     $('o-size').textContent='$'+size.toLocaleString();
     $('o-lev').textContent=lev.toFixed(1)+'x';
     $('o-fund').textContent=(f>=0?'+':'')+(f*100).toFixed(3)+'%';
@@ -1192,7 +1174,7 @@
     const fundCol=paying?'#e66767':'#199e70';
     const lgf=$('lg-fund');if(lgf)lgf.style.background=fundCol;
     const pts1=[],pts2=[];
-    for(let d=0;d<=days;d++){pts1.push(dir*size*f*d*3);pts2.push(margin*0.03*(d/365))}
+    for(let d=0;d<=days;d++){pts1.push(dir*size*f*d*3);pts2.push(margin*0.0325*(d/365))}
     const all=pts1.concat(pts2,[0]);
     let min=Math.min.apply(null,all),max=Math.max.apply(null,all);
     if(max-min<1e-9){max=min+1}
@@ -1447,7 +1429,7 @@
     setTimeout(()=>{el.style.transitionDelay='0ms';el.classList.add('in')},180+i*110);
   });
 
-  /* hero $5.5B count-up */
+  /* hero cumulative-volume count-up */
   if(!reduced){
     const vol=$('vol');
     if(vol){
@@ -1455,8 +1437,8 @@
       const step=n=>{
         const p=Math.min(1,(n-t0)/D);
         const ease=1-Math.pow(1-p,3);
-        vol.textContent='$'+(5.5*ease).toFixed(1)+'B';
-        if(p<1)requestAnimationFrame(step);else vol.textContent='$5.5B';
+        vol.textContent='$'+Math.round(16*ease)+'B';
+        if(p<1)requestAnimationFrame(step);else vol.textContent='$16B';
       };
       requestAnimationFrame(step);
     }
@@ -1495,10 +1477,15 @@
     smoothTo($('mandate'));
   });
   $('btn-no').addEventListener('click',function(){
-    const card=$('mcard');
-    card.classList.remove('shake');void card.offsetWidth;card.classList.add('shake');
-    toast('<b>Order rejected:</b> thin liquidity on NO. The evidence is below.');
-    setTimeout(()=>smoothTo($('mandate')),450);
+    if(price>6){
+      price=6;HIST.push(6);drawSpark();
+      $('spark').setAttribute('aria-label','Price history repriced down to 6 cents');
+      $('mprice').innerHTML='6&cent;';
+      $('mdelta').innerHTML='&#9660; you took the other side';
+      this.innerHTML='FILLED &middot; 6&cent; &darr;';
+    }
+    toast('<b>Order filled at 6&cent;.</b> Fair. Here is what you sold.');
+    smoothTo($('mandate'));
   });
 
   /* card flip: market <-> stats */
@@ -1543,42 +1530,33 @@
     }
     function cadSpin(){
       const idx=((ci%cn)+cn)%cn;
-      /* Measure BEFORE writing any transforms. The height maths below reads offsetHeight
-         on every card; doing that after the transform writes forced a synchronous reflow
-         of a 3D, filtered subtree on every single click. offsetHeight is unaffected by
-         transforms, so the read is just as valid up here and now batches with the rest
-         of the frame's layout. */
-      let need=0;
-      if(autoH){
-        /* Size the stage to what is actually on screen: the facing card at full scale,
-           the flanking cards at the .85 they are scaled to. Sizing to the tallest card
-           regardless of which one faced is what left dead space under the shorter tiers.
-           Coverflow keeps its flanking cards on screen at .85 scale, so they count
-           toward the height. A ring rotates the others out of view, so only the
-           facing card does. */
-        const side=cover?0.85:0;
-        need=Math.max.apply(null,cCards.map((c,i)=>{
-          const d=((i-idx)%cn+cn)%cn;
-          return c.offsetHeight*(d===0?1:side);
-        }));
-      }
       if(cover){
         cCards.forEach((c,i)=>{
           const d=((i-idx)%cn+cn)%cn;
-          /* the deep cards sit centred at opacity 0, directly over the facing card in
-             screen space. Left hit-testable they swallow clicks meant for the front
-             card, so the first tap on a spin does nothing. */
-          if(d===0){c.style.transform='translate(-50%,-50%)';c.style.opacity='';c.style.pointerEvents=''}
-          else if(d===1){c.style.transform='translate(-50%,-50%) translateX('+cX+'px) translateZ(-160px) rotateY(30deg) scale(.85)';c.style.opacity='';c.style.pointerEvents=''}
-          else if(d===cn-1){c.style.transform='translate(-50%,-50%) translateX(-'+cX+'px) translateZ(-160px) rotateY(-30deg) scale(.85)';c.style.opacity='';c.style.pointerEvents=''}
-          else{c.style.transform='translate(-50%,-50%) translateZ(-320px) scale(.7)';c.style.opacity='0';c.style.pointerEvents='none'}
+          if(d===0){c.style.transform='translate(-50%,-50%)';c.style.opacity=''}
+          else if(d===1){c.style.transform='translate(-50%,-50%) translateX('+cX+'px) translateZ(-160px) rotateY(30deg) scale(.85)';c.style.opacity=''}
+          else if(d===cn-1){c.style.transform='translate(-50%,-50%) translateX(-'+cX+'px) translateZ(-160px) rotateY(-30deg) scale(.85)';c.style.opacity=''}
+          else{c.style.transform='translate(-50%,-50%) translateZ(-320px) scale(.7)';c.style.opacity='0'}
         });
       }else{
         ring.style.transform='translateZ(-'+cR+'px) rotateY('+(-ci*360/cn)+'deg)';
       }
       cCards.forEach((c,i)=>c.classList.toggle('front',i===idx));
       chips.forEach((c,i)=>c.classList.toggle('on',i===idx));
-      if(autoH)ring.parentElement.style.height=Math.ceil(need+12)+'px';
+      if(autoH){
+        /* Size the stage to what is actually on screen: the facing card at full scale,
+           the flanking cards at the .85 they are scaled to. Sizing to the tallest card
+           regardless of which one faced is what left dead space under the shorter tiers. */
+        /* coverflow keeps its flanking cards on screen at .85 scale, so they count
+           toward the height. A ring rotates the others out of view, so only the
+           facing card does. */
+        const side=cover?0.85:0;
+        const need=Math.max.apply(null,cCards.map((c,i)=>{
+          const d=((i-idx)%cn+cn)%cn;
+          return c.offsetHeight*(d===0?1:side);
+        }));
+        ring.parentElement.style.height=Math.ceil(need+12)+'px';
+      }
     }
     function cadGo(i){
       const idx=((ci%cn)+cn)%cn;
@@ -1591,13 +1569,7 @@
       c.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();act()}});
     });
     chips.forEach((c,i)=>c.addEventListener('click',()=>cadGo(i)));
-    /* resize fires dozens of times per drag and cadLayout measures every card, so
-       coalesce to one relayout per frame */
-    let cadRaf=0;
-    window.addEventListener('resize',()=>{
-      if(cadRaf)return;
-      cadRaf=requestAnimationFrame(()=>{cadRaf=0;cadLayout()});
-    },{passive:true});
+    window.addEventListener('resize',cadLayout,{passive:true});
     if(document.fonts&&document.fonts.ready)document.fonts.ready.then(cadLayout);
     cadLayout();
     return cadLayout;
@@ -1615,8 +1587,8 @@
      opacity swapPanel may have left on a nested shell (a terminal switch mid-animation
      would otherwise strand it), then re-measure everything that depends on width. */
   if($('tt-creators')){
-    tabs(['tt-creators','tt-community','tt-education','tt-measure'],
-         ['tp-creators','tp-community','tp-education','tp-measure']);
+    tabs(['tt-creators','tt-education','tt-community','tt-measure'],
+         ['tp-creators','tp-education','tp-community','tp-measure']);
     const relayout=()=>{
       document.querySelectorAll('.tool-shell,.wk-shell').forEach(sh=>{
         sh.style.height='';sh.style.transition='';delete sh.dataset.busy;
@@ -1625,7 +1597,7 @@
       draw();drawLiq();drawSpark();
       carouselLayouts.forEach(f=>f());
     };
-    ['tt-creators','tt-community','tt-education','tt-measure'].forEach(id=>{
+    ['tt-creators','tt-education','tt-community','tt-measure'].forEach(id=>{
       $(id).addEventListener('click',()=>{relayout();setTimeout(relayout,480)});
     });
   }

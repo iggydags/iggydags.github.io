@@ -326,10 +326,20 @@
     .flow-step .fs-n{width:26px;height:26px;font-size:11px}
     .flow-step:not(:last-child)::before{left:12px;top:22px}
   }
-  .cad-stage{position:relative;height:300px;perspective:1300px;margin-bottom:14px;overflow:hidden}
+  /* the stage is resized per facing card by cadSpin, so it animates rather than jumping.
+     This lived on .tier-stage only, so the weekly ring's container snapped. */
+  .cad-stage{position:relative;height:300px;perspective:1300px;margin-bottom:14px;overflow:hidden;contain:layout paint;transition:height .45s cubic-bezier(.22,1,.36,1)}
+  @media(prefers-reduced-motion:reduce){.cad-stage{transition:none}}
   .cad-ring{position:absolute;inset:0;transform-style:preserve-3d;transition:transform .65s cubic-bezier(.22,1,.36,1)}
   @media(prefers-reduced-motion:reduce){.cad-ring{transition:none}}
-  .cad-card{position:absolute;left:50%;top:50%;width:min(400px,82vw);transition:transform .65s cubic-bezier(.22,1,.36,1);background:var(--surface-1);border:1px solid var(--border);border-radius:10px;padding:22px 24px;cursor:pointer;backface-visibility:hidden;-webkit-backface-visibility:hidden;opacity:.3;filter:saturate(.5);transition:opacity .65s,filter .65s,border-color .3s}
+  /* One transition declaration, not two. The rule used to open with a transform
+     transition and then re-declare `transition` for opacity/filter further down the
+     same block, which silently dropped transform from the list. The cards snapped to
+     their new position instantly while the crossfade took .65s behind them, which is
+     what read as lag. Tier cards got transform back via .tier-cro; the weekly ring
+     never did. */
+  .cad-card{position:absolute;left:50%;top:50%;width:min(400px,82vw);background:var(--surface-1);border:1px solid var(--border);border-radius:10px;padding:22px 24px;cursor:pointer;backface-visibility:hidden;-webkit-backface-visibility:hidden;opacity:.3;filter:saturate(.5);will-change:transform,opacity;transition:transform .65s cubic-bezier(.22,1,.36,1),opacity .65s,filter .65s,border-color .3s}
+  @media(prefers-reduced-motion:reduce){.cad-card{transition:none}}
   .cad-card.front{opacity:1;filter:none;border-color:var(--border-strong)}
   .cad-card.front:hover{border-color:var(--accent-dim)}
   .cad-card .d{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin-bottom:6px}
@@ -355,12 +365,13 @@
   .term-panel > :first-child{margin-top:0}
   .term-panel .sub-label:first-child{margin-top:0}
 
-  /* tier carousel: coverflow so side cards keep their content visible, like the rhythm ring */
-  .tier-cro{transition:transform .65s cubic-bezier(.22,1,.36,1),opacity .65s,filter .65s,border-color .3s}
-  /* the stage now resizes per facing card, so animate it rather than jumping */
-  .tier-stage{transition:height .45s cubic-bezier(.22,1,.36,1)}
-  @media(prefers-reduced-motion:reduce){.tier-cro,.tier-stage{transition:none}}
+  /* tier carousel: coverflow so side cards keep their content visible, like the rhythm ring.
+     .tier-cro / .tier-stage transitions are now inherited from .cad-card / .cad-stage. */
   .tier-stage .cad-card:not(.front){opacity:.4;filter:blur(3px)}
+  /* blur() re-rasterises the flanking cards every frame of the .65s move, which is the
+     one remaining per-frame cost here. Mobile GPUs eat it; scale + perspective already
+     carry the depth cue on a small screen, so drop it there. */
+  @media(max-width:760px){.tier-stage .cad-card:not(.front){filter:none}}
   /* colour-code the three routes so tiers read distinct at a glance */
   #tierring .cad-card:nth-child(1){border-top:2px solid var(--accent)}
   #tierring .cad-card:nth-child(1) .d{color:var(--accent)}
@@ -423,7 +434,12 @@
   .nav-links a.active{color:var(--accent)}
   html.js .rv{opacity:0;transform:translateY(14px);transition:opacity .55s ease,transform .55s cubic-bezier(.22,1,.36,1)}
   html.js .rv.in{opacity:1;transform:none}
-  @media(prefers-reduced-motion:reduce){html.js .rv{opacity:1;transform:none;transition:none}}
+  /* The carousel stages are also reveal-on-scroll targets, and .rv's transition shorthand
+     was clobbering the height transition they need (cadSpin resizes the stage to whatever
+     card is facing). Without this the stage snapped to its new height the instant a card
+     was clicked while the card itself glided for .65s. Specificity has to beat html.js .rv. */
+  html.js .cad-stage.rv{transition:opacity .55s ease,transform .55s cubic-bezier(.22,1,.36,1),height .45s cubic-bezier(.22,1,.36,1)}
+  @media(prefers-reduced-motion:reduce){html.js .rv,html.js .cad-stage.rv{opacity:1;transform:none;transition:none}}
   .receipt,.jg-card{transition:transform .18s ease,border-color .18s ease}
   .receipt:hover,.jg-card:hover{transform:translateY(-3px);border-color:var(--border-strong)}
   .m-row{transition:background .15s}
@@ -1527,33 +1543,42 @@
     }
     function cadSpin(){
       const idx=((ci%cn)+cn)%cn;
+      /* Measure BEFORE writing any transforms. The height maths below reads offsetHeight
+         on every card; doing that after the transform writes forced a synchronous reflow
+         of a 3D, filtered subtree on every single click. offsetHeight is unaffected by
+         transforms, so the read is just as valid up here and now batches with the rest
+         of the frame's layout. */
+      let need=0;
+      if(autoH){
+        /* Size the stage to what is actually on screen: the facing card at full scale,
+           the flanking cards at the .85 they are scaled to. Sizing to the tallest card
+           regardless of which one faced is what left dead space under the shorter tiers.
+           Coverflow keeps its flanking cards on screen at .85 scale, so they count
+           toward the height. A ring rotates the others out of view, so only the
+           facing card does. */
+        const side=cover?0.85:0;
+        need=Math.max.apply(null,cCards.map((c,i)=>{
+          const d=((i-idx)%cn+cn)%cn;
+          return c.offsetHeight*(d===0?1:side);
+        }));
+      }
       if(cover){
         cCards.forEach((c,i)=>{
           const d=((i-idx)%cn+cn)%cn;
-          if(d===0){c.style.transform='translate(-50%,-50%)';c.style.opacity=''}
-          else if(d===1){c.style.transform='translate(-50%,-50%) translateX('+cX+'px) translateZ(-160px) rotateY(30deg) scale(.85)';c.style.opacity=''}
-          else if(d===cn-1){c.style.transform='translate(-50%,-50%) translateX(-'+cX+'px) translateZ(-160px) rotateY(-30deg) scale(.85)';c.style.opacity=''}
-          else{c.style.transform='translate(-50%,-50%) translateZ(-320px) scale(.7)';c.style.opacity='0'}
+          /* the deep cards sit centred at opacity 0, directly over the facing card in
+             screen space. Left hit-testable they swallow clicks meant for the front
+             card, so the first tap on a spin does nothing. */
+          if(d===0){c.style.transform='translate(-50%,-50%)';c.style.opacity='';c.style.pointerEvents=''}
+          else if(d===1){c.style.transform='translate(-50%,-50%) translateX('+cX+'px) translateZ(-160px) rotateY(30deg) scale(.85)';c.style.opacity='';c.style.pointerEvents=''}
+          else if(d===cn-1){c.style.transform='translate(-50%,-50%) translateX(-'+cX+'px) translateZ(-160px) rotateY(-30deg) scale(.85)';c.style.opacity='';c.style.pointerEvents=''}
+          else{c.style.transform='translate(-50%,-50%) translateZ(-320px) scale(.7)';c.style.opacity='0';c.style.pointerEvents='none'}
         });
       }else{
         ring.style.transform='translateZ(-'+cR+'px) rotateY('+(-ci*360/cn)+'deg)';
       }
       cCards.forEach((c,i)=>c.classList.toggle('front',i===idx));
       chips.forEach((c,i)=>c.classList.toggle('on',i===idx));
-      if(autoH){
-        /* Size the stage to what is actually on screen: the facing card at full scale,
-           the flanking cards at the .85 they are scaled to. Sizing to the tallest card
-           regardless of which one faced is what left dead space under the shorter tiers. */
-        /* coverflow keeps its flanking cards on screen at .85 scale, so they count
-           toward the height. A ring rotates the others out of view, so only the
-           facing card does. */
-        const side=cover?0.85:0;
-        const need=Math.max.apply(null,cCards.map((c,i)=>{
-          const d=((i-idx)%cn+cn)%cn;
-          return c.offsetHeight*(d===0?1:side);
-        }));
-        ring.parentElement.style.height=Math.ceil(need+12)+'px';
-      }
+      if(autoH)ring.parentElement.style.height=Math.ceil(need+12)+'px';
     }
     function cadGo(i){
       const idx=((ci%cn)+cn)%cn;
@@ -1566,7 +1591,13 @@
       c.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();act()}});
     });
     chips.forEach((c,i)=>c.addEventListener('click',()=>cadGo(i)));
-    window.addEventListener('resize',cadLayout,{passive:true});
+    /* resize fires dozens of times per drag and cadLayout measures every card, so
+       coalesce to one relayout per frame */
+    let cadRaf=0;
+    window.addEventListener('resize',()=>{
+      if(cadRaf)return;
+      cadRaf=requestAnimationFrame(()=>{cadRaf=0;cadLayout()});
+    },{passive:true});
     if(document.fonts&&document.fonts.ready)document.fonts.ready.then(cadLayout);
     cadLayout();
     return cadLayout;

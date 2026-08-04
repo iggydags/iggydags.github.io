@@ -116,9 +116,10 @@
   .flipbtn{font:inherit;font-family:var(--mono);font-size:10px;letter-spacing:.05em;color:var(--text-muted);background:none;border:none;padding:2px 0;cursor:pointer;text-align:left}
   .flipbtn:hover{color:var(--accent)}
   .mstats{flex:1;display:flex;flex-direction:column;justify-content:center;gap:2px;padding:10px 22px;overflow-y:auto;min-height:0}
-  .mstat{display:grid;grid-template-columns:88px minmax(0,1fr);gap:14px;align-items:baseline;padding:11px 0;border-bottom:1px solid var(--border)}
+  .mstat{display:grid;grid-template-columns:82px minmax(0,1fr);gap:14px;align-items:baseline;padding:11px 0;border-bottom:1px solid var(--border)}
   .mstat:last-child{border-bottom:none}
-  .mstat .n{font-family:var(--mono);font-size:15px;font-weight:700;color:var(--accent)}
+  /* labels are words now, not figures, so they read as tags rather than big numerals */
+  .mstat .n{font-family:var(--mono);font-size:10.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--accent)}
   .mstat .p{font-size:12.5px;color:var(--text-secondary);line-height:1.5}
   .mstat .p b{color:var(--text-primary);font-weight:600}
   .mcard-head{display:flex;justify-content:space-between;align-items:center;padding:14px 22px;border-bottom:1px solid var(--border)}
@@ -423,6 +424,8 @@
     .cta-row{flex-direction:column;align-items:stretch;gap:10px}
     .btn{padding:15px 16px;font-size:12.5px}
   }
+  /* answers the unasked question about where the relationships came from, once */
+  .close-note{font-size:15px;color:var(--text-secondary);max-width:760px;line-height:1.65;margin-bottom:4px;text-wrap:pretty}
   .fine{font-size:12px;color:var(--text-muted);max-width:700px;line-height:1.7}
 
   /* ---------- interactivity layer ---------- */
@@ -517,10 +520,10 @@
   <div class="hero-meta">
     <span class="eyebrow">Application &middot; Growth, Perpetuals</span>
     <span class="dot"></span>
-    <span class="read-time">3 minute read &middot; 3 working tools</span>
+    <span class="read-time">Not a cover letter &middot; 3 working tools &middot; 9 min end to end</span>
   </div>
   <h1>Perps cleared <span id="vol">$16B</span> by mid-July.<br><span class="dim">Open interest is $12M.</span></h1>
-  <p class="hero-sub">Acquisition worked. Retention didn't. Who you bring in decides who stays.<br><b>Six weeks. Three working tools, a scored creator bench, one metric: funded accounts alive at day 30.</b></p>
+  <p class="hero-sub">Acquisition worked. Retention didn't. Who you bring in decides who stays.<br><b>Six weeks, mapped: three working tools, a scored creator bench, and one number I'd be held to.</b></p>
   <div class="hero-who">
     <span>NYC</span><span class="sep">&middot;</span>
     <a href="mailto:michaeldagostino15@gmail.com">michaeldagostino15@gmail.com</a><span class="sep">&middot;</span>
@@ -555,14 +558,14 @@
   </div>
   <div class="mcard mcard-back" aria-hidden="true">
     <div class="mcard-head">
-      <span class="mcard-tick"><b>HIRE-DAGS</b> &middot; UNDERLYING STATS</span>
-      <span class="mcard-live">VERIFIED</span>
+      <span class="mcard-tick"><b>HIRE-DAGS</b> &middot; THE FOUR ASKS</span>
+      <span class="mcard-live">ANSWERED</span>
     </div>
     <div class="mstats">
-      <div class="mstat"><span class="n">$500K+</span><span class="p">Annual partner revenue grown and renewed across <b>Gemini and BTC Inc</b> accounts at PubKey.</span></div>
-      <div class="mstat"><span class="n">100+</span><span class="p">Activations across events, content and brand campaigns, from <b>Tao Las Vegas</b> to WHCD weekend in DC.</span></div>
-      <div class="mstat"><span class="n">Weekly</span><span class="p">Programming in the rooms where the <b>US Bitcoin community</b> actually gathers.</span></div>
-      <div class="mstat"><span class="n">Shipped</span><span class="p">Dashboards, Bitcoin-payments ticketing, a six-API revenue platform. <b>This page included.</b></span></div>
+      <div class="mstat"><span class="n">Partners</span><span class="p"><b>$500K+</b> in annual partner revenue scoped, priced, pitched and renewed across Gemini and BTC Inc.</span></div>
+      <div class="mstat"><span class="n">Education</span><span class="p">Three working perps tools, <b>on this page</b>. Not mockups. Drag them.</span></div>
+      <div class="mstat"><span class="n">Community</span><span class="p">Two years running the weekly rooms where the <b>US Bitcoin community</b> actually gathers.</span></div>
+      <div class="mstat"><span class="n">Compliance</span><span class="p">Every deal papered with auditable disclosure. <b>The cheapest line item you have.</b></span></div>
     </div>
     <div class="mcard-meta">
       <button type="button" class="flipbtn" data-flip>FLIP BACK TO THE MARKET &#8635;</button>
@@ -621,7 +624,7 @@
   <div class="sec-head">
     <div>
       <div class="sec-label" id="h-plan">02 / The six weeks</div>
-      <div class="sec-note sec-note-under">Click a week for the detail. Headline commitments below.</div>
+      <div class="sec-note sec-note-under">Click any week. The commitments below are what I'd be held to.</div>
     </div>
   </div>
 
@@ -655,7 +658,7 @@
   <div class="wk-panel" id="wk-3" data-print-label="Week 3 · First closes" role="tabpanel" aria-labelledby="wt-3" hidden>
     <ul>
       <li><span class="tag tag-p">Partnerships</span><span><b>Three pilots papered and into legal</b>: one sponsorable trading channel, one credibility voice, one Bitcoin-native show through existing relationships. Capped, with renewal thresholds and disclosure terms set up front. Live by day 30. Legal review is a real calendar.</span></li>
-      <li><span class="tag tag-e">Education</span><span>Take the <b>paper-trading and trading-competition concept</b> to product and compliance. The offshore playbook, redesigned for a regulated venue.</span></li>
+      <li><span class="tag tag-e">Education</span><span>Take the <b>paper-trading and trading-competition concept</b> to product and compliance. What the offshore exchanges run, rebuilt for a regulated venue.</span></li>
       <li><span class="tag tag-c">Community</span><span>Launch the weekly <b>livestream / AMA cadence</b> with product guests. First two episodes booked with named guests, not &ldquo;TBD.&rdquo;</span></li>
       <li><span class="tag tag-s">Systems</span><span>Creator CRM live: pipeline, terms, deliverables, performance per creator. Repeatable by anyone, not just me.</span></li>
     </ul>
@@ -680,7 +683,7 @@
     <ul>
       <li><span class="tag tag-p">Partnerships</span><span><b>Second campaign live</b> with a different tier than the first. Two campaigns, two audiences, comparable data.</span></li>
       <li><span class="tag tag-c">Community</span><span>Scope the first <b>IRL event</b>: a conference-week takeover or NYC night, with the content kit planned before the room is booked.</span></li>
-      <li><span class="tag tag-s">Systems</span><span>Document the machine: <b>creator playbook, CRM, measurement cadence</b> written so anyone can run them. Repeatable beats heroic.</span></li>
+      <li><span class="tag tag-s">Systems</span><span>Document the machine: <b>creator guide, CRM, measurement cadence</b> written so anyone can run them. Repeatable beats heroic.</span></li>
       <li><span class="tag tag-s">Systems</span><span>Present the <b>quarter-two roadmap with six weeks of real numbers</b> behind it: what to scale, what to cut, what to build next.</span></li>
     </ul>
   </div>
@@ -973,7 +976,7 @@
         </li>
         <li class="flow-step is-loop">
           <span class="fs-n" aria-hidden="true">&#8635;</span>
-          <span class="fs-t">Back to one, cheaper</span>
+          <span class="fs-t">Back to one, cheaper every turn</span>
           <span class="fs-d">Each turn costs less reach to fill and returns more footage than the last.</span>
         </li>
       </ol>
@@ -990,7 +993,7 @@
         <div class="jg-card"><div class="jg-layer" style="color:var(--blue)">Partnerships</div><p><b>Cost per funded account, by creator and tier</b>Spend and deliverables from the CRM against attributed conversions. Kills weak placements fast.</p></div>
         <div class="jg-card"><div class="jg-layer" style="color:var(--accent)">Education</div><p><b>Tool engagement &rarr; application rate</b>Interactive-tool sessions versus margin-account application starts. Tests whether teaching converts.</p></div>
         <div class="jg-card"><div class="jg-layer" style="color:var(--warn)">Community</div><p><b>Weekly actives &amp; ritual attendance</b>Discord analytics plus livestream/AMA attendance trend lines. Retention beats reach.</p></div>
-        <div class="jg-card"><div class="jg-layer" style="color:var(--text-secondary)">Health check</div><p><b>Attributed traders still active at day 30</b>Cohort retention by source. A creator who brings traders that stay is worth 10x one who brings tourists.</p></div>
+        <div class="jg-card"><div class="jg-layer" style="color:var(--text-secondary)">The honest one</div><p><b>Attributed traders still active at day 30</b>Cohort retention by source. A creator who brings traders that stay is worth 10x one who brings tourists.</p></div>
       </div>
     </div>
   </div>
@@ -998,7 +1001,7 @@
 
 <section class="last" id="close" aria-labelledby="h-ask">
   <div class="sec-label">04 / Resolve the market</div>
-  <h2 id="h-ask" style="max-width:760px;text-wrap:balance">I'd like 30 minutes to walk through the plan and hear where I'm wrong.</h2>
+  <h2 id="h-ask" style="max-width:760px;text-wrap:balance">Thirty minutes. Bring the objections, I'd rather hear them now.</h2>
 
   <div class="receipts">
     <div class="receipt"><div class="n">$500K+</div><p>Annual partner revenue grown and renewed across Gemini and BTC Inc accounts at <a href="https://pubkey.bar" target="_blank" rel="noopener">PubKey</a>: scoped, priced, pitched, closed.</p></div>
@@ -1007,10 +1010,12 @@
     <div class="receipt"><div class="n">Shipped</div><p>Live venue dashboards, Bitcoin-payments ticketing, a Python revenue platform across six APIs. This page and its tools included.</p></div>
   </div>
 
+  <p class="close-note">PubKey is where the US Bitcoin community actually gathers, which is why the rooms and the relationships came with it. Those relationships are the part of this plan a competitor can't outbid.</p>
+
   <div class="cta-row">
-    <a class="btn btn-primary" href="mailto:michaeldagostino15@gmail.com">michaeldagostino15@gmail.com</a>
-    <a class="btn btn-ghost" href="https://iggydags.github.io" target="_blank" rel="noopener">iggydags.github.io</a>
-    <a class="btn btn-ghost" href="tel:+12039402112">203-940-2112</a>
+    <a class="btn btn-primary" href="mailto:michaeldagostino15@gmail.com?subject=Perps%20Growth%20%C2%B7%20thirty%20minutes&amp;body=Michael%2C%20saw%20the%20page.%20Here%20are%20a%20few%20times%20that%20work%3A%0A%0A">Book the 30 minutes</a>
+    <a class="btn btn-ghost" href="https://iggydags.github.io" target="_blank" rel="noopener">See the code behind these tools</a>
+    <a class="btn btn-ghost" href="tel:+12039402112">Call &middot; 203-940-2112</a>
   </div>
 
   <p class="fine" role="doc-footnote">Independent work product prepared by Michael D'Agostino for a role application. Not affiliated with, produced by, or endorsed by Kalshi. HIRE-DAGS is not a real market. Yet. Cumulative volume (~$16.1B) per Kalshi's Chief Risk Officer, July 2026. Open interest and 24h volume from public market data, checked 4 August 2026. Debut figures per <a href="https://www.cnbc.com/2026/06/09/kalshi-perpetual-futures-trading-perps-crosses-1-billion-in-volume-within-a-week-of-launch.html" target="_blank" rel="noopener">CNBC</a> and Bloomberg, June 2026. Leverage caps and APY are Kalshi's published figures and move without notice. The tools on this page are simplified teaching illustrations (flat price, constant funding, isolated margin) and are not investment advice or a representation of Kalshi's products.</p>

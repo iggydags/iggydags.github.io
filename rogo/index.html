@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Michael D'Agostino — Rogo, Transformation Associate</title>
+<style>
+  :root{
+    --ink:#111418;
+    --body:#33383f;
+    --muted:#6b737c;
+    --rule:#e2e5e9;
+    --accent:#1c4b8a;
+    --bg:#ffffff;
+    --tint:#f6f7f9;
+  }
+  *{box-sizing:border-box;}
+  html{-webkit-text-size-adjust:100%;}
+  body{
+    margin:0;
+    background:var(--tint);
+    color:var(--body);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
+    font-size:15px;
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+  .sheet{
+    max-width:780px;
+    margin:0 auto;
+    background:var(--bg);
+    padding:56px 60px 64px;
+    box-shadow:0 1px 3px rgba(17,20,24,.06),0 12px 40px rgba(17,20,24,.07);
+  }
+
+  /* ---------- header ---------- */
+  header{border-bottom:2px solid var(--ink);padding-bottom:22px;}
+  h1{
+    font-family:Georgia,"Times New Roman",serif;
+    font-weight:600;
+    font-size:38px;
+    line-height:1.05;
+    letter-spacing:-.015em;
+    color:var(--ink);
+    margin:0 0 10px;
+  }
+  .contact{
+    font-size:13.5px;
+    color:var(--muted);
+    letter-spacing:.01em;
+  }
+  .contact a{color:var(--muted);text-decoration:none;border-bottom:1px solid var(--rule);}
+  .contact a:hover{color:var(--accent);border-bottom-color:var(--accent);}
+  .sep{color:var(--rule);padding:0 7px;}
+  .ci{white-space:nowrap;display:inline-block;}
+
+  /* ---------- positioning note ---------- */
+  .note{
+    margin-top:26px;
+    padding:18px 22px;
+    background:var(--tint);
+    border-left:3px solid var(--accent);
+  }
+  .note .kicker{
+    font-size:11px;
+    text-transform:uppercase;
+    letter-spacing:.13em;
+    color:var(--accent);
+    font-weight:700;
+    margin-bottom:7px;
+  }
+  .note p{margin:0;font-size:14.5px;color:var(--ink);line-height:1.6;}
+
+  /* ---------- sections ---------- */
+  section{margin-top:34px;}
+  h2{
+    font-size:11.5px;
+    text-transform:uppercase;
+    letter-spacing:.16em;
+    font-weight:700;
+    color:var(--ink);
+    margin:0 0 16px;
+    padding-bottom:7px;
+    border-bottom:1px solid var(--rule);
+  }
+  .role-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:baseline;
+    gap:16px;
+  }
+  .org{
+    font-family:Georgia,"Times New Roman",serif;
+    font-size:18px;
+    font-weight:600;
+    color:var(--ink);
+    letter-spacing:-.005em;
+  }
+  .place{font-size:13px;color:var(--muted);white-space:nowrap;}
+  .titles{margin:5px 0 12px;}
+  .title-row{
+    display:flex;
+    justify-content:space-between;
+    gap:16px;
+    font-size:14px;
+  }
+  .title-row .t{font-weight:600;color:var(--ink);}
+  .title-row .d{color:var(--muted);font-size:13px;white-space:nowrap;}
+
+  ul{margin:0;padding:0;list-style:none;}
+  ul li{
+    position:relative;
+    padding-left:17px;
+    margin-bottom:11px;
+  }
+  ul li:last-child{margin-bottom:0;}
+  ul li:before{
+    content:"";
+    position:absolute;
+    left:0;top:.62em;
+    width:5px;height:5px;
+    background:var(--accent);
+    border-radius:50%;
+  }
+  strong{color:var(--ink);font-weight:600;}
+
+  .entry + .entry{margin-top:26px;padding-top:26px;border-top:1px solid var(--rule);}
+
+  /* ---------- education ---------- */
+  .edu-note{font-size:13.5px;color:var(--muted);margin-top:10px;}
+
+  /* ---------- work / skills ---------- */
+  .work p{margin:0 0 12px;}
+  .work p:last-child{margin-bottom:0;}
+  .skills{
+    display:flex;
+    flex-wrap:wrap;
+    gap:7px;
+  }
+  .skills span{
+    font-size:12.5px;
+    padding:5px 11px;
+    background:var(--tint);
+    border:1px solid var(--rule);
+    border-radius:3px;
+    color:var(--body);
+  }
+  .interests{font-size:13.5px;color:var(--muted);margin-top:6px;}
+
+  footer{
+    margin-top:40px;
+    padding-top:18px;
+    border-top:1px solid var(--rule);
+    font-size:13px;
+    color:var(--muted);
+  }
+  footer a{color:var(--accent);text-decoration:none;}
+  footer a:hover{text-decoration:underline;}
+
+  /* ---------- responsive ---------- */
+  @media (max-width:640px){
+    .sheet{padding:34px 22px 40px;}
+    h1{font-size:29px;}
+    body{font-size:14.5px;}
+    .role-head,.title-row{flex-direction:column;gap:2px;}
+    .place,.title-row .d{white-space:normal;}
+    .contact{line-height:2;}
+  }
+
+  /* ---------- print ---------- */
+  @media print{
+    body{background:#fff;font-size:10.2pt;line-height:1.4;}
+    .sheet{box-shadow:none;max-width:none;padding:0;}
+    section{margin-top:20px;page-break-inside:avoid;}
+    .note{background:#fff;}
+    @page{margin:0.55in;}
+  }
+</style>
+</head>
+<body>
+<div class="sheet">
+
+  <header>
+    <h1>Michael D&rsquo;Agostino</h1>
+    <div class="contact">
+      <span class="ci">New York, NY</span><span class="sep">|</span><span class="ci">203-940-2112</span><span class="sep">|</span><span class="ci"><a href="mailto:michaeldagostino15@gmail.com">michaeldagostino15@gmail.com</a></span><span class="sep">|</span><span class="ci"><a href="https://iggydags.github.io" target="_blank" rel="noopener">iggydags.github.io</a></span>
+    </div>
+  </header>
+
+  <div class="note">
+    <div class="kicker">Re: Transformation Associate &middot; Rogo</div>
+    <p>Chief of Staff at a Series A company, promoted from intern in nine months. I ran the executive operating cadence, carried a $26M raise through diligence, and owned a $500K+ institutional partnership portfolio. I also built the software: the only person shipping code on a team with no engineering function, in Claude Code and Cursor, daily.</p>
+  </div>
+
+  <section>
+    <h2>Professional Experience</h2>
+
+    <div class="entry">
+      <div class="role-head">
+        <div class="org">Port 8333 LLC <span style="font-weight:400;font-size:15px;color:var(--muted);">(PubKey Bar &amp; Media House)</span></div>
+        <div class="place">New York, NY</div>
+      </div>
+      <div class="titles">
+        <div class="title-row"><span class="t">Chief of Staff</span><span class="d">January 2025 &ndash; July 2026</span></div>
+        <div class="title-row"><span class="t">Associate Intern</span><span class="d">April 2024 &ndash; January 2025</span></div>
+      </div>
+      <ul>
+        <li>Promoted from intern to Chief of Staff in nine months; served as strategic right hand to the CEO of a <strong>Winklevoss-backed Series A company</strong> operating across New York and Washington, D.C., leading high-visibility projects across strategy, finance, partnerships, and operations.</li>
+        <li>Drove AI adoption as <strong>the only technical builder on a team with no engineering function</strong>, taking it from pilot to daily use: shipped a Python revenue-intelligence platform wiring six third-party APIs and 50+ datasets into live forecasts and automated dashboards that replaced manual reporting at both venues, built the internal tooling in Claude Code and Cursor, and stood up a linked Notion workspace mirroring every active project into one executive brief.</li>
+        <li>Authored the operating memos, diligence responses, and quarterly reporting packages that carried a <strong>$26M equity financing</strong> and the 12,000 sq ft Washington, D.C. expansion it funded, synthesizing financial and operating data into decision-ready narratives for investors, LLC members, and partners.</li>
+        <li>Ran the executive operating cadence and built the frameworks underneath it: set weekly leadership agendas, defined the KPIs the team steered on, tracked commitments to close across finance, brand, and operations without formal authority, and codified the operating standards the company now runs on.</li>
+        <li>Owned the institutional partnership portfolio, including the <strong>Human Rights Foundation, Gemini, and BTC Inc.</strong>: sourced new partners, priced and structured multi-year terms against delivery cost, aligned incentives on both sides of the agreement, and monitored delivery through renewal, expanding the portfolio to <strong>$500K+ in annual revenue across 100+ activations</strong>.</li>
+      </ul>
+    </div>
+
+    <div class="entry">
+      <div class="role-head">
+        <div class="org">Compass Real Estate</div>
+        <div class="place">Darien, CT</div>
+      </div>
+      <div class="titles">
+        <div class="title-row"><span class="t">Data Analyst</span><span class="d">June 2023 &ndash; December 2023</span></div>
+      </div>
+      <ul>
+        <li>Led market sizing and competitor analyses across three Fairfield County markets, quantifying addressable share and surfacing the highest-potential growth opportunities for regional leadership.</li>
+        <li>Automated the quarterly reporting underneath it for all six Fairfield County markets with Python (pandas) workflows across 10+ years of residential sales data, and built the dashboards on agent performance, market share, and transaction trends regional leadership relied on to set strategy.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section>
+    <h2>Education</h2>
+    <div class="role-head">
+      <div class="org">Columbia University</div>
+      <div class="place">New York, NY</div>
+    </div>
+    <div class="title-row" style="margin-top:4px;"><span class="t">B.S. in Applied Mathematics</span><span class="d">May 2025</span></div>
+
+    <div class="role-head" style="margin-top:14px;">
+      <div class="org">College of the Holy Cross</div>
+      <div class="place">Worcester, MA</div>
+    </div>
+    <div class="title-row" style="margin-top:4px;"><span class="t">B.A. in Mathematics &amp; Renaissance Studies</span><span class="d">May 2023</span></div>
+
+    <p class="edu-note">Five-year dual-degree program combining liberal arts at Holy Cross with applied mathematics at Columbia Engineering. Holy Cross Student Investment Fund: Portfolio Manager (2022&ndash;2023), Analyst (2020&ndash;2022).</p>
+  </section>
+
+  <section class="work">
+    <h2>Selected Work &middot; <a href="https://iggydags.github.io" target="_blank" rel="noopener" style="color:var(--accent);text-decoration:none;">iggydags.github.io</a></h2>
+    <p>Six tools designed, built, and deployed solo, most of them with AI coding agents rather than a team. Among them: a <strong>labor-market instrument</strong> that sweeps Greenhouse, Ashby, and Lever for 400+ live postings and ranks fit on a weighted model whose weights are exposed on the page, so the ordering is arguable rather than mysterious; and <strong>Mantle</strong>, a real-estate deal and marketing platform taken from a 17,000-word product thesis, covering market opportunity, positioning, and a four-tier pricing model benchmarked against a $12,800 incumbent vendor stack, to 13 production surfaces.</p>
+  </section>
+
+  <section>
+    <h2>Skills</h2>
+    <div class="skills">
+      <span>Executive Briefings, Memos &amp; Decks</span>
+      <span>Financial Modeling &amp; Excel</span>
+      <span>Project &amp; Workstream Management</span>
+      <span>Market &amp; Competitive Analysis</span>
+      <span>KPI Definition &amp; Dashboarding</span>
+      <span>AI Tools (Claude Code, Cursor, ChatGPT)</span>
+      <span>Python (pandas, API integration)</span>
+      <span>SQL</span>
+      <span>Workflow Automation</span>
+    </div>
+    <p class="interests"><strong style="color:var(--muted);font-weight:600;">Interests:</strong> AI &amp; Emerging Technology &middot; Global Financial Markets &middot; Startups &amp; Venture Capital &middot; Travel &amp; Geopolitics &middot; Skiing</p>
+  </section>
+
+  <footer>
+    Full portfolio at <a href="https://iggydags.github.io" target="_blank" rel="noopener">iggydags.github.io</a>. Available in New York.
+  </footer>
+
+</div>
+</body>
+</html>

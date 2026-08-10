@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Barsys: A First 90 Days · Michael D'Agostino</title>
+<style>
+  :root {
+    --bg: #ffffff;
+    --card: #f7f7f5;
+    --card2: #ededea;
+    --line: #e3e3df;
+    --text: #121212;
+    --muted: #6e6e69;
+    --copper: #121212;
+    --copper-deep: #000000;
+    --copper-soft: rgba(18,18,18,.05);
+    --green: #3f8f63;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Helvetica, Arial, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; -webkit-font-smoothing: antialiased; }
+  .sans { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, sans-serif; }
+  .wrap { max-width: 860px; margin: 0 auto; padding: 56px 24px 72px; }
+
+  header { text-align: center; margin-bottom: 30px; }
+  .eyebrow { font-family: -apple-system, sans-serif; font-size: 11.5px; letter-spacing: 3px; text-transform: uppercase; color: var(--copper); font-weight: 600; }
+  h1 { font-size: 40px; font-weight: 700; letter-spacing: -0.5px; margin: 12px 0 10px; color: #121212; }
+  .sub { color: var(--muted); max-width: 600px; margin: 0 auto 14px; font-size: 15.5px; }
+  .byline { font-family: -apple-system, sans-serif; font-size: 13px; color: var(--muted); }
+  .byline a { color: var(--text); text-decoration: none; border-bottom: 1px solid var(--line); }
+  .byline a:hover { color: var(--copper); border-color: var(--copper); }
+
+  .principle { margin: 30px 0 40px; padding: 20px 26px; background: var(--card); border: 1px solid var(--line); border-left: 3px solid var(--copper); border-radius: 16px; font-size: 16px; }
+  .principle b { color: var(--copper); }
+
+  /* Slider */
+  .slider-block { margin-bottom: 26px; }
+  .slider-label { font-family: -apple-system, sans-serif; display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 8px; flex-wrap: wrap; gap: 6px; }
+  .slider-label .day { font-size: 22px; font-weight: 700; color: var(--copper); font-variant-numeric: tabular-nums; }
+  .slider-label .state { font-size: 13.5px; color: var(--muted); }
+  input[type=range] { width: 100%; appearance: none; height: 6px; border-radius: 3px; background: linear-gradient(to right, var(--copper) 0%, var(--copper) var(--fill, 1%), var(--line) var(--fill, 1%)); outline: none; cursor: pointer; }
+  input[type=range]::-webkit-slider-thumb { appearance: none; width: 22px; height: 22px; border-radius: 50%; background: var(--copper); border: 3px solid var(--bg); box-shadow: 0 0 0 1.5px var(--copper); cursor: grab; }
+  input[type=range]::-moz-range-thumb { width: 18px; height: 18px; border-radius: 50%; background: var(--copper); border: 3px solid var(--bg); box-shadow: 0 0 0 1.5px var(--copper); cursor: grab; }
+  .ticks { font-family: -apple-system, sans-serif; display: flex; justify-content: space-between; font-size: 11px; color: var(--muted); margin-top: 6px; }
+
+  .phase { background: var(--card); border: 1px solid var(--line); border-radius: 16px; margin-bottom: 12px; overflow: hidden; transition: border-color .25s; box-shadow: 0 1px 3px rgba(0,0,0,.05); }
+  .phase.active { border-color: var(--copper); }
+  .phase-head { width: 100%; text-align: left; background: none; border: none; cursor: pointer; display: flex; align-items: baseline; gap: 14px; padding: 17px 22px; font-family: inherit; color: var(--text); }
+  .phase-days { font-family: -apple-system, sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--copper); white-space: nowrap; padding-top: 3px; }
+  .phase-title { font-size: 20px; font-weight: 700; color: #121212; }
+  .phase-tag { margin-left: auto; font-family: -apple-system, sans-serif; font-size: 12px; color: var(--muted); white-space: nowrap; padding-top: 4px; }
+  .chev { font-family: -apple-system, sans-serif; margin-left: 10px; color: var(--copper); transition: transform .25s; font-size: 12px; }
+  .phase.open .chev, .fold.open .chev { transform: rotate(90deg); }
+  .phase-body { max-height: 0; overflow: hidden; transition: max-height .35s ease; }
+  .phase.open .phase-body { max-height: 900px; }
+  .phase-body-inner { padding: 0 22px 20px; }
+  .phase-body ul { padding-left: 20px; }
+  .phase-body li { margin-bottom: 8px; font-size: 15px; }
+  .deliverable { margin-top: 14px; padding: 12px 16px; border-radius: 12px; background: var(--copper-soft); border: 1px solid rgba(18,18,18,.15); font-size: 14.5px; }
+  .deliverable b { color: var(--copper); font-variant: small-caps; letter-spacing: 0.5px; }
+  .deliverable .q { color: var(--muted); font-style: italic; }
+
+  h2.section { font-size: 26px; margin: 44px 0 4px; color: #121212; letter-spacing: -0.3px; }
+  .section-sub { color: var(--muted); font-size: 14px; margin-bottom: 16px; }
+
+  .fold { background: var(--card); border: 1px solid var(--line); border-radius: 16px; margin-bottom: 10px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,.05); }
+  .fold-head { width: 100%; text-align: left; background: none; border: none; cursor: pointer; display: flex; align-items: center; gap: 12px; padding: 14px 18px; font-family: inherit; color: var(--text); }
+  .fold-head:hover { background: var(--card2); }
+  .fold-name { font-size: 16.5px; font-weight: 700; color: #121212; }
+  .fold .chev { margin-left: auto; }
+  .fold-body { max-height: 0; overflow: hidden; transition: max-height .3s ease; }
+  .fold.open .fold-body { max-height: 420px; }
+  .fold-cols { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; padding: 4px 18px 16px; }
+  @media (max-width: 680px) { .fold-cols { grid-template-columns: 1fr; } }
+  .col-label { font-family: -apple-system, sans-serif; font-size: 10.5px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 4px; color: var(--copper); }
+  .fold-cols p { font-size: 13.5px; color: var(--muted); }
+
+  .year { margin-top: 44px; background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 22px 26px; }
+  .year h2 { font-size: 22px; color: #121212; margin-bottom: 8px; }
+  .year p { font-size: 15px; color: var(--muted); margin-bottom: 10px; }
+  .bids { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 12px; }
+  @media (max-width: 680px) { .bids { grid-template-columns: 1fr; } }
+  .bid { border: 1.5px solid var(--line); border-radius: 16px; padding: 14px 16px; background: var(--card2); }
+  .bid.pick { border-color: var(--copper); background: var(--copper-soft); }
+  .bid .b-name { font-size: 15px; font-weight: 700; color: #121212; }
+  .bid p { font-size: 13px; color: var(--muted); margin-top: 4px; }
+  .bid .pick-tag { display: inline-block; font-family: -apple-system, sans-serif; font-size: 10px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: #fff; background: #121212; border-radius: 999px; padding: 2px 10px; margin-bottom: 4px; }
+
+  .whyme { margin-top: 44px; padding: 28px 30px; background: #121212; border: 1px solid #121212; border-radius: 16px; }
+  .whyme h2 { font-size: 22px; margin-bottom: 10px; color: #ffffff; }
+  .whyme p { font-size: 15px; line-height: 1.65; color: #cfcfca; }
+  .whyme a { color: #ffffff; text-decoration: none; }
+  .whyme a:hover { text-decoration: underline; }
+  .cta { margin-top: 18px; font-family: -apple-system, sans-serif; }
+  .cta a { display: inline-block; padding: 11px 26px; background: #ffffff; border: 1px solid #ffffff; border-radius: 999px; color: #121212; font-weight: 600; font-size: 13.5px; text-decoration: none; }
+  .cta a:hover { background: transparent; color: #ffffff; }
+
+  footer { text-align: center; margin-top: 36px; font-family: -apple-system, sans-serif; font-size: 12px; color: var(--muted); }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div class="eyebrow">Prepared for Barsys · Business Operations Associate</div>
+  <h1>A First 90 Days</h1>
+  <p class="sub">Built from the posting's own success criteria. Every assumption gets tested against reality in week one, and the plan gets revised accordingly.</p>
+  <p class="byline">Michael D'Agostino &nbsp;·&nbsp; New York, NY &nbsp;·&nbsp; <a href="mailto:michaeldagostino15@gmail.com">michaeldagostino15@gmail.com</a> &nbsp;·&nbsp; <a href="https://iggydags.github.io">iggydags.github.io</a></p>
+</header>
+
+<div class="principle">
+  <b>Operating principle.</b> The CBO's time is the scarcest commercial asset in the building. Every cadence I run either protects it or wastes it, so each one earns its slot: right attendees, tight agenda, documented output, and an action item that actually closes. I ran exactly this rhythm for a CEO across two venues for two years, and I ran the bars themselves before that, so the beverage world Barsys sells into is home turf, not homework.
+</div>
+
+<div class="slider-block">
+  <div class="slider-label">
+    <span class="day" id="dayNum">Day 1</span>
+    <span class="state" id="dayState">Shadowing every cadence, writing everything down</span>
+  </div>
+  <input type="range" id="daySlider" min="1" max="90" value="1" aria-label="Day of the 90-day plan">
+  <div class="ticks"><span>Day 1</span><span>Day 30</span><span>Day 60</span><span>Day 90</span></div>
+</div>
+
+<section class="phase open active" id="phase1">
+  <button class="phase-head" onclick="this.parentElement.classList.toggle('open')">
+    <span class="phase-days">Days 1–30</span>
+    <span class="phase-title">Take the pen</span>
+    <span class="phase-tag">learn the rhythm, own the tracker</span>
+    <span class="chev">▶</span>
+  </button>
+  <div class="phase-body"><div class="phase-body-inner">
+    <ul>
+      <li>Shadow every cadence on the CBO's calendar before changing anything: who attends, what it decides, what it produces, and where its outputs currently go to die.</li>
+      <li>Stand up the single live action tracker spanning every cadence and initiative: one owner and one deadline per item, aging visible, chased proactively, closed only when confirmed done.</li>
+      <li>Tighten each cadence's format with the CBO: agenda structure set, pre-reads out the day before, notes distilled to decisions and next steps and routed within the hour.</li>
+    </ul>
+    <div class="deliverable"><b>Day 30, in the posting's own words:</b> <span class="q">"Every cadence the CBO owns has a tight agenda, the right attendees, and a clear, documented output. No action item falls through the cracks."</span></div>
+  </div></div>
+</section>
+
+<section class="phase" id="phase2">
+  <button class="phase-head" onclick="this.parentElement.classList.toggle('open')">
+    <span class="phase-days">Days 31–60</span>
+    <span class="phase-title">Instrument</span>
+    <span class="phase-tag">connect cadences to numbers</span>
+    <span class="chev">▶</span>
+  </button>
+  <div class="phase-body"><div class="phase-body-inner">
+    <ul>
+      <li>Build the lightweight analysis layer under each cadence: partnership pipeline status, revenue-channel performance, and competitive context, sanity-checked before anything reaches leadership.</li>
+      <li>Turn cadence outputs into the recurring business update the CBO can share up and out, drafted automatically from tracker state, edited by me, sent on a schedule.</li>
+      <li>Start pattern-spotting across cadences: recurring blockers, slipping owners, and process gaps flagged with a proposed fix attached, not just an observation.</li>
+    </ul>
+    <div class="deliverable"><b>Day 60.</b> Every cadence connects to a number, the CBO's recurring update writes itself from the tracker, and prep time per meeting has visibly dropped.</div>
+  </div></div>
+</section>
+
+<section class="phase" id="phase3">
+  <button class="phase-head" onclick="this.parentElement.classList.toggle('open')">
+    <span class="phase-days">Days 61–90</span>
+    <span class="phase-title">Compound</span>
+    <span class="phase-tag">from tracking to trusted voice</span>
+    <span class="chev">▶</span>
+  </button>
+  <div class="phase-body"><div class="phase-body-inner">
+    <ul>
+      <li>Support board-update and leadership-review materials: translate a quarter of cadence outputs into a clear narrative of commercial progress.</li>
+      <li>Automate the recurring mechanics with AI tooling where the pattern is stable (note capture, tracker updates, status drafts) so my hours shift from documenting to analyzing.</li>
+      <li>Bring a sequencing point of view to the table: which commercial priorities are compounding, which are stalled, and what I'd propose we do about it.</li>
+    </ul>
+    <div class="deliverable"><b>Day 90.</b> The operating rhythm runs without heroics, and I arrive at the first-year bar early: a trusted voice in how priorities get sequenced, with a bid on the table for an owned workstream.</div>
+  </div></div>
+</section>
+
+<h2 class="section">The cadence stack</h2>
+<p class="section-sub">The four cadences the posting names. Click each for what "tight" looks like: the attendees, the output, and my prep.</p>
+
+<div class="fold"><button class="fold-head" onclick="this.parentElement.classList.toggle('open')"><span class="fold-name">Leadership sync</span><span class="chev">▶</span></button>
+  <div class="fold-body"><div class="fold-cols">
+    <div><div class="col-label">Right attendees</div><p>Function leads only; guests by agenda item, not by habit.</p></div>
+    <div><div class="col-label">Documented output</div><p>Decisions and owners within the hour, cascaded to the teams affected.</p></div>
+    <div><div class="col-label">My prep</div><p>Agenda locked the day before; open items from last week pre-answered in the pre-read.</p></div>
+  </div></div>
+</div>
+<div class="fold"><button class="fold-head" onclick="this.parentElement.classList.toggle('open')"><span class="fold-name">Pipeline &amp; revenue review</span><span class="chev">▶</span></button>
+  <div class="fold-body"><div class="fold-cols">
+    <div><div class="col-label">Right attendees</div><p>Sales and partnerships owners with their numbers, not their narratives.</p></div>
+    <div><div class="col-label">Documented output</div><p>Deltas vs. last review, stalled deals named, next actions with dates.</p></div>
+    <div><div class="col-label">My prep</div><p>The dashboard pulled and sanity-checked before the meeting, so time goes to decisions, not data reading.</p></div>
+  </div></div>
+</div>
+<div class="fold"><button class="fold-head" onclick="this.parentElement.classList.toggle('open')"><span class="fold-name">Partnership check-ins</span><span class="chev">▶</span></button>
+  <div class="fold-body"><div class="fold-cols">
+    <div><div class="col-label">Right attendees</div><p>The internal owner plus whoever the next step actually needs.</p></div>
+    <div><div class="col-label">Documented output</div><p>Commitment status per partner; risks surfaced before the partner surfaces them.</p></div>
+    <div><div class="col-label">My prep</div><p>Briefing per partner: history, open items, and what we want from the next conversation. I ran $500K+ of these at PubKey.</p></div>
+  </div></div>
+</div>
+<div class="fold"><button class="fold-head" onclick="this.parentElement.classList.toggle('open')"><span class="fold-name">Cross-functional operating meeting</span><span class="chev">▶</span></button>
+  <div class="fold-body"><div class="fold-cols">
+    <div><div class="col-label">Right attendees</div><p>One representative per function with authority to commit.</p></div>
+    <div><div class="col-label">Documented output</div><p>Blockers matched to owners; anything idle between meetings gets a mid-week nudge, not a two-week wait.</p></div>
+    <div><div class="col-label">My prep</div><p>Pattern report: what's slipping repeatedly and the process change I'd propose.</p></div>
+  </div></div>
+</div>
+
+<div class="year">
+  <h2>Beyond 90: the year-one bid</h2>
+  <p>The posting's first-year bar is a trusted voice plus an owned workstream beyond cadence management. Three candidates, and where I'd raise my hand first:</p>
+  <div class="bids">
+    <div class="bid pick"><span class="pick-tag">My bid</span><div class="b-name">Reporting &amp; commercial analytics</div><p>I've built this before: a Python platform wiring Square POS, Tripleseat, and four other systems into automated reporting. Barsys's commercial data deserves the same spine.</p></div>
+    <div class="bid"><div class="b-name">A partnership workstream</div><p>Hospitality partnerships are my home field; I grew a venue-partner portfolio past $500K annually.</p></div>
+    <div class="bid"><div class="b-name">A GTM motion</div><p>Venue-side GTM specifically: I know how bars evaluate, buy, and adopt new service tools, because I ran them.</p></div>
+  </div>
+</div>
+
+<div class="whyme">
+  <h2>Why me, and why Barsys</h2>
+  <p>I spent two years as Chief of Staff at PubKey, a Winklevoss-backed hospitality company, running exactly this operating rhythm for a CEO across bar venues in New York and D.C.: the cadences, the trackers, the briefing materials, the quarterly reporting behind a $26M raise. And before I ran the cadence, I worked the bar. I know Barsys's customer from behind their own rail: the beverage program, the POS, the service flow your product lives inside. That combination, cadence discipline plus genuine beverage-operations fluency plus the AI tooling to automate the recurring parts, is what I'd bring on day one.</p>
+  <div class="cta"><a href="mailto:michaeldagostino15@gmail.com">Let's talk → michaeldagostino15@gmail.com</a></div>
+</div>
+
+<footer>Built by Michael D'Agostino, designed and shipped with AI coding agents.</footer>
+
+</div>
+
+<script>
+  const phases = [document.getElementById('phase1'), document.getElementById('phase2'), document.getElementById('phase3')];
+  const states = [
+    [1,  'Shadowing every cadence, writing everything down'],
+    [10, 'Single action tracker live across every initiative'],
+    [22, 'Agendas locked day-before; notes routed within the hour'],
+    [30, 'No action item falls through the cracks'],
+    [40, 'Every cadence connects to a number'],
+    [52, 'The recurring business update drafts itself'],
+    [60, 'Patterns flagged with fixes attached'],
+    [72, 'Board-update narrative assembled from cadence outputs'],
+    [83, 'Recurring mechanics automated; hours shift to analysis'],
+    [90, 'Trusted voice, with a bid in for an owned workstream']
+  ];
+  const slider = document.getElementById('daySlider');
+  const dayNum = document.getElementById('dayNum');
+  const dayState = document.getElementById('dayState');
+  function phaseFor(d) { return d <= 30 ? 0 : d <= 60 ? 1 : 2; }
+  function setDay(d) {
+    dayNum.textContent = 'Day ' + d;
+    let label = states[0][1];
+    for (const [t, s] of states) { if (d >= t) label = s; }
+    dayState.textContent = label;
+    slider.style.setProperty('--fill', (d / 90 * 100) + '%');
+    const p = phaseFor(d);
+    phases.forEach((el, i) => {
+      el.classList.toggle('active', i === p);
+      el.classList.toggle('open', i === p);
+    });
+  }
+  slider.addEventListener('input', e => setDay(+e.target.value));
+  setDay(1);
+</script>
+</body>
+</html>

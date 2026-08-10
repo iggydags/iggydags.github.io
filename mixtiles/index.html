@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Moving Moment — Michael D'Agostino for Mixtiles</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --plum: #43222f;
+    --plum-soft: #7a5a66;
+    --pink: #f1477e;
+    --pink-deep: #d93368;
+    --blush: #fbe7ee;
+    --cream: #fdf8f4;
+    --card: #ffffff;
+    --line: #f2e3da;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    background: var(--cream); color: var(--plum);
+    line-height: 1.6; -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 880px; margin: 0 auto; padding: 56px 24px 72px; }
+
+  header { text-align: center; margin-bottom: 34px; }
+  .eyebrow { font-size: 12px; letter-spacing: 3px; text-transform: uppercase; color: var(--pink); font-weight: 600; }
+  h1 { font-size: 42px; font-weight: 700; letter-spacing: -0.5px; margin: 12px 0 10px; }
+  .sub { color: var(--plum-soft); max-width: 600px; margin: 0 auto 14px; font-size: 15.5px; }
+  .byline { font-size: 13px; color: var(--plum-soft); }
+  .byline a { color: var(--plum); text-decoration: none; border-bottom: 1.5px solid var(--blush); }
+  .byline a:hover { color: var(--pink); border-color: var(--pink); }
+
+  .thesis {
+    background: var(--card); border: 1px solid var(--line); border-radius: 18px;
+    padding: 26px 30px; margin-bottom: 44px; font-size: 16.5px;
+    box-shadow: 0 2px 16px rgba(67,34,47,.05);
+  }
+  .thesis b { color: var(--pink); }
+
+  h2.section { font-size: 27px; font-weight: 700; margin: 46px 0 4px; letter-spacing: -0.3px; }
+  .section-sub { color: var(--plum-soft); font-size: 14.5px; margin-bottom: 20px; }
+
+  /* Timeline slider */
+  .timeline-card { background: var(--card); border: 1px solid var(--line); border-radius: 18px; padding: 24px 28px; box-shadow: 0 2px 16px rgba(67,34,47,.05); }
+  .slider-label { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 10px; flex-wrap: wrap; gap: 6px; }
+  .slider-label .day { font-size: 24px; font-weight: 700; color: var(--pink); font-variant-numeric: tabular-nums; }
+  .slider-label .state { font-size: 14px; color: var(--plum-soft); }
+  input[type=range] { width: 100%; appearance: none; height: 8px; border-radius: 4px; background: linear-gradient(to right, var(--pink) 0%, var(--pink) var(--fill, 1%), var(--blush) var(--fill, 1%)); outline: none; cursor: pointer; }
+  input[type=range]::-webkit-slider-thumb { appearance: none; width: 26px; height: 26px; border-radius: 50%; background: var(--pink); border: 4px solid #fff; box-shadow: 0 2px 8px rgba(217,51,104,.4); cursor: grab; }
+  input[type=range]::-moz-range-thumb { width: 20px; height: 20px; border-radius: 50%; background: var(--pink); border: 4px solid #fff; box-shadow: 0 2px 8px rgba(217,51,104,.4); cursor: grab; }
+  .ticks { display: flex; justify-content: space-between; font-size: 11.5px; color: var(--plum-soft); margin-top: 8px; }
+
+  .windows { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 18px; }
+  @media (max-width: 680px) { .windows { grid-template-columns: 1fr; } }
+  .window {
+    border: 1.5px solid var(--line); border-radius: 14px; padding: 16px 18px;
+    background: var(--cream); transition: border-color .25s, background .25s, transform .25s;
+  }
+  .window.active { border-color: var(--pink); background: var(--blush); transform: translateY(-3px); }
+  .window .w-days { font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--pink); }
+  .window h3 { font-size: 16.5px; margin: 4px 0 6px; }
+  .window p { font-size: 13.5px; color: var(--plum-soft); }
+  .window .fit { margin-top: 8px; font-size: 13.5px; color: var(--plum); font-weight: 500; }
+
+  /* Opportunities */
+  .opp { background: var(--card); border: 1px solid var(--line); border-radius: 16px; margin-bottom: 12px; overflow: hidden; box-shadow: 0 1px 10px rgba(67,34,47,.04); }
+  .opp-head { width: 100%; text-align: left; background: none; border: none; cursor: pointer; display: flex; align-items: center; gap: 14px; padding: 17px 20px; font-family: inherit; color: var(--plum); }
+  .opp-head:hover { background: #fffbf8; }
+  .rank { font-size: 13px; font-weight: 700; color: #fff; background: var(--pink); width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .opp-name { font-size: 17px; font-weight: 600; }
+  .opp-tag { margin-left: auto; font-size: 12px; color: var(--plum-soft); white-space: nowrap; }
+  .chev { margin-left: 12px; color: var(--pink); transition: transform .25s; font-size: 13px; }
+  .opp.open .chev { transform: rotate(90deg); }
+  .opp-body { max-height: 0; overflow: hidden; transition: max-height .35s ease; }
+  .opp.open .opp-body { max-height: 500px; }
+  .opp-body p { padding: 0 20px 18px 62px; font-size: 14.5px; color: var(--plum-soft); }
+  .opp-body p b { color: var(--plum); }
+
+  /* Test metrics */
+  .test-card { background: var(--card); border: 1px solid var(--line); border-radius: 18px; padding: 24px 28px; box-shadow: 0 2px 16px rgba(67,34,47,.05); }
+  .test-card > p { font-size: 15px; color: var(--plum-soft); }
+  .metrics { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin: 18px 0 14px; }
+  @media (max-width: 680px) { .metrics { grid-template-columns: 1fr; } }
+  .metric { background: var(--blush); border-radius: 14px; padding: 16px 18px; text-align: center; }
+  .metric .m-name { font-size: 13px; font-weight: 600; color: var(--pink-deep); }
+  .metric .m-q { font-size: 12.5px; color: var(--plum-soft); margin-top: 4px; }
+
+  /* Why me */
+  .whyme { margin-top: 50px; padding: 28px 30px; background: var(--plum); color: #fbeef3; border-radius: 18px; }
+  .whyme h2 { font-size: 23px; margin-bottom: 10px; color: #fff; }
+  .whyme p { font-size: 15px; line-height: 1.65; color: #e9d3db; }
+  .whyme a { color: #ff9dbd; text-decoration: none; }
+  .whyme a:hover { text-decoration: underline; }
+  .cta { margin-top: 18px; }
+  .cta a { display: inline-block; padding: 11px 24px; background: var(--pink); border-radius: 999px; color: #fff; font-weight: 600; font-size: 14px; text-decoration: none; transition: background .2s, transform .2s; }
+  .cta a:hover { background: var(--pink-deep); transform: translateY(-1px); text-decoration: none; }
+
+  footer { text-align: center; margin-top: 38px; font-size: 12px; color: var(--plum-soft); }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div class="eyebrow">Prepared for Mixtiles · GTM Builder — Moving &amp; Home</div>
+  <h1>The Moving Moment</h1>
+  <p class="sub">A thesis, built from the outside. Every number and assumption here is a hypothesis I'd pressure-test against your data in week one.</p>
+  <p class="byline">Michael D'Agostino &nbsp;·&nbsp; New York, NY &nbsp;·&nbsp; <a href="mailto:michaeldagostino15@gmail.com">michaeldagostino15@gmail.com</a> &nbsp;·&nbsp; <a href="https://iggydags.github.io">iggydags.github.io</a></p>
+</header>
+
+<div class="thesis">
+  <b>Moving isn't a demographic. It's a deadline.</b> Tens of millions of Americans move each year, and for roughly ninety days each one becomes a different kind of consumer: high intent, time-boxed, and emotionally primed to answer the exact question your whole portfolio answers — how do I make this place feel like mine? The catch: the moment is invisible until it's over. Nobody announces a move to Mixtiles; they announce it to their landlord, their agent, their mover, and the postal service. So the company you build around this moment is less a new product than a new distribution layer: <b>own the channels that know someone is moving before their walls do.</b>
+</div>
+
+<h2 class="section">The move is a timeline</h2>
+<p class="section-sub">Drag through a move. Each window has its own psychology, and your portfolio maps onto it naturally.</p>
+
+<div class="timeline-card">
+  <div class="slider-label">
+    <span class="day" id="dayNum">T–60</span>
+    <span class="state" id="dayState">Contract signed. Logistics mode begins.</span>
+  </div>
+  <input type="range" id="moveSlider" min="-60" max="90" value="-60" aria-label="Days relative to move-in">
+  <div class="ticks"><span>T–60 · contract</span><span>T+0 · keys</span><span>T+30</span><span>T+90 · home</span></div>
+
+  <div class="windows">
+    <div class="window" id="w0">
+      <div class="w-days">T–60 → T–0</div>
+      <h3>Logistics mode</h3>
+      <p>Address changes, utilities, movers. Emotion is stress. Nobody's thinking about walls.</p>
+      <div class="fit">→ Capture identity only. Earn permission to show up later.</div>
+    </div>
+    <div class="window" id="w1">
+      <div class="w-days">T+0 → T+30</div>
+      <h3>Boxes everywhere</h3>
+      <p>Function first: bed, couch, kitchen. The walls stay bare.</p>
+      <div class="fit">→ easyplant: the first living thing in an empty apartment.</div>
+    </div>
+    <div class="window" id="w2">
+      <div class="w-days">T+30 → T+90</div>
+      <h3>Nesting</h3>
+      <p>The home becomes theirs. Photos go up. Housewarmings happen.</p>
+      <div class="fit">→ The Mixtiles core moment. Oasis. The gifting flywheel.</div>
+    </div>
+  </div>
+</div>
+
+<h2 class="section">Four opportunities, in the order I'd test them</h2>
+<p class="section-sub">Click each one. Ranked by how cheaply we can learn whether it's real.</p>
+
+<div class="opp open"><button class="opp-head" onclick="this.parentElement.classList.toggle('open')"><span class="rank">1</span><span class="opp-name">The closing-gift channel</span><span class="opp-tag">B2B2C · test first</span><span class="chev">▶</span></button>
+  <div class="opp-body"><p>Real estate agents buy closing gifts at scale, they're chronically unimaginative about it, and it's a marketing expense they already budget. A <b>"first photo in your new home"</b> Mixtiles gift, sent by the agent, beats a candle and doubles as a lead-gen machine: the agent pays the CAC, the gift arrives exactly at T+0, and every tile on a wall recruits the housewarming guests. I worked in residential real estate data at Compass — agents adopt anything that makes them memorable at closing.</p></div>
+</div>
+
+<div class="opp"><button class="opp-head" onclick="this.parentElement.classList.toggle('open')"><span class="rank">2</span><span class="opp-name">The housewarming registry</span><span class="opp-tag">new social channel</span><span class="chev">▶</span></button>
+  <div class="opp-body"><p>Moving is one of the last gift-heavy life moments with <b>no registry norm</b>. Build one: a mover shares a link, friends fund tiles, plants, and Oasis pieces for the new place. It converts one mover into ten gift-buying customers and creates the social announcement channel the brand currently lacks.</p></div>
+</div>
+
+<div class="opp"><button class="opp-head" onclick="this.parentElement.classList.toggle('open')"><span class="rank">3</span><span class="opp-name">Moving-stack partnerships</span><span class="opp-tag">paid + earned</span><span class="chev">▶</span></button>
+  <div class="opp-body"><p>Movers, utilities-setup platforms, renters-insurance apps, and building welcome flows all touch the mover at T–30 with <b>permissioned attention</b>. Test paid placement and welcome-kit bundles; measure CAC against the existing blended rate and kill anything that doesn't beat it.</p></div>
+</div>
+
+<div class="opp"><button class="opp-head" onclick="this.parentElement.classList.toggle('open')"><span class="rank">4</span><span class="opp-name">The empty-wall product</span><span class="opp-tag">merchandising</span><span class="chev">▶</span></button>
+  <div class="opp-body"><p>A <b>"new home starter"</b> SKU designed for the moment: a layout kit for the first bare wall, sized to the photos people actually have from the move — the sold sign, the keys, the first-night pizza on the floor. Merchandising, not invention.</p></div>
+</div>
+
+<h2 class="section">What I'd test first, and how I'd know</h2>
+<div class="test-card">
+  <p>Start with the closing-gift channel: it needs no consumer discovery, no new product, and one salesperson — me. Pilot with <b style="color:var(--plum)">50 agents across two metros</b>, an agent portal that could start as a Typeform, and gift volume as the input metric. Three numbers decide everything:</p>
+  <div class="metrics">
+    <div class="metric"><div class="m-name">Agent repeat rate</div><div class="m-q">Do they gift again on the next closing?</div></div>
+    <div class="metric"><div class="m-name">Recipient conversion</div><div class="m-q">Does the gifted household buy within 90 days?</div></div>
+    <div class="metric"><div class="m-name">Referral attach</div><div class="m-q">Do housewarming guests convert?</div></div>
+  </div>
+  <p>If recipient conversion beats the blended new-customer rate, the channel scales with the agent population — and the registry becomes the natural second act. <b style="color:var(--plum)">Sixty days, one owner, real numbers.</b></p>
+</div>
+
+<div class="whyme">
+  <h2>Why I think about it this way</h2>
+  <p>I've spent real time inside this exact intersection. I wrote a 17,000-word thesis on real estate transaction workflows and built the product it describes (<a href="https://iggydags.github.io">Mantle</a>); I analyzed 10+ years of residential sales data at Compass; and as Chief of Staff at PubKey, a Winklevoss-backed consumer company, I built a partnership channel from zero to $500K+ in annual revenue and shipped the analytics to know which levers actually moved. Blank pages are where I do my best work.</p>
+  <div class="cta"><a href="mailto:michaeldagostino15@gmail.com">Let's talk → michaeldagostino15@gmail.com</a></div>
+</div>
+
+<footer>Built by Michael D'Agostino, designed and shipped with AI coding agents — the same way I'd build for you.</footer>
+
+</div>
+
+<script>
+  const slider = document.getElementById('moveSlider');
+  const dayNum = document.getElementById('dayNum');
+  const dayState = document.getElementById('dayState');
+  const wins = [document.getElementById('w0'), document.getElementById('w1'), document.getElementById('w2')];
+  const states = [
+    [-60, 'Contract signed. Logistics mode begins.'],
+    [-30, 'Address changes filed. The moving stack knows first.'],
+    [-7,  'Boxes packed. Nobody is thinking about walls.'],
+    [0,   'Keys in hand. The perfect moment for a gift to arrive.'],
+    [14,  'Function first: bed, couch, kitchen.'],
+    [30,  'The nesting window opens. Photos come out.'],
+    [55,  'Tiles go up. The housewarming gets scheduled.'],
+    [80,  'It finally feels like home. And ten guests just saw the walls.']
+  ];
+  function winFor(d) { return d < 0 ? 0 : d <= 30 ? 1 : 2; }
+  function setDay(d) {
+    dayNum.textContent = d < 0 ? 'T–' + Math.abs(d) : 'T+' + d;
+    let label = states[0][1];
+    for (const [t, s] of states) { if (d >= t) label = s; }
+    dayState.textContent = label;
+    slider.style.setProperty('--fill', ((d + 60) / 150 * 100) + '%');
+    const w = winFor(d);
+    wins.forEach((el, i) => el.classList.toggle('active', i === w));
+  }
+  slider.addEventListener('input', e => setDay(+e.target.value));
+  setDay(-60);
+</script>
+</body>
+</html>

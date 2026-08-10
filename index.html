@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Michael D'Agostino — Selected Work</title>
+<meta name="description" content="Selected work by Michael D'Agostino — six distinct projects across product design, quantitative modeling, data exploration, analytics, backend API integration, and data tooling." />
+<meta name="theme-color" content="#f4f2ec" />
+<meta property="og:title" content="Michael D'Agostino — Selected Work" />
+<meta property="og:description" content="Six distinct projects across data science, engineering, and product: modeling, data exploration, analytics, backend, data tooling, and product design." />
+<meta property="og:type" content="website" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Newsreader:ital,opsz,wght@0,16..72,400;0,16..72,500;1,16..72,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --paper:   oklch(97% 0.006 92);
+    --paper-2: oklch(94.5% 0.006 92);
+    --ink:     oklch(25% 0.015 264);
+    --ink-2:   oklch(40% 0.013 264);
+    --muted:   oklch(52% 0.011 264);
+    --faint:   oklch(66% 0.009 264);
+    --line:    oklch(25% 0.02 264 / 0.14);
+    --line-2:  oklch(25% 0.02 264 / 0.08);
+    --accent:  oklch(47% 0.15 256);
+
+    --display: 'Bricolage Grotesque', system-ui, sans-serif;
+    --serif:   'Newsreader', Georgia, serif;
+    --mono:    'JetBrains Mono', ui-monospace, monospace;
+
+    --verb: clamp(2.3rem, 0.8rem + 7vw, 6.4rem);
+    --h2:   clamp(1.8rem, 1rem + 3.2vw, 3.2rem);
+    --gut:  clamp(1.3rem, 5vw, 3.5rem);
+    --maxw: 1200px;
+
+    --ease: cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--serif);
+    font-size: clamp(1.02rem, 0.96rem + 0.35vw, 1.18rem);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+  ::selection { background: var(--accent); color: var(--paper); }
+
+  .wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 var(--gut); position: relative; }
+  a:focus-visible, :focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; border-radius: 2px; }
+
+  /* ============ STICKY BAR ============ */
+  .bar {
+    position: sticky; top: 0; z-index: 50;
+    background: oklch(97% 0.006 92 / 0.85);
+    -webkit-backdrop-filter: saturate(1.1) blur(8px);
+            backdrop-filter: saturate(1.1) blur(8px);
+    border-bottom: 1px solid var(--line);
+  }
+
+  /* ============ HERO ============ */
+  .hero {
+    position: relative;
+    min-height: calc(100svh - 3.4rem);
+    display: flex; flex-direction: column;
+    border-bottom: 1px solid var(--line);
+    overflow: hidden;
+  }
+  /* faint ruled columns — clean structure, no clutter */
+  .hero::before {
+    content: ""; position: absolute; inset: 0; z-index: 0; pointer-events: none;
+    background-image: repeating-linear-gradient(to right, var(--line-2) 0 1px, transparent 1px calc(100% / 6));
+    -webkit-mask-image: linear-gradient(180deg, transparent, #000 25% 70%, transparent);
+            mask-image: linear-gradient(180deg, transparent, #000 25% 70%, transparent);
+    opacity: 0.9;
+  }
+  .hero .wrap { z-index: 1; width: 100%; display: flex; flex-direction: column; min-height: calc(100svh - 3.4rem); }
+
+  .topbar {
+    display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap;
+    padding-top: 0.95rem; padding-bottom: 0.95rem;
+    font-family: var(--mono); font-size: 0.75rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted);
+  }
+  .topbar .name { color: var(--ink); }
+  .topbar .dot { color: var(--accent); }
+  .topcontact { display: flex; gap: clamp(0.9rem, 2vw, 1.6rem); }
+  .topcontact a { color: var(--muted); text-decoration: none; transition: color 0.25s var(--ease); }
+  .topcontact a:hover { color: var(--accent); }
+
+  .hero-core { margin-top: clamp(2rem, 7vh, 4.5rem); padding: 0 0 1rem; }
+  .lead-in {
+    font-family: var(--serif); font-style: italic;
+    font-size: clamp(1.1rem, 0.95rem + 0.9vw, 1.6rem);
+    line-height: 1.35; color: var(--ink-2);
+    margin-bottom: clamp(1.1rem, 2.5vw, 2rem);
+  }
+
+  .verbs { list-style: none; }
+  .verbs a {
+    --c: var(--ink);
+    display: inline-flex; align-items: baseline; gap: clamp(0.7rem, 1.6vw, 1.5rem);
+    text-decoration: none; color: var(--c);
+    font-family: var(--display); font-weight: 800;
+    font-size: var(--verb); line-height: 0.95; letter-spacing: -0.04em;
+    transition: color 0.35s var(--ease);
+  }
+  .verbs .word { position: relative; display: inline-block; }
+  .verbs .word::after {
+    content: ""; position: absolute; left: 0; right: 0; bottom: 0.1em; height: 0.04em;
+    background: var(--accent); transform: scaleX(0); transform-origin: left; transition: transform 0.5s var(--ease);
+  }
+  .verbs a .tag {
+    font-family: var(--mono); font-weight: 400;
+    font-size: clamp(0.6rem, 0.5rem + 0.3vw, 0.8rem); letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--faint); align-self: center; white-space: nowrap;
+    opacity: 0; transform: translateX(-8px);
+    transition: opacity 0.4s var(--ease), transform 0.4s var(--ease), color 0.4s var(--ease);
+  }
+  .verbs a:hover .word::after { transform: scaleX(1); }
+  .verbs a:hover .tag { opacity: 1; transform: none; color: var(--accent); }
+
+  /* kinetic load reveal */
+  .mask { display: block; overflow: hidden; padding-bottom: 0.05em; }
+  .mask > * { display: block; transform: translateY(110%); }
+  .ready .mask > * { animation: rise 0.95s var(--ease) both; }
+  .ready .verbs li:nth-child(1) .mask > * { animation-delay: 0.16s; }
+  .ready .verbs li:nth-child(2) .mask > * { animation-delay: 0.26s; }
+  .ready .verbs li:nth-child(3) .mask > * { animation-delay: 0.36s; }
+  .ready .verbs li:nth-child(4) .mask > * { animation-delay: 0.46s; }
+  .ready .verbs li:nth-child(5) .mask > * { animation-delay: 0.56s; }
+  .ready .verbs li:nth-child(6) .mask > * { animation-delay: 0.66s; }
+  @keyframes rise { from { transform: translateY(110%); } to { transform: translateY(0); } }
+  .fade-up { opacity: 0; transform: translateY(14px); }
+  .ready .fade-up { animation: fadeUp 1s var(--ease) 0.65s both; }
+  @keyframes fadeUp { to { opacity: 1; transform: none; } }
+
+  .hero-foot {
+    margin-top: auto;
+    display: flex; justify-content: space-between; align-items: flex-end; gap: 1.5rem; flex-wrap: wrap;
+    padding: clamp(1.6rem, 4vh, 3rem) 0 clamp(1.4rem, 3vh, 2.4rem);
+  }
+  .meta { display: flex; flex-wrap: wrap; gap: 0.4rem 1.6rem; font-family: var(--mono); font-size: 0.78rem; color: var(--muted); }
+  .meta b { color: var(--ink); font-weight: 500; }
+  .scrollcue { font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--faint); display: inline-flex; align-items: center; gap: 0.6rem; }
+  .scrollcue .ln { width: 2.5rem; height: 1px; background: var(--faint); position: relative; overflow: hidden; }
+  .scrollcue .ln::after { content:""; position:absolute; inset:0; background: var(--accent); transform: translateX(-100%); animation: sweep 2.6s var(--ease) infinite; }
+  @keyframes sweep { 0%{transform:translateX(-100%)} 55%,100%{transform:translateX(100%)} }
+
+  /* ============ PROJECTS ============ */
+  main { padding-top: clamp(1.5rem, 4vw, 3rem); }
+  .project {
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.7fr);
+    gap: clamp(1.2rem, 4vw, 4.5rem);
+    align-items: start;
+    padding: clamp(2.8rem, 5.5vw, 5.5rem) 0;
+    border-top: 1px solid var(--line);
+    scroll-margin-top: 1.5rem;
+  }
+  .index { position: relative; }
+  .num {
+    font-family: var(--display); font-weight: 800;
+    font-size: clamp(2.6rem, 1rem + 7vw, 6rem); line-height: 0.82;
+    color: transparent; -webkit-text-stroke: 1.2px var(--faint);
+    letter-spacing: -0.04em;
+    transition: -webkit-text-stroke-color 0.45s var(--ease), transform 0.45s var(--ease);
+  }
+  .project:hover .num { -webkit-text-stroke-color: var(--accent); }
+  .verb { font-family: var(--mono); font-size: 0.9rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--accent); margin-top: 1rem; }
+  .stack { font-family: var(--mono); font-size: 0.84rem; color: var(--muted); margin-top: 1.2rem; line-height: 1.8; }
+
+  .body h2 {
+    font-family: var(--display); font-weight: 700; font-size: var(--h2);
+    line-height: 1.0; letter-spacing: -0.02em; margin-bottom: 0.55rem; color: var(--ink);
+  }
+  .slug { font-family: var(--mono); font-size: 0.8rem; color: var(--accent); margin-bottom: 1.5rem; }
+  .body p {
+    color: var(--ink-2); max-width: 30ch;
+    font-size: clamp(1.15rem, 1rem + 0.6vw, 1.5rem); line-height: 1.4;
+  }
+  .body p .hl { color: var(--ink); font-style: normal; font-weight: 500; }
+
+  .chips { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1.7rem; }
+  .chip {
+    font-family: var(--mono); font-size: 0.71rem; letter-spacing: 0.02em;
+    padding: 0.38rem 0.7rem; border: 1px solid var(--line); border-radius: 7px; color: var(--muted);
+    transition: border-color 0.35s var(--ease), color 0.35s var(--ease);
+  }
+  .project:hover .chip { border-color: var(--accent); color: var(--ink); }
+
+  .open {
+    display: inline-flex; align-items: center; gap: 0.6rem; margin-top: 1.9rem;
+    font-family: var(--mono); font-size: 0.8rem; letter-spacing: 0.04em;
+    color: var(--ink); text-decoration: none; padding-bottom: 4px; border-bottom: 1px solid var(--accent);
+    transition: gap 0.35s var(--ease), color 0.25s var(--ease);
+  }
+  .open .arr { color: var(--accent); transition: transform 0.35s var(--ease); }
+  .open:hover { color: var(--accent); }
+  .project:hover .open .arr { transform: translateX(6px); }
+
+  /* ============ FOOTER ============ */
+  footer { border-top: 1px solid var(--line); padding: clamp(3.5rem, 8vw, 8rem) 0 clamp(2.5rem, 5vw, 4rem); }
+  footer h2 {
+    font-family: var(--display); font-weight: 800;
+    font-size: clamp(1.9rem, 1rem + 4.5vw, 4.5rem); line-height: 0.98; letter-spacing: -0.03em; color: var(--ink);
+  }
+  footer h2 em { font-style: normal; color: var(--accent); }
+  .contact { margin-top: 2.4rem; display: flex; flex-wrap: wrap; gap: 0.8rem; font-family: var(--mono); font-size: 0.82rem; }
+  .contact a {
+    display: inline-flex; align-items: center; gap: 0.5rem; color: var(--ink); text-decoration: none;
+    padding: 0.6rem 1.05rem; border: 1px solid var(--line); border-radius: 8px;
+    transition: border-color 0.3s var(--ease), color 0.3s var(--ease), background 0.3s var(--ease);
+  }
+  .contact a:hover { border-color: var(--accent); color: var(--accent); background: var(--paper-2); }
+  .colophon { margin-top: 2.6rem; font-family: var(--mono); font-size: 0.71rem; color: var(--faint); letter-spacing: 0.05em; }
+
+  .reveal { opacity: 0; transform: translateY(26px); transition: opacity 0.85s var(--ease), transform 0.85s var(--ease); }
+  .reveal.in { opacity: 1; transform: none; }
+
+  @media (max-width: 760px) {
+    .project { grid-template-columns: 1fr; gap: 0.7rem; }
+    .num { font-size: clamp(2.6rem, 18vw, 4.5rem); }
+    .verbs a .tag { display: none; }
+    .scrollcue { display: none; }
+    .body p { max-width: 38ch; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .ready .mask > *, .ready .fade-up { animation: none; }
+    .mask > * { transform: none; }
+    .fade-up { opacity: 1; transform: none; }
+    .reveal { opacity: 1; transform: none; transition: none; }
+    .scrollcue .ln::after { animation: none; }
+  }
+</style>
+</head>
+<body>
+
+  <header class="bar">
+    <div class="wrap topbar">
+      <span class="name">Michael D'Agostino</span>
+      <nav class="topcontact" aria-label="Contact">
+        <a href="mailto:michaeldagostino15@gmail.com">Email</a>
+        <a href="https://github.com/dag0stin0">GitHub</a>
+        <a href="https://www.linkedin.com/in/dagbag/">LinkedIn</a>
+      </nav>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="wrap">
+
+      <div class="hero-core">
+        <p class="lead-in fade-up">Six projects.<br/>Six distinct problems.</p>
+        <ul class="verbs">
+          <li><a href="#p1"><span class="mask"><span class="word">Product</span></span><span class="tag">→ 01 · design + ship</span></a></li>
+          <li><a href="#p2"><span class="mask"><span class="word">Tooling</span></span><span class="tag">→ 02 · sweep + score + track</span></a></li>
+          <li><a href="#p3"><span class="mask"><span class="word">Modeling</span></span><span class="tag">→ 03 · forecasting + queuing</span></a></li>
+          <li><a href="#p4"><span class="mask"><span class="word">Exploration</span></span><span class="tag">→ 04 · EDA + clustering</span></a></li>
+          <li><a href="#p5"><span class="mask"><span class="word">Analytics</span></span><span class="tag">→ 05 · five-channel pipeline</span></a></li>
+          <li><a href="#p6"><span class="mask"><span class="word">Backend</span></span><span class="tag">→ 06 · API + serverless</span></a></li>
+        </ul>
+      </div>
+
+      <div class="hero-foot fade-up">
+        <div class="meta">
+          <span><b>BS Applied Math</b> · Columbia</span>
+          <span>NYC</span>
+        </div>
+        <span class="scrollcue">Scroll <span class="ln"></span></span>
+      </div>
+
+    </div>
+  </section>
+
+  <div class="wrap">
+  <main>
+
+    <section id="p1" class="project reveal">
+      <div class="index">
+        <div class="num">01</div>
+        <div class="verb">Product design &amp; build</div>
+        <div class="stack">Vanilla HTML/CSS/JS<br/>zero framework<br/>live at mantle.us.com</div>
+      </div>
+      <div class="body">
+        <h2>Mantle</h2>
+        <div class="slug">product strategy · design · shipped solo</div>
+        <p>A transaction workspace for top-producing real-estate agents, owning <span class="hl">accepted offer to closing</span>. Thesis to shipped product, one hand.</p>
+        <div class="chips">
+          <span class="chip">Product strategy</span>
+          <span class="chip">Interaction design</span>
+          <span class="chip">Live in production</span>
+        </div>
+        <a class="open" href="/work/mantle/">Explore the project <span class="arr">→</span></a>
+      </div>
+    </section>
+
+    <section id="p2" class="project reveal">
+      <div class="index">
+        <div class="num">02</div>
+        <div class="verb">Data tooling</div>
+        <div class="stack">Python sweeps<br/>Greenhouse · Ashby · Lever<br/>single-file HTML</div>
+      </div>
+      <div class="body">
+        <h2>Job-Search Tracker</h2>
+        <div class="slug">ATS pipeline · scoring model · daily-use instrument</div>
+        <p>A job search is <span class="hl">state management</span>: 400+ postings that go stale silently. Python sweeps every ATS board, a <span class="hl">weighted model ranks fit</span>, one file runs the pipeline.</p>
+        <div class="chips">
+          <span class="chip">ATS API sweeps</span>
+          <span class="chip">Weighted scoring</span>
+          <span class="chip">Zero backend · localStorage</span>
+        </div>
+        <a class="open" href="/tracker/">Explore the project <span class="arr">→</span></a>
+      </div>
+    </section>
+
+    <section id="p3" class="project reveal">
+      <div class="index">
+        <div class="num">03</div>
+        <div class="verb">Quantitative modeling</div>
+        <div class="stack">Python<br/>scipy · statsmodels<br/>scikit-learn</div>
+      </div>
+      <div class="body">
+        <h2>Call-Center Staffing</h2>
+        <div class="slug">forecasting · queuing theory · simulation</div>
+        <p><span class="hl">Forecast</span> the demand, <span class="hl">solve</span> for optimal staffing with queuing theory, <span class="hl">validate</span> with a simulator built from scratch.</p>
+        <div class="chips">
+          <span class="chip">Stochastic modeling</span>
+          <span class="chip">Time-series forecasting</span>
+          <span class="chip">Discrete-event simulation</span>
+        </div>
+        <a class="open" href="/work/call-center-queuing/">Explore the project <span class="arr">→</span></a>
+      </div>
+    </section>
+
+    <section id="p4" class="project reveal">
+      <div class="index">
+        <div class="num">04</div>
+        <div class="verb">Data exploration</div>
+        <div class="stack">Python<br/>pandas · scikit-learn<br/>spotipy</div>
+      </div>
+      <div class="body">
+        <h2>Spotify Audio Features</h2>
+        <div class="slug">EDA · unsupervised clustering</div>
+        <p>Do popular songs cluster in the audio-feature space? <span class="hl">EDA and KMeans</span> across decades of music.</p>
+        <div class="chips">
+          <span class="chip">Exploratory analysis</span>
+          <span class="chip">Unsupervised ML</span>
+          <span class="chip">Live API data</span>
+        </div>
+        <a class="open" href="/work/spotify-audio-features/">Explore the project <span class="arr">→</span></a>
+      </div>
+    </section>
+
+    <section id="p5" class="project reveal">
+      <div class="index">
+        <div class="num">05</div>
+        <div class="verb">Data &amp; analytics</div>
+        <div class="stack">Python + pandas<br/>single-file HTML output<br/>~3,200 lines</div>
+      </div>
+      <div class="body">
+        <h2>Social Analytics Pipeline</h2>
+        <div class="slug">analytics engineering + statistical validation</div>
+        <p>Raw exports from <span class="hl">five channels</span> fan into dashboards, workbooks, and significance-tested content levers.</p>
+        <div class="chips">
+          <span class="chip">pandas pipeline</span>
+          <span class="chip">Statistical validation</span>
+          <span class="chip">Zero-JS dashboards</span>
+        </div>
+        <a class="open" href="/work/social-analytics/">Explore the project <span class="arr">→</span></a>
+      </div>
+    </section>
+
+    <section id="p6" class="project reveal">
+      <div class="index">
+        <div class="num">06</div>
+        <div class="verb">Backend &amp; APIs</div>
+        <div class="stack">Python<br/>Vercel serverless<br/>cron + Blob</div>
+      </div>
+      <div class="body">
+        <h2>Events API → Calendar</h2>
+        <div class="slug">backend architecture · API integration</div>
+        <p>A rate-limited API, served fast: a daily cron writes one snapshot the <span class="hl">read path serves instantly</span>.</p>
+        <div class="chips">
+          <span class="chip">API integration</span>
+          <span class="chip">Serverless + cron</span>
+          <span class="chip">Read-path optimization</span>
+        </div>
+        <a class="open" href="/work/tripleseat-calendar-sync/">Explore the project <span class="arr">→</span></a>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="reveal">
+    <h2>Get in <em>touch.</em></h2>
+    <div class="contact">
+      <a href="mailto:michaeldagostino15@gmail.com">Email <span style="color:var(--accent)">↗</span></a>
+      <a href="https://github.com/dag0stin0">GitHub <span style="color:var(--accent)">↗</span></a>
+      <a href="https://www.linkedin.com/in/dagbag/">LinkedIn <span style="color:var(--accent)">↗</span></a>
+    </div>
+    <p class="colophon">Hand-built · no framework · 2026</p>
+  </footer>
+  </div>
+
+<script>
+(function () {
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  requestAnimationFrame(function () { document.body.classList.add('ready'); });
+
+  var nodes = document.querySelectorAll('.reveal');
+  if (reduce || !('IntersectionObserver' in window)) {
+    nodes.forEach(function (n) { n.classList.add('in'); });
+  } else {
+    var io = new IntersectionObserver(function (es) {
+      es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+    }, { threshold: 0.15, rootMargin: '0px 0px -8% 0px' });
+    nodes.forEach(function (n) { io.observe(n); });
+  }
+})();
+</script>
+
+</body>
+</html>

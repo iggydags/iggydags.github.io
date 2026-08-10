@@ -1,64 +1,294 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Selector: A First 90 Days — Michael D'Agostino</title>
 <style>
-  @page { size: letter; margin: 0.45in 0.6in; }
+  :root {
+    --ink: #16181d;
+    --muted: #5c6270;
+    --line: #e3e5ea;
+    --bg: #fafafa;
+    --card: #ffffff;
+    --accent: #b7791f;
+    --accent-soft: #fdf3e0;
+    --good: #1f7a4d;
+  }
   * { margin: 0; padding: 0; box-sizing: border-box; }
-  body { font-family: "Times New Roman", Times, serif; font-size: 9.4pt; color: #000; line-height: 1.28; max-width: 8.5in; margin: 0 auto; padding: 0.6in 0.7in; background: #fff; }
-  @media print { body { max-width: none; margin: 0; padding: 0; } }
-  .title { font-size: 15pt; font-weight: bold; text-align: center; }
-  .subtitle { text-align: center; font-size: 9.5pt; font-style: italic; margin-top: 3px; margin-bottom: 4px; }
-  .contact { text-align: center; font-size: 9pt; margin-bottom: 10px; }
-  h2 { font-size: 10pt; letter-spacing: 0.5px; border-bottom: 1px solid #000; margin-top: 7px; margin-bottom: 3px; padding-bottom: 2px; text-transform: uppercase; }
-  p { margin-bottom: 5px; text-align: justify; }
-  ul { margin: 2px 0 6px 0; padding-left: 16px; }
-  li { margin-bottom: 2.5px; text-align: justify; }
-  table { width: 100%; border-collapse: collapse; margin: 4px 0 6px 0; font-size: 9.3pt; }
-  th, td { border: 1px solid #999; padding: 3px 6px; text-align: left; vertical-align: top; }
-  th { background: #f0f0f0; font-size: 9pt; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: Georgia, 'Times New Roman', serif;
+    color: var(--ink);
+    background: var(--bg);
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+  .sans { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; }
+  .wrap { max-width: 860px; margin: 0 auto; padding: 56px 24px 80px; }
+
+  header { text-align: center; margin-bottom: 8px; }
+  .eyebrow { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; font-size: 12px; letter-spacing: 2.5px; text-transform: uppercase; color: var(--accent); font-weight: 600; }
+  h1 { font-size: 40px; font-weight: 700; letter-spacing: -0.5px; margin: 10px 0 12px; }
+  .sub { color: var(--muted); font-style: italic; max-width: 560px; margin: 0 auto 14px; font-size: 16px; }
+  .byline { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; font-size: 13.5px; color: var(--muted); }
+  .byline a { color: var(--ink); text-decoration: none; border-bottom: 1px solid var(--line); }
+  .byline a:hover { border-color: var(--accent); color: var(--accent); }
+
+  .principle {
+    margin: 36px 0 44px; padding: 20px 26px;
+    background: var(--card); border: 1px solid var(--line); border-left: 3px solid var(--accent);
+    border-radius: 6px; font-size: 16.5px;
+  }
+  .principle b { font-variant: small-caps; letter-spacing: 0.5px; }
+
+  /* Day slider */
+  .slider-block { margin: 0 0 30px; }
+  .slider-label { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 8px; }
+  .slider-label .day { font-size: 22px; font-weight: 700; color: var(--accent); font-variant-numeric: tabular-nums; }
+  .slider-label .state { font-size: 14px; color: var(--muted); text-align: right; }
+  input[type=range] { width: 100%; appearance: none; height: 6px; border-radius: 3px; background: linear-gradient(to right, var(--accent) 0%, var(--accent) var(--fill, 1%), var(--line) var(--fill, 1%)); outline: none; cursor: pointer; }
+  input[type=range]::-webkit-slider-thumb { appearance: none; width: 22px; height: 22px; border-radius: 50%; background: var(--ink); border: 3px solid var(--card); box-shadow: 0 1px 4px rgba(0,0,0,.25); cursor: grab; }
+  input[type=range]::-moz-range-thumb { width: 18px; height: 18px; border-radius: 50%; background: var(--ink); border: 3px solid var(--card); box-shadow: 0 1px 4px rgba(0,0,0,.25); cursor: grab; }
+  .ticks { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; display: flex; justify-content: space-between; font-size: 11.5px; color: var(--muted); margin-top: 6px; }
+
+  /* Phases */
+  .phase {
+    background: var(--card); border: 1px solid var(--line); border-radius: 8px;
+    margin-bottom: 14px; overflow: hidden; transition: border-color .25s, box-shadow .25s;
+  }
+  .phase.active { border-color: var(--accent); box-shadow: 0 2px 14px rgba(183,121,31,.12); }
+  .phase-head {
+    width: 100%; text-align: left; background: none; border: none; cursor: pointer;
+    display: flex; align-items: baseline; gap: 14px; padding: 18px 22px;
+    font-family: inherit;
+  }
+  .phase-head:hover .phase-title { color: var(--accent); }
+  .phase-days { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; font-size: 11.5px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--accent); white-space: nowrap; padding-top: 3px; }
+  .phase-title { font-size: 21px; font-weight: 700; transition: color .2s; }
+  .phase-tag { margin-left: auto; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; font-size: 12px; color: var(--muted); white-space: nowrap; padding-top: 4px; }
+  .chev { font-family: -apple-system, sans-serif; margin-left: 10px; color: var(--muted); transition: transform .25s; }
+  .phase.open .chev { transform: rotate(90deg); }
+  .phase-body { max-height: 0; overflow: hidden; transition: max-height .35s ease; }
+  .phase.open .phase-body { max-height: 900px; }
+  .phase-body-inner { padding: 0 22px 20px; }
+  .phase-body ul { padding-left: 20px; }
+  .phase-body li { margin-bottom: 8px; }
+  .deliverable {
+    margin-top: 14px; padding: 12px 16px; border-radius: 6px;
+    background: var(--accent-soft); font-size: 15.5px;
+  }
+  .deliverable b { color: var(--accent); font-variant: small-caps; letter-spacing: 0.5px; }
+
+  /* Backlog */
+  h2.section { font-size: 26px; margin: 48px 0 6px; letter-spacing: -0.3px; }
+  .section-sub { color: var(--muted); font-size: 15px; margin-bottom: 18px; }
+  .friction {
+    background: var(--card); border: 1px solid var(--line); border-radius: 8px;
+    margin-bottom: 10px; overflow: hidden;
+  }
+  .friction-head {
+    width: 100%; text-align: left; background: none; border: none; cursor: pointer;
+    display: flex; align-items: center; gap: 12px; padding: 14px 18px; font-family: inherit;
+  }
+  .friction-head:hover { background: #fcfcfd; }
+  .rank { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; font-size: 12px; font-weight: 700; color: var(--card); background: var(--ink); width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .friction-name { font-size: 17.5px; font-weight: 700; }
+  .friction .chev { margin-left: auto; }
+  .friction-body { max-height: 0; overflow: hidden; transition: max-height .3s ease; }
+  .friction.open .friction-body { max-height: 400px; }
+  .friction-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; padding: 2px 18px 16px 54px; }
+  @media (max-width: 620px) { .friction-cols { grid-template-columns: 1fr; } }
+  .col-label { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 4px; }
+  .col-label.auto { color: var(--good); }
+  .col-label.human { color: var(--accent); }
+  .friction-cols p { font-size: 15.5px; }
+
+  /* Why me */
+  .whyme { margin-top: 52px; padding: 26px 28px; background: var(--ink); color: #f2f2ef; border-radius: 8px; }
+  .whyme h2 { font-size: 22px; margin-bottom: 10px; color: #fff; }
+  .whyme p { font-size: 16px; line-height: 1.6; color: #d8d9d4; }
+  .whyme a { color: #f0c26a; text-decoration: none; }
+  .whyme a:hover { text-decoration: underline; }
+  .cta { margin-top: 16px; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; font-size: 14px; }
+  .cta a { display: inline-block; padding: 9px 18px; border: 1px solid #f0c26a; border-radius: 6px; color: #f0c26a; font-weight: 600; }
+  .cta a:hover { background: #f0c26a; color: var(--ink); text-decoration: none; }
+
+  footer { text-align: center; margin-top: 40px; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; font-size: 12px; color: var(--muted); }
+
+  @media print {
+    body { background: #fff; }
+    .phase-body, .friction-body { max-height: none !important; }
+    .slider-block, .cta { display: none; }
+    .whyme { background: #fff; color: var(--ink); border: 1px solid var(--line); }
+    .whyme h2, .whyme p { color: var(--ink); }
+  }
 </style>
 </head>
 <body>
+<div class="wrap">
 
-<div class="title">Selector: A First 90 Days</div>
-<div class="subtitle">Drafted from the posting alone. Every assumption here gets tested against reality in week one, and the plan gets revised accordingly.</div>
-<div class="contact">Michael D&rsquo;Agostino | New York, NY | michaeldagostino15@gmail.com | iggydags.github.io</div>
+<header>
+  <div class="eyebrow">Prepared for Selector · The Operator Role</div>
+  <h1>A First 90 Days</h1>
+  <p class="sub">Drafted from the posting alone. Every assumption here gets tested against reality in week one, and the plan gets revised accordingly.</p>
+  <p class="byline">Michael D'Agostino &nbsp;·&nbsp; New York, NY &nbsp;·&nbsp; <a href="mailto:michaeldagostino15@gmail.com">michaeldagostino15@gmail.com</a> &nbsp;·&nbsp; <a href="https://iggydags.github.io">iggydags.github.io</a></p>
+</header>
 
-<h2>Operating Principle</h2>
-<p>Stabilize before automating, automate before hiring. Every recurring loop gets one of three treatments: automated (if the pattern is stable), documented as an SOP (if it still needs judgment), or killed (if nobody misses it). Humans keep the work that requires judgment and relationships; everything else goes on the backlog.</p>
+<div class="principle">
+  <b>Operating principle.</b> Stabilize before automating, automate before hiring. Every recurring loop gets one of three treatments: automated if the pattern is stable, documented as an SOP if it still needs judgment, or killed if nobody misses it. Humans keep the work that requires judgment and relationships. Everything else goes on the backlog.
+</div>
 
-<h2>Days 1&ndash;30: Stabilize &mdash; make every open loop visible</h2>
-<ul>
-  <li>Inventory all open loops across Slack, Gmail, Calendar, docs, and meeting notes: client commitments, SOW follow-ups, pricing questions, finance items, tooling access. One tracker, one owner per item, one review ritual.</li>
-  <li>Stand up the weekly operating rhythm: a Monday review of client status, blocked work, and finance/admin items; agendas prepared before every meeting, decisions and next steps captured after.</li>
-  <li>Sweep the finance hygiene backlog: receipts, invoices, bills, and approvals reconciled to current, with a simple capture habit so the pile never rebuilds.</li>
-  <li>Deliverable at day 30: zero stale follow-ups older than one week, and a prioritized automation backlog reviewed with the founders.</li>
-</ul>
+<div class="slider-block sans">
+  <div class="slider-label">
+    <span class="day" id="dayNum">Day 1</span>
+    <span class="state" id="dayState">Inventorying every open loop</span>
+  </div>
+  <input type="range" id="daySlider" min="1" max="90" value="1" aria-label="Day of the 90-day plan">
+  <div class="ticks"><span>Day 1</span><span>Day 30</span><span>Day 60</span><span>Day 90</span></div>
+</div>
 
-<h2>Days 31&ndash;60: Systemize &mdash; automate the top frictions</h2>
-<p>Candidate backlog, sequenced by frequency times pain, cheapest wins first. Each item names the trigger, the tool, and what stays human:</p>
-<table>
-  <tr><th>Friction</th><th>Automation approach</th><th>Stays human</th></tr>
-  <tr><td>Meeting notes &rarr; action items</td><td>AI extraction from transcripts/notes into the tracker, auto-assigned with due dates</td><td>Judgment on priority and owner</td></tr>
-  <tr><td>Customer scheduling</td><td>Scheduling links plus an AI triage layer for multi-party threads; focus time protected by default</td><td>High-stakes or sensitive scheduling</td></tr>
-  <tr><td>Client status updates</td><td>Weekly draft auto-assembled from tracker state; I edit and send</td><td>The voice, and anything with news in it</td></tr>
-  <tr><td>SOW / proposal follow-up</td><td>Pipeline tracker with aging alerts; drafts pre-generated for routine nudges</td><td>Negotiation and pricing calls</td></tr>
-  <tr><td>Receipts, invoices, bills</td><td>Forwarding rules plus AI extraction into a ledger the accountant works from</td><td>Approvals and exceptions</td></tr>
-  <tr><td>Research requests</td><td>Standing AI research workflow: brief in, sourced memo draft out</td><td>The synthesis and the recommendation</td></tr>
-</table>
-<p>Deliverable at day 60: the top three frictions running as AI-assisted workflows in production, each documented well enough that anyone can operate or improve it.</p>
+<section class="phase open active" id="phase1">
+  <button class="phase-head" onclick="togglePhase(this.parentElement)">
+    <span class="phase-days">Days 1–30</span>
+    <span class="phase-title">Stabilize</span>
+    <span class="phase-tag">make every open loop visible</span>
+    <span class="chev">▶</span>
+  </button>
+  <div class="phase-body"><div class="phase-body-inner">
+    <ul>
+      <li>Inventory all open loops across Slack, Gmail, Calendar, docs, and meeting notes: client commitments, SOW follow-ups, pricing questions, finance items, tooling access. One tracker, one owner per item, one review ritual.</li>
+      <li>Stand up the weekly operating rhythm: a Monday review of client status, blocked work, and finance/admin items. Agendas prepared before every meeting, decisions and next steps captured after.</li>
+      <li>Sweep the finance hygiene backlog: receipts, invoices, bills, and approvals reconciled to current, with a simple capture habit so the pile never rebuilds.</li>
+    </ul>
+    <div class="deliverable"><b>Day 30 deliverable.</b> Zero stale follow-ups older than one week, and a prioritized automation backlog reviewed with the founders.</div>
+  </div></div>
+</section>
 
-<h2>Days 61&ndash;90: Compound &mdash; make improvement the default</h2>
-<ul>
-  <li>Weekly automation review as a standing ritual: what broke, what got manual again, what earned its way onto the backlog.</li>
-  <li>Simple metrics on the wall: stale follow-ups, median time-to-response on client items, share of recurring workflows automated, hours of coordination recovered per week.</li>
-  <li>Documentation as a byproduct, not a project: every workflow ships with its SOP, so the operating system survives me being on vacation.</li>
-  <li>Deliverable at day 90: a functioning improvement engine, and a founder team spending measurably more time on clients and product, and less on coordination.</li>
-</ul>
+<section class="phase" id="phase2">
+  <button class="phase-head" onclick="togglePhase(this.parentElement)">
+    <span class="phase-days">Days 31–60</span>
+    <span class="phase-title">Systemize</span>
+    <span class="phase-tag">automate the top frictions</span>
+    <span class="chev">▶</span>
+  </button>
+  <div class="phase-body"><div class="phase-body-inner">
+    <p style="margin-bottom:10px;">Work the backlog below, sequenced by frequency times pain, cheapest wins first. Each item names the automation approach and, just as deliberately, what stays human.</p>
+    <div class="deliverable"><b>Day 60 deliverable.</b> The top three frictions running as AI-assisted workflows in production, each documented well enough that anyone can operate or improve it.</div>
+  </div></div>
+</section>
 
-<h2>Why I Can Do This</h2>
-<p>This is the job I did at PubKey, a Winklevoss-backed Series A company, where I went from intern to Chief of Staff in nine months. I ran the operating cadence, wrote the client communications, handled the finance loops with our CFO, and, as the company&rsquo;s only technical builder, automated the friction myself: a Python platform wiring six systems into automated reporting, plus workflows on Zapier, cron, and webhooks built with Claude Code, which I use daily. Six more tools shipped solo at iggydags.github.io.</p>
+<section class="phase" id="phase3">
+  <button class="phase-head" onclick="togglePhase(this.parentElement)">
+    <span class="phase-days">Days 61–90</span>
+    <span class="phase-title">Compound</span>
+    <span class="phase-tag">make improvement the default</span>
+    <span class="chev">▶</span>
+  </button>
+  <div class="phase-body"><div class="phase-body-inner">
+    <ul>
+      <li>Weekly automation review as a standing ritual: what broke, what got manual again, what earned its way onto the backlog.</li>
+      <li>Simple metrics on the wall: stale follow-ups, median time-to-response on client items, share of recurring workflows automated, hours of coordination recovered per week.</li>
+      <li>Documentation as a byproduct, not a project: every workflow ships with its SOP, so the operating system survives me being on vacation.</li>
+    </ul>
+    <div class="deliverable"><b>Day 90 deliverable.</b> A functioning improvement engine, and a founder team spending measurably more time on clients and product, and less on coordination.</div>
+  </div></div>
+</section>
 
+<h2 class="section">The Automation Backlog</h2>
+<p class="section-sub">Six frictions I would expect at a firm shaped like Selector. Click each for the approach — and what deliberately stays human.</p>
+
+<div class="friction"><button class="friction-head" onclick="toggleFriction(this.parentElement)"><span class="rank">1</span><span class="friction-name">Meeting notes → action items</span><span class="chev">▶</span></button>
+  <div class="friction-body"><div class="friction-cols">
+    <div><div class="col-label auto">Automation</div><p>AI extraction from transcripts and notes straight into the tracker, auto-assigned with owners and due dates.</p></div>
+    <div><div class="col-label human">Stays human</div><p>Judgment on priority, and on who actually owns the ambiguous ones.</p></div>
+  </div></div>
+</div>
+
+<div class="friction"><button class="friction-head" onclick="toggleFriction(this.parentElement)"><span class="rank">2</span><span class="friction-name">Customer scheduling</span><span class="chev">▶</span></button>
+  <div class="friction-body"><div class="friction-cols">
+    <div><div class="col-label auto">Automation</div><p>Scheduling links plus an AI triage layer for multi-party threads. Focus time protected by default.</p></div>
+    <div><div class="col-label human">Stays human</div><p>High-stakes or sensitive scheduling, and anything where the relationship is the point.</p></div>
+  </div></div>
+</div>
+
+<div class="friction"><button class="friction-head" onclick="toggleFriction(this.parentElement)"><span class="rank">3</span><span class="friction-name">Client status updates</span><span class="chev">▶</span></button>
+  <div class="friction-body"><div class="friction-cols">
+    <div><div class="col-label auto">Automation</div><p>Weekly draft auto-assembled from tracker state. I edit and send.</p></div>
+    <div><div class="col-label human">Stays human</div><p>The voice, and anything with actual news in it.</p></div>
+  </div></div>
+</div>
+
+<div class="friction"><button class="friction-head" onclick="toggleFriction(this.parentElement)"><span class="rank">4</span><span class="friction-name">SOW / proposal follow-up</span><span class="chev">▶</span></button>
+  <div class="friction-body"><div class="friction-cols">
+    <div><div class="col-label auto">Automation</div><p>Pipeline tracker with aging alerts, drafts pre-generated for routine nudges.</p></div>
+    <div><div class="col-label human">Stays human</div><p>Negotiation, pricing conversations, and knowing when a nudge should be a phone call.</p></div>
+  </div></div>
+</div>
+
+<div class="friction"><button class="friction-head" onclick="toggleFriction(this.parentElement)"><span class="rank">5</span><span class="friction-name">Receipts, invoices, bills</span><span class="chev">▶</span></button>
+  <div class="friction-body"><div class="friction-cols">
+    <div><div class="col-label auto">Automation</div><p>Forwarding rules plus AI extraction into a clean ledger the accountant works from.</p></div>
+    <div><div class="col-label human">Stays human</div><p>Approvals, exceptions, and the judgment calls accountants email about.</p></div>
+  </div></div>
+</div>
+
+<div class="friction"><button class="friction-head" onclick="toggleFriction(this.parentElement)"><span class="rank">6</span><span class="friction-name">Research requests</span><span class="chev">▶</span></button>
+  <div class="friction-body"><div class="friction-cols">
+    <div><div class="col-label auto">Automation</div><p>Standing AI research workflow: brief in, sourced memo draft out.</p></div>
+    <div><div class="col-label human">Stays human</div><p>The synthesis, and the recommendation someone has to stand behind.</p></div>
+  </div></div>
+</div>
+
+<div class="whyme">
+  <h2>Why I can do this</h2>
+  <p>This is the job I did at PubKey, a Winklevoss-backed Series A company, where I went from intern to Chief of Staff in nine months. I ran the operating cadence, wrote the client communications, handled the finance loops with our CFO, and, as the company's only technical builder, automated the friction myself: a Python platform wiring six systems into automated reporting, plus workflows on Zapier, cron, and webhooks built with Claude Code, which I use daily. Six more tools shipped solo at <a href="https://iggydags.github.io">iggydags.github.io</a>.</p>
+  <div class="cta"><a href="mailto:michaeldagostino15@gmail.com">Let's talk → michaeldagostino15@gmail.com</a></div>
+</div>
+
+<footer>Built by Michael D'Agostino. This page, like everything on my site, was designed and shipped with AI coding agents.</footer>
+
+</div>
+
+<script>
+  const phases = [document.getElementById('phase1'), document.getElementById('phase2'), document.getElementById('phase3')];
+  const states = [
+    [1,  'Inventorying every open loop'],
+    [8,  'Weekly operating rhythm running'],
+    [20, 'Finance hygiene swept to current'],
+    [30, 'Automation backlog reviewed with founders'],
+    [38, 'First frictions being automated'],
+    [50, 'Status updates drafting themselves'],
+    [60, 'Top three workflows live and documented'],
+    [70, 'Weekly automation review is a ritual'],
+    [82, 'Metrics on the wall, SOPs shipping'],
+    [90, 'Improvement engine running itself']
+  ];
+  const slider = document.getElementById('daySlider');
+  const dayNum = document.getElementById('dayNum');
+  const dayState = document.getElementById('dayState');
+
+  function phaseFor(day) { return day <= 30 ? 0 : day <= 60 ? 1 : 2; }
+
+  function setDay(day) {
+    dayNum.textContent = 'Day ' + day;
+    let label = states[0][1];
+    for (const [d, s] of states) { if (day >= d) label = s; }
+    dayState.textContent = label;
+    slider.style.setProperty('--fill', (day / 90 * 100) + '%');
+    const p = phaseFor(day);
+    phases.forEach((el, i) => {
+      el.classList.toggle('active', i === p);
+      el.classList.toggle('open', i === p);
+    });
+  }
+
+  slider.addEventListener('input', e => setDay(+e.target.value));
+
+  function togglePhase(el) { el.classList.toggle('open'); }
+  function toggleFriction(el) { el.classList.toggle('open'); }
+
+  setDay(1);
+</script>
 </body>
 </html>

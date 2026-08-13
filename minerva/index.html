@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>Minerva Trainer</title>
+<style>
+:root{
+  --bg:#faf9f6; --panel:#fff; --panel2:#f4f1ea; --line:#e2ddd2;
+  --ink:#23262b; --dim:#6e7480; --accent:#8a6d1c; --accent2:#c9a227;
+  --hot:#b6402e; --cool:#2f6fa8; --good:#2e7d52;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{height:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;overscroll-behavior:none}
+#app{max-width:520px;margin:0 auto;min-height:100%;display:flex;flex-direction:column}
+/* top bar */
+.top{padding:14px 16px 10px;border-bottom:1px solid var(--line);background:var(--bg);position:sticky;top:0;z-index:10}
+.top .row{display:flex;justify-content:space-between;align-items:baseline}
+.top h1{font-size:16px;margin:0;letter-spacing:-.01em}
+.top .lvl{font-size:12px;color:var(--accent);font-weight:700;text-transform:uppercase;letter-spacing:.08em}
+.xpbar{height:6px;background:var(--line);border-radius:3px;margin-top:8px;overflow:hidden}
+.xpfill{height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2));border-radius:3px;width:0%;transition:width .4s ease}
+.top .meta{display:flex;justify-content:space-between;font-size:11.5px;color:var(--dim);margin-top:5px}
+.streakflame{color:var(--hot);font-weight:700}
+/* main */
+main{flex:1;padding:16px;padding-bottom:84px}
+h2{font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin:0 0 12px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;box-shadow:0 1px 3px rgba(0,0,0,.06);margin:0 0 12px}
+.small{font-size:13px;color:var(--dim)}
+button{font:inherit;cursor:pointer;border:none;border-radius:12px}
+.btn{display:block;width:100%;padding:15px 16px;background:var(--panel);border:1.5px solid var(--line);border-radius:12px;text-align:left;font-size:15.5px;margin:0 0 10px;color:var(--ink);transition:transform .06s}
+.btn:active{transform:scale(.985)}
+.btn.correct{border-color:var(--good);background:#eaf5ee;color:var(--good);font-weight:600}
+.btn.wrong{border-color:var(--hot);background:#faeceb;color:var(--hot)}
+.btn.dim{opacity:.45}
+.primary{background:var(--accent);color:#fff;font-weight:600;text-align:center;padding:15px;font-size:16px}
+.ghost{background:var(--panel2);color:var(--ink);text-align:center;padding:15px;font-size:15px;border:1px solid var(--line)}
+.pair{display:flex;gap:10px}
+.pair button{flex:1;margin:0}
+/* nav */
+nav{position:fixed;bottom:0;left:0;right:0;background:var(--panel);border-top:1px solid var(--line);display:flex;max-width:520px;margin:0 auto;padding-bottom:env(safe-area-inset-bottom)}
+nav button{flex:1;background:none;padding:10px 4px 12px;display:flex;flex-direction:column;align-items:center;gap:3px;color:var(--dim);font-size:11px;font-weight:600;border-radius:0}
+nav button.on{color:var(--accent)}
+nav .ic{font-size:19px;line-height:1;font-family:Georgia,serif}
+/* quiz */
+.qtext{font-size:18px;font-weight:600;line-height:1.45;margin:0 0 16px}
+.feedback{border-radius:12px;padding:12px 14px;margin:4px 0 12px;font-size:14px;line-height:1.5;display:none}
+.feedback.good{background:#eaf5ee;border:1px solid var(--good);display:block}
+.feedback.bad{background:#faeceb;border:1px solid var(--hot);display:block}
+.qcount{font-size:12px;color:var(--dim);margin:0 0 8px;text-transform:uppercase;letter-spacing:.06em}
+/* flashcards */
+.flash{min-height:280px;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:26px 20px;cursor:pointer;user-select:none}
+.flash .side{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin-bottom:14px;font-weight:700}
+.flash .body{font-size:19px;line-height:1.5;font-weight:500}
+.flash .body.back{font-family:Georgia,serif;font-size:17.5px;text-align:left}
+.flash .hint{margin-top:18px;font-size:12px;color:var(--dim)}
+/* scripts */
+.beat{display:block;font-family:Georgia,serif;font-size:17px;line-height:1.6;margin:0 0 12px;padding:10px 14px;background:var(--panel2);border-left:3px solid var(--accent);border-radius:0 8px 8px 0}
+.beat b{color:#000}
+.hiddenbeat{display:none}
+/* stats + misc */
+.stat{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--line);font-size:15px}
+.stat:last-child{border:none}
+.stat b{font-variant-numeric:tabular-nums}
+.pill{display:inline-block;font-size:11px;letter-spacing:.06em;text-transform:uppercase;padding:2px 9px;border-radius:20px;border:1px solid var(--line);color:var(--dim);margin:0 0 10px}
+.burst{position:fixed;inset:0;pointer-events:none;display:flex;align-items:center;justify-content:center;z-index:50}
+.burst span{font-size:44px;font-weight:800;color:var(--good);animation:pop .7s ease forwards;font-family:Georgia,serif}
+.burst span.bad{color:var(--hot)}
+@keyframes pop{0%{transform:scale(.4);opacity:0}30%{transform:scale(1.15);opacity:1}70%{transform:scale(1);opacity:1}100%{transform:scale(1);opacity:0}}
+.home-tile{display:flex;justify-content:space-between;align-items:center;padding:16px;background:var(--panel);border:1px solid var(--line);border-radius:14px;margin:0 0 10px;cursor:pointer;box-shadow:0 1px 3px rgba(0,0,0,.05)}
+.home-tile:active{transform:scale(.99)}
+.home-tile .t{font-weight:600;font-size:16px}
+.home-tile .d{font-size:12.5px;color:var(--dim);margin-top:2px}
+.home-tile .go{color:var(--accent);font-size:20px;font-family:Georgia,serif}
+.donebar{height:5px;background:var(--line);border-radius:3px;margin-top:8px;overflow:hidden;width:120px}
+.donefill{height:100%;background:var(--good);border-radius:3px}
+.notice{background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:10px 14px;font-size:12.5px;color:var(--dim);margin:14px 0 0}
+</style>
+</head>
+<body>
+<div id="app">
+<div class="top">
+  <div class="row"><h1>Minerva Trainer</h1><span class="lvl" id="lvlName">Bar-back</span></div>
+  <div class="xpbar"><div class="xpfill" id="xpfill"></div></div>
+  <div class="meta"><span id="xpText">0 XP</span><span id="streakText"></span><span id="nextLvl">100 XP to Intern</span></div>
+</div>
+<main id="main"></main>
+<nav>
+  <button id="nav-home" onclick="go('home')"><span class="ic">&#8962;</span>Home</button>
+  <button id="nav-quiz" onclick="go('quiz')"><span class="ic">?</span>Quiz</button>
+  <button id="nav-cards" onclick="go('cards')"><span class="ic">&#9633;</span>Cards</button>
+  <button id="nav-scripts" onclick="go('scripts')"><span class="ic">&#182;</span>Scripts</button>
+  <button id="nav-drills" onclick="go('drills')"><span class="ic">&#9888;</span>Drills</button>
+</nav>
+</div>
+
+<script>
+/* ================= STATE (in-memory; resets on refresh) ================= */
+const S = {
+  xp:0, streak:0, bestStreak:0,
+  quizIdx:0, quizOrder:[], quizRight:0, quizDone:0, quizLocked:false,
+  cardIdx:0, cardOrder:[], cardFlipped:false, cardsSeen:new Set(),
+  scriptIdx:0, scriptBeat:0, scriptMastery:{},
+  drillIdx:0, drillOrder:[], drillRight:0, drillDone:0, drillLocked:false,
+  view:'home'
+};
+const LEVELS=[[0,'Bar-back'],[100,'Intern'],[250,'Associate'],[450,'Chief of Staff'],[700,'Ready for Friday']];
+
+/* ================= CONTENT ================= */
+const QUIZ=[
+ {q:"Who is the CEO of Minerva, and where did he work before?",
+  a:["Jackson Engles, ex-Lazard","Daniel Saedi, ex-Bridgewater","Matthew Joseph, ex-Citadel","Justin Liao, ex-Goldman"],c:0,
+  why:"Engles is CEO (Lazard, Colorado, Berkeley). Saedi came from Bridgewater; Joseph is CTO from Citadel."},
+ {q:"Where did the three co-founders meet?",
+  a:["UC Berkeley","Stanford","MIT","At Citadel"],c:0,
+  why:"All three met at Berkeley. All worked with alternative data in quant finance."},
+ {q:"How much did Minerva raise, and what stage?",
+  a:["$20M seed","$20M Series A","$12M seed","$45M Series A"],c:0,
+  why:"$20M seed, announced with the public launch. No valuation disclosed."},
+ {q:"Who led the round?",
+  a:["The General Partnership","8VC","Lingotto","NBA Investments"],c:0,
+  why:"TheGP led. They do sweat-equity statements of work alongside capital, which matters for your role's boundaries."},
+ {q:"When did Minerva launch publicly?",
+  a:["June 9, 2026","January 2026","March 14, 2026","August 1, 2026"],c:0,
+  why:"June 9, 2026. Nine weeks before your call. Founded 2023."},
+ {q:"Roughly how many customers at launch?",
+  a:["36","12","75","150"],c:0,
+  why:"About three dozen signed customers. Small enough that the top handful likely drive most revenue."},
+ {q:"The consumer graph covers how many US consumers?",
+  a:["270M","110M","500M","90M"],c:0,
+  why:"270M consumers, 10B+ identifiers, 1,000+ point-in-time attributes."},
+ {q:"What are the two agentic products called?",
+  a:["Agentic Data Engineer & Agentic Data Scientist","Data Copilot & Campaign Copilot","Athena & Apollo","Graph Agent & Model Agent"],c:0,
+  why:"ADE unifies first-party data in hours; ADS turns a plain-English question into a trained targeting model in under 20 minutes."},
+ {q:"Whose models power the agents?",
+  a:["OpenAI frontier models","Anthropic","In-house models","Meta Llama"],c:0,
+  why:"Built in partnership with OpenAI. Press cites GPT-5.5; Minerva's own blog names no models."},
+ {q:"Minerva's core thesis is that the constraint on AI in marketing is...",
+  a:["Data structure and context, not model quality","Model quality, not data","Budget, not technology","Creative talent"],c:0,
+  why:"Their whole pitch. It's also your opening line: it matches what you saw at PubKey."},
+ {q:"The headline claimed results are...",
+  a:["3.4x ROAS, 2.5x direct mail MQLs","2x ROAS, 4x MQLs","10x ROAS across the board","40% CAC reduction"],c:0,
+  why:"3.4x paid media ROAS and 2.5x direct-mail MQL rate. The Wander case adds 75% lower cost per purchase."},
+ {q:"Where is Minerva headquartered?",
+  a:["Brooklyn (Domino Sugar Refinery)","Flatiron, Manhattan","SoHo","Miami"],c:0,
+  why:"300 Kent Ave, Brooklyn. Legal name is Minerva BI, Inc. All roles NYC."},
+ {q:"Which customer is also an investor?",
+  a:["The NBA","Capital One","Wander","Ramp"],c:0,
+  why:"NBA Investments is on the cap table and the league is a customer. Related-party logo; a later-round question, not tomorrow's."},
+ {q:"Who is Justin Liao?",
+  a:["COO, not a founder, near-zero public trail","Co-founder and COO","Head of Talent","Board member from TheGP"],c:0,
+  why:"Not named in launch coverage, so likely joined post-June or stays out of press. Probably owns the operating cadence himself."},
+ {q:"The posted comp band is...",
+  a:["$150-250K base + equity + bonus","$120-180K","$200-300K","$90-140K"],c:0,
+  why:"Your realistic landing zone is $160-185K. Do not give a number on the first call."},
+ {q:"Minerva's stated values are...",
+  a:["Partners First; Infinite Game; 80:20; Enjoy the Ride","Move Fast; Own It; Win","Integrity; Excellence; Grit","Customer Obsession; Frugality"],c:0,
+  why:"Partners First, Play an Infinite Game, 80:20, Enjoy the Ride and Have Fun."},
+ {q:"Why are they hiring a CoS right now?",
+  a:["CEO is the bottleneck on materials, and a Series A is 6-12 months out","The COO is leaving","Board required it","To run the NYC office"],c:0,
+  why:"'Fundraising narratives' and 'board presentations' lead the JD. $20M seed in June means an A conversation starts inside a year."},
+ {q:"Name two of the marquee customer logos besides the NBA.",
+  a:["Capital One and Wander","Nike and Delta","DraftKings and Amex","Spotify and Chase"],c:0,
+  why:"Capital One, Hard Rock Stadium / Dolphins, Wander, Trust & Will, Luxury Presence, Juicebox, Honey Homes, Ramp."}
+];
+
+const CARDS=[
+ {f:"Product in one breath",b:"“A consumer graph of 270M Americans, plus two OpenAI-built agents: one that unifies a brand's first-party data in hours, one that turns a plain-English question into a trained targeting model.”"},
+ {f:"Your three beats",b:"1. Builder-CoS: live systems, not calendars.\n2. Intern to CoS in 9 months: trust earned from zero.\n3. Owned partner accounts to $500K+: commercial weight."},
+ {f:"The one memorable line",b:"“It looks like the first-pass materials burden is what's eating Jackson, with a Series A on the horizon. Is that the read?”"},
+ {f:"Opening line (min 0-3)",b:"“The framing in your OpenAI post stuck with me: the constraint is data structure, not model quality. That matches exactly what I saw building at PubKey.”"},
+ {f:"The comp deflection",b:"“The posted range works. I'd rather calibrate once I understand the scope, because the version of this role where I'm also the internal builder is a different job.”"},
+ {f:"Founders: names, firms, roles",b:"Jackson Engles: CEO, Lazard.\nDaniel Saedi: Bridgewater.\nMatthew Joseph: CTO, Citadel.\nMet at Berkeley. All alt-data quant backgrounds."},
+ {f:"The four diagnostic listens while he pitches",b:"1. Reports to Jackson, Justin, or both?\n2. Materials talk vs. build-and-own talk ratio.\n3. Any mention of fundraise timing.\n4. How he describes Jackson's pain."},
+ {f:"Must-ask question #1",b:"“Is this seat closer to building operating leverage, or producing materials at a very high standard?”"},
+ {f:"Must-ask question #2",b:"“What is Jackson spending time on today that he most wants back?”"},
+ {f:"Must-ask question #3",b:"“How do you and the CoS divide? You're both operating leverage for the CEO.”"},
+ {f:"The strategic question (pick one)",b:"Option A: “Is the next 12 months about depth in those 36 accounts, or a Series A?”\nOption B: “Publicis bought LiveRamp, Omnicom took Acxiom. Neutrality in identity got scarce. Is that your wedge?”"},
+ {f:"The close (min 27-30)",b:"“What does the rest of the process look like? Is there anything I can put in front of Jackson ahead of a conversation with him?”\nIf builder thread landed: offer Mantle."},
+ {f:"Investors to know cold",b:"The General Partnership (lead, sweat-equity model), 8VC (Lonsdale), Lingotto (Agnelli/Exor family), NBA Investments, Third Point. Plus Background, Soma, RXR, Arden, Future Positive."},
+ {f:"Numbers row",b:"$20M seed · June 9, 2026 launch · ~36 customers · founded 2023 · 270M graph · 3.4x ROAS · 2.5x MQL · $150-250K band · Brooklyn."},
+ {f:"What NOT to bring up tomorrow",b:"Data broker registration and DROP enforcement. Zeta margin comparison. NBA related-party logos. The 1,000 vs 2,000 attribute discrepancy (never ask). Skiing and Berkeley small talk (round 2)."},
+ {f:"Their stated values",b:"Partners First · Play an Infinite Game · 80:20 · Enjoy the Ride and Have Fun."}
+];
+
+const SCRIPTS=[
+ {t:"Walk me through your background", time:"~75 sec", beats:[
+  "Math degrees at Holy Cross and Columbia. Applied math, operations focus.",
+  "I joined PubKey <b>behind the bar</b> while finishing at Columbia. Moved to an intern seat. Nine months later I was <b>Chief of Staff to the CEO.</b>",
+  "The through-line: I kept finding gaps between what the founders needed and what existed, and I <b>built into them.</b>",
+  "Partner reporting. Live dashboards. Event P&amp;Ls. The diligence materials for our raise.",
+  "By the end I owned our two largest partner accounts, <b>over $500K annual</b>, and I was the <b>only technical person</b> on a 20-person team.",
+  "<b>The title followed the work.</b>"]},
+ {t:"Tell me about the dashboards", time:"~60 sec", beats:[
+  "The one leadership actually steered by was a <b>live wall display</b>: our Gemini prediction-market integration, next to real-time revenue and event pacing.",
+  "What made it matter wasn't the build. It was that it was <b>designed against decisions.</b>",
+  "Before it, “how is this event tracking” was a Slack thread and a day's lag.",
+  "After it, the exec team made <b>staffing and spend calls in the room, same day.</b>",
+  "I built it, deployed it, and iterated it weekly off what the founders actually looked at versus ignored."]},
+ {t:"Why did you leave PubKey?", time:"2 sentences, then stop", beats:[
+  "I took PubKey from <b>bar-back to Chief of Staff</b> over two years, and built the systems side as far as the business needed it to go.",
+  "What I want next is the same job at a company where the technical work <b>compounds</b> instead of being a nice-to-have. That's why an AI-native company was the specific thing I went looking for.",
+  "(If natural:) I left on good terms, and Thomas is a reference."]},
+ {t:"Why Minerva?", time:"~50 sec", beats:[
+  "Three reasons.",
+  "The thesis is one I lived. At PubKey the bottleneck was never intelligence, it was that the data existed in <b>eight places and no structure.</b> You've productized the fix.",
+  "The stage. Thirty-six customers, nine weeks post-launch, first CoS hire. The role gets <b>defined by whoever takes it</b>, and that's the version of this job I want.",
+  "And candidly, your note. You described the job as <b>builder-plus-CoS.</b> That combination is the thing I think I'm unusually good at."]},
+ {t:"You're not from banking or PE", time:"~45 sec", beats:[
+  "Right. And I'd hire from that pool for the materials bar, which I can meet: I wrote the <b>diligence and reporting materials for PubKey's raise.</b>",
+  "The CEO I supported came from HSBC and JPMorgan, so the bar I was writing to was <b>a banker's bar.</b>",
+  "What that pool mostly can't do is <b>build.</b> When Jackson needs a model, a dashboard, or an internal tool, I don't write a ticket for it.",
+  "Your email suggested that's the profile you were missing. So I'd flip the question: <b>is that what this seat actually needs?</b>"]},
+ {t:"Where do you want to be in 3 years?", time:"decide tonight", beats:[
+  "<b>Running a piece of this company.</b>",
+  "The posting describes exactly the arc I'm looking for: two to three years building context at the center, then a senior operating role.",
+  "I did the compressed version of that at PubKey. I want to do it again where <b>the ceiling is higher.</b>"]},
+ {t:"Working across strong personalities", time:"~45 sec", beats:[
+  "By <b>earning standing before spending it.</b>",
+  "At PubKey I worked across four co-founders with very different styles, and I started with zero credibility as the intern.",
+  "What worked: doing unglamorous work <b>completely.</b> Keeping confidences <b>absolutely.</b> Making disagreements <b>private and specific.</b>",
+  "By the end I was the person the CEO used to carry hard messages, because <b>both sides trusted the carrier.</b>"]},
+ {t:"Comp expectations", time:"one breath", beats:[
+  "The posted range works for me.",
+  "I'd rather calibrate the number once I understand the scope, because the version of this role where I'm also the <b>internal builder</b> is a different job than the version where I'm not."]},
+ {t:"Timeline / other processes", time:"one breath", beats:[
+  "I'm in a couple of other conversations, but I'll be straightforward: <b>this is the most interesting role I've seen.</b>",
+  "It's the only one where the builder half of my profile is <b>the point</b> rather than a bonus. I can move as fast as your process does."]}
+];
+
+const DRILLS=[
+ {s:"Two minutes in, Liao asks: “So, what do you know about Minerva?”",
+  a:["Give the one-breath product line plus the thesis, 30 seconds, then stop",
+     "Walk through everything: funding, investors, competitive landscape, the works",
+     "Say you'd rather hear it from him first"],c:0,
+  why:"Depth held in reserve reads as confidence. Dumping the research reads as auditioning. 30 seconds max."},
+ {s:"He probes on your PubKey exit: “Was there a specific moment you decided to leave?”",
+  a:["One sentence about pull not push, then redirect to what you want to build at Minerva",
+     "Explain the internal dynamics honestly since he asked directly",
+     "Say you'd rather not get into it"],c:0,
+  why:"Honest but forward. Naming friction loses the call; refusing to answer looks evasive. One sentence, redirect."},
+ {s:"He says: “Honestly we mostly need someone to take the first pass on decks and board materials.”",
+  a:["Confirm you can meet that bar, then ask where the builder work from his email fits in the seat",
+     "Say that's not the job you're looking for",
+     "Just agree enthusiastically; sort it out later"],c:0,
+  why:"Don't fold and don't walk. He put builder-CoS in writing; make him reconcile the two framings now, politely."},
+ {s:"Fifteen minutes in, he's still pitching and hasn't asked you anything.",
+  a:["Let him run, keep jotting the four listens, and compress your beats into the time left",
+     "Interrupt to make sure you get your three beats in",
+     "Skip your questions to leave room for your pitch"],c:0,
+  why:"A COO who talks is telling you things. Your questions matter more than your pitch; the beats can compress to 60 seconds if needed."},
+ {s:"He asks: “What would you want to be paid?”",
+  a:["“The posted range works. I'd rather calibrate once I understand the scope.”",
+     "“$185K, given the builder premium.”",
+     "“Whatever you think is fair.”"],c:0,
+  why:"Never a number on call one. Tying comp to scope sets up the builder-premium argument for offer stage."},
+ {s:"There are 4 minutes left and he asks: “Any questions for me?”",
+  a:["Ask the seat question (builder vs. materials), then close by asking for the next step by name",
+     "Ask all five prepared questions quickly",
+     "Say he covered everything"],c:0,
+  why:"One great question beats five rushed ones. 'No questions' is disqualifying for a CoS role. Always close asking for the next step."},
+ {s:"He mentions offhand that fundraising is 'starting to come together.' Do you...",
+  a:["Note it, and ask whether the CoS would own the Series A materials",
+     "Pivot to your full Series A market analysis and Zeta comparison",
+     "Ignore it; fundraising isn't round-one material"],c:0,
+  why:"He opened the door, so walk through it at seat-level: who owns the materials. The market analysis stays holstered."},
+ {s:"He asks if you have work samples.",
+  a:["“I have a piece of independent work that shows how I build. Happy to send it over.” Then send Mantle after the call",
+     "Screen-share Mantle right now",
+     "Say your PubKey work is confidential so no"],c:0,
+  why:"Offer, don't perform. Sending after the call also gives you a same-day follow-up touchpoint."}
+];
+
+/* ================= ENGINE ================= */
+function shuffle(arr){const a=[...arr.keys()];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+function shuffleOpts(item){
+  const order=shuffle(item.a);
+  return {opts:order.map(i=>item.a[i]), correct:order.indexOf(item.c)};
+}
+function addXP(n){
+  S.xp+=n; renderTop();
+}
+function level(){
+  let cur=LEVELS[0],next=null;
+  for(const L of LEVELS){if(S.xp>=L[0])cur=L;else{next=L;break}}
+  return {cur,next};
+}
+function renderTop(){
+  const {cur,next}=level();
+  document.getElementById('lvlName').textContent=cur[1];
+  document.getElementById('xpText').textContent=S.xp+' XP';
+  document.getElementById('streakText').innerHTML=S.streak>=2?'<span class="streakflame">streak &times;'+S.streak+'</span>':'';
+  if(next){
+    document.getElementById('nextLvl').textContent=(next[0]-S.xp)+' XP to '+next[1];
+    const base=cur[0],span=next[0]-cur[0];
+    document.getElementById('xpfill').style.width=Math.min(100,((S.xp-base)/span)*100)+'%';
+  }else{
+    document.getElementById('nextLvl').textContent='Max level';
+    document.getElementById('xpfill').style.width='100%';
+  }
+}
+function burst(txt,bad){
+  const d=document.createElement('div');d.className='burst';
+  d.innerHTML='<span class="'+(bad?'bad':'')+'">'+txt+'</span>';
+  document.body.appendChild(d);setTimeout(()=>d.remove(),700);
+}
+function go(view){
+  S.view=view;
+  ['home','quiz','cards','scripts','drills'].forEach(v=>{
+    const el=document.getElementById('nav-'+v);if(el)el.classList.toggle('on',v===view);
+  });
+  render();
+  window.scrollTo(0,0);
+}
+const M=()=>document.getElementById('main');
+
+/* ================= HOME ================= */
+function renderHome(){
+  const sm=Object.values(S.scriptMastery).filter(v=>v>=2).length;
+  M().innerHTML=`
+  <h2>Friday, 30 min, Justin Liao</h2>
+  <div class="card" style="border-left:3px solid var(--accent)">
+    <div style="font-weight:600;margin-bottom:6px">Tonight's bar</div>
+    <div class="small">Quiz to 100%. Every script nailed twice. Drills clean. Then say the leave-PubKey and three-years scripts out loud once, off-screen.</div>
+  </div>
+  <div class="home-tile" onclick="go('quiz')"><div><div class="t">Fact Quiz</div><div class="d">${QUIZ.length} questions &middot; know the company cold</div><div class="donebar"><div class="donefill" style="width:${Math.round(S.quizDone/QUIZ.length*100)}%"></div></div></div><div class="go">&rarr;</div></div>
+  <div class="home-tile" onclick="go('cards')"><div><div class="t">Flashcards</div><div class="d">${CARDS.length} cards &middot; lines and numbers</div><div class="donebar"><div class="donefill" style="width:${Math.round(S.cardsSeen.size/CARDS.length*100)}%"></div></div></div><div class="go">&rarr;</div></div>
+  <div class="home-tile" onclick="go('scripts')"><div><div class="t">Script Reps</div><div class="d">${SCRIPTS.length} answers &middot; recall beat by beat</div><div class="donebar"><div class="donefill" style="width:${Math.round(sm/SCRIPTS.length*100)}%"></div></div></div><div class="go">&rarr;</div></div>
+  <div class="home-tile" onclick="go('drills')"><div><div class="t">Landmine Drills</div><div class="d">${DRILLS.length} scenarios &middot; what do you do when...</div><div class="donebar"><div class="donefill" style="width:${Math.round(S.drillDone/DRILLS.length*100)}%"></div></div></div><div class="go">&rarr;</div></div>
+  <div class="card" style="margin-top:14px">
+    <div class="stat"><span>Total XP</span><b>${S.xp}</b></div>
+    <div class="stat"><span>Best streak</span><b>${S.bestStreak}</b></div>
+    <div class="stat"><span>Quiz accuracy</span><b>${S.quizDone?Math.round(S.quizRight/S.quizDone*100)+'%':'—'}</b></div>
+    <div class="stat"><span>Scripts nailed &times;2</span><b>${sm}/${SCRIPTS.length}</b></div>
+  </div>
+  <div class="notice">Progress lives in this session and resets if you refresh. One sitting is the point: it should take about 25 minutes to clear the board.</div>`;
+}
+
+/* ================= QUIZ ================= */
+let quizShuffled=null;
+function startQuizIfNeeded(){
+  if(S.quizOrder.length===0){S.quizOrder=shuffle(QUIZ);S.quizIdx=0;S.quizRight=0;S.quizDone=0}
+}
+function renderQuiz(){
+  startQuizIfNeeded();
+  if(S.quizIdx>=S.quizOrder.length){
+    const pct=Math.round(S.quizRight/S.quizOrder.length*100);
+    M().innerHTML=`<h2>Quiz complete</h2>
+    <div class="card" style="text-align:center;padding:30px">
+      <div style="font-size:42px;font-weight:800;color:${pct===100?'var(--good)':'var(--accent)'}">${pct}%</div>
+      <div class="small" style="margin-top:6px">${S.quizRight} of ${S.quizOrder.length} &middot; ${pct===100?'Cold. That’s the bar.':'Run it again until 100. The misses recycle first.'}</div>
+    </div>
+    <button class="primary btn" onclick="resetQuiz()">Run it again</button>
+    <button class="ghost btn" onclick="go('home')">Back to home</button>`;
+    return;
+  }
+  const item=QUIZ[S.quizOrder[S.quizIdx]];
+  quizShuffled=shuffleOpts(item);
+  S.quizLocked=false;
+  M().innerHTML=`<div class="qcount">Question ${S.quizIdx+1} of ${S.quizOrder.length}</div>
+  <div class="card"><p class="qtext">${item.q}</p>
+  ${quizShuffled.opts.map((o,i)=>`<button class="btn" id="opt${i}" onclick="answerQuiz(${i})">${o}</button>`).join('')}
+  <div class="feedback" id="fb"></div>
+  <button class="primary btn" id="nextBtn" style="display:none" onclick="nextQuiz()">Next</button>
+  </div>`;
+}
+function answerQuiz(i){
+  if(S.quizLocked)return;S.quizLocked=true;
+  const item=QUIZ[S.quizOrder[S.quizIdx]];
+  const right=i===quizShuffled.correct;
+  S.quizDone++;
+  document.getElementById('opt'+quizShuffled.correct).classList.add('correct');
+  quizShuffled.opts.forEach((_,j)=>{if(j!==quizShuffled.correct)document.getElementById('opt'+j).classList.add(j===i?'wrong':'dim')});
+  const fb=document.getElementById('fb');
+  if(right){
+    S.quizRight++;S.streak++;S.bestStreak=Math.max(S.bestStreak,S.streak);
+    const bonus=S.streak>=3?5:0;
+    addXP(10+bonus);
+    burst('+'+(10+bonus));
+    fb.className='feedback good';fb.innerHTML=item.why+(bonus?' <b>Streak bonus +5.</b>':'');
+  }else{
+    S.streak=0;renderTop();
+    burst('miss',true);
+    fb.className='feedback bad';fb.innerHTML=item.why;
+    S.quizOrder.push(S.quizOrder[S.quizIdx]); /* recycle the miss */
+  }
+  document.getElementById('nextBtn').style.display='block';
+}
+function nextQuiz(){S.quizIdx++;renderQuiz()}
+function resetQuiz(){S.quizOrder=[];renderQuiz()}
+
+/* ================= FLASHCARDS ================= */
+function renderCards(){
+  if(S.cardOrder.length===0){S.cardOrder=shuffle(CARDS);S.cardIdx=0}
+  if(S.cardIdx>=S.cardOrder.length){
+    M().innerHTML=`<h2>Deck complete</h2>
+    <div class="card" style="text-align:center;padding:30px"><div style="font-size:20px;font-weight:700">All ${CARDS.length} cards seen.</div>
+    <div class="small" style="margin-top:8px">Shuffle and run it again, or move to Script Reps.</div></div>
+    <button class="primary btn" onclick="S.cardOrder=[];renderCards()">Reshuffle deck</button>
+    <button class="ghost btn" onclick="go('scripts')">Go to Script Reps</button>`;
+    return;
+  }
+  const c=CARDS[S.cardOrder[S.cardIdx]];
+  S.cardsSeen.add(S.cardOrder[S.cardIdx]);
+  M().innerHTML=`<div class="qcount">Card ${S.cardIdx+1} of ${S.cardOrder.length} &middot; tap to flip</div>
+  <div class="card flash" onclick="flipCard()">
+    <div class="side" id="cside">${S.cardFlipped?'Answer':'Prompt'}</div>
+    <div class="body ${S.cardFlipped?'back':''}" id="cbody">${S.cardFlipped?c.b.replace(/\n/g,'<br>'):c.f}</div>
+    <div class="hint">${S.cardFlipped?'':'Say it out loud before you flip.'}</div>
+  </div>
+  ${S.cardFlipped?`<div class="pair">
+    <button class="ghost btn" onclick="gradeCard(false)">Shaky</button>
+    <button class="primary btn" onclick="gradeCard(true)">Had it</button>
+  </div>`:''}`;
+}
+function flipCard(){S.cardFlipped=!S.cardFlipped;renderCards()}
+function gradeCard(good){
+  if(good){addXP(5);S.streak++;S.bestStreak=Math.max(S.bestStreak,S.streak);burst('+5')}
+  else{S.streak=0;renderTop();S.cardOrder.push(S.cardOrder[S.cardIdx])} /* recycle */
+  S.cardFlipped=false;S.cardIdx++;renderCards();
+}
+
+/* ================= SCRIPTS ================= */
+function renderScripts(){
+  const sc=SCRIPTS[S.scriptIdx];
+  const mastery=S.scriptMastery[S.scriptIdx]||0;
+  M().innerHTML=`<h2>Script Reps</h2>
+  <div class="small" style="margin:-6px 0 12px">Recall each beat before revealing it. Nail a script twice to master it. ${Object.values(S.scriptMastery).filter(v=>v>=2).length}/${SCRIPTS.length} mastered.</div>
+  <div class="card">
+    <div class="pill">${S.scriptIdx+1} of ${SCRIPTS.length} &middot; ${sc.time} &middot; ${'&#9679;'.repeat(Math.min(mastery,2))}${'&#9675;'.repeat(Math.max(0,2-mastery))}</div>
+    <p class="qtext" style="font-size:17px">“${sc.t}”</p>
+    ${sc.beats.map((b,i)=>`<span class="beat ${i<S.scriptBeat?'':'hiddenbeat'}" id="beat${i}">${b}</span>`).join('')}
+    ${S.scriptBeat<sc.beats.length
+      ?`<button class="primary btn" onclick="revealBeat()">Reveal beat ${S.scriptBeat+1} of ${sc.beats.length}</button>`
+      :`<div class="pair" style="margin-top:6px">
+          <button class="ghost btn" onclick="gradeScript(false)">Rough, again</button>
+          <button class="primary btn" onclick="gradeScript(true)">Nailed it</button>
+        </div>`}
+  </div>
+  <div class="pair">
+    <button class="ghost btn" onclick="stepScript(-1)">&larr; Prev</button>
+    <button class="ghost btn" onclick="stepScript(1)">Next &rarr;</button>
+  </div>`;
+}
+function revealBeat(){S.scriptBeat++;renderScripts()}
+function gradeScript(good){
+  if(good){
+    S.scriptMastery[S.scriptIdx]=(S.scriptMastery[S.scriptIdx]||0)+1;
+    addXP(15);burst('+15');
+    if(S.scriptMastery[S.scriptIdx]===2){setTimeout(()=>burst('mastered'),350)}
+    S.scriptBeat=0;
+    S.scriptIdx=(S.scriptIdx+1)%SCRIPTS.length;
+  }else{
+    S.scriptMastery[S.scriptIdx]=0;
+    S.scriptBeat=0;
+  }
+  renderScripts();
+}
+function stepScript(d){
+  S.scriptIdx=(S.scriptIdx+d+SCRIPTS.length)%SCRIPTS.length;
+  S.scriptBeat=0;renderScripts();
+}
+
+/* ================= DRILLS ================= */
+let drillShuffled=null;
+function renderDrills(){
+  if(S.drillOrder.length===0){S.drillOrder=shuffle(DRILLS);S.drillIdx=0;S.drillRight=0;S.drillDone=0}
+  if(S.drillIdx>=S.drillOrder.length){
+    const pct=Math.round(S.drillRight/S.drillOrder.length*100);
+    M().innerHTML=`<h2>Drills complete</h2>
+    <div class="card" style="text-align:center;padding:30px">
+      <div style="font-size:42px;font-weight:800;color:${pct===100?'var(--good)':'var(--accent)'}">${pct}%</div>
+      <div class="small" style="margin-top:6px">${pct===100?'No landmines stepped on.':'Misses recycled to the end. Clean run before Friday.'}</div>
+    </div>
+    <button class="primary btn" onclick="S.drillOrder=[];renderDrills()">Run again</button>
+    <button class="ghost btn" onclick="go('home')">Back to home</button>`;
+    return;
+  }
+  const item=DRILLS[S.drillOrder[S.drillIdx]];
+  drillShuffled=shuffleOpts(item);
+  S.drillLocked=false;
+  M().innerHTML=`<div class="qcount">Scenario ${S.drillIdx+1} of ${S.drillOrder.length}</div>
+  <div class="card"><div class="pill">In the call</div>
+  <p class="qtext" style="font-size:16.5px">${item.s}</p>
+  ${drillShuffled.opts.map((o,i)=>`<button class="btn" id="opt${i}" onclick="answerDrill(${i})">${o}</button>`).join('')}
+  <div class="feedback" id="fb"></div>
+  <button class="primary btn" id="nextBtn" style="display:none" onclick="S.drillIdx++;renderDrills()">Next</button>
+  </div>`;
+}
+function answerDrill(i){
+  if(S.drillLocked)return;S.drillLocked=true;
+  const item=DRILLS[S.drillOrder[S.drillIdx]];
+  const right=i===drillShuffled.correct;
+  S.drillDone++;
+  document.getElementById('opt'+drillShuffled.correct).classList.add('correct');
+  drillShuffled.opts.forEach((_,j)=>{if(j!==drillShuffled.correct)document.getElementById('opt'+j).classList.add(j===i?'wrong':'dim')});
+  const fb=document.getElementById('fb');
+  if(right){
+    S.drillRight++;S.streak++;S.bestStreak=Math.max(S.bestStreak,S.streak);
+    addXP(15);burst('+15');
+    fb.className='feedback good';fb.innerHTML=item.why;
+  }else{
+    S.streak=0;renderTop();burst('miss',true);
+    fb.className='feedback bad';fb.innerHTML=item.why;
+    S.drillOrder.push(S.drillOrder[S.drillIdx]);
+  }
+  document.getElementById('nextBtn').style.display='block';
+}
+
+/* ================= RENDER ================= */
+function render(){
+  ({home:renderHome,quiz:renderQuiz,cards:renderCards,scripts:renderScripts,drills:renderDrills})[S.view]();
+}
+renderTop();go('home');
+</script>
+</body>
+</html>

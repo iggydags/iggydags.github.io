@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contact — Southeastern Medical Concepts</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Archivo+Expanded:wght@500;600;700&family=Newsreader:ital,opsz,wght@1,6..72,400;1,6..72,500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<style>
+  .contact-grid{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,6fr);gap:clamp(32px,6vw,100px);align-items:start}
+  .contact-info{margin-top:36px;display:flex;flex-direction:column;gap:22px}
+  .ci{display:grid;grid-template-columns:92px 1fr;gap:12px;font-size:14.5px}
+  .ci .ci-k{font-size:11px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink-faint);padding-top:2px}
+  .ci a{color:var(--maroon);text-decoration:none;font-weight:600}
+  .ci a:hover{text-decoration:underline}
+  .contact-photo{margin-top:40px;aspect-ratio:16/9}
+  form{display:grid;grid-template-columns:1fr 1fr;gap:18px;background:#fff;border:1px solid var(--line);padding:clamp(24px,3vw,40px)}
+  .field{display:flex;flex-direction:column;gap:7px}
+  .field.full{grid-column:1/-1}
+  .field label{font-size:11.5px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--ink-soft)}
+  .field input,.field select,.field textarea{
+    font-family:'Archivo',sans-serif;font-size:15px;color:var(--ink);
+    background:var(--bone);border:1px solid var(--line);border-radius:2px;
+    padding:13px 14px;outline:none;
+    transition:border-color .25s, box-shadow .25s;
+  }
+  .field input:focus,.field select:focus,.field textarea:focus{
+    border-color:var(--maroon);
+    box-shadow:0 0 0 3px rgba(101,11,22,0.12);
+    background:#fff;
+  }
+  .field textarea{resize:vertical;min-height:130px}
+  form .btn{grid-column:1/-1;justify-self:start;border:none;cursor:pointer;font-family:'Archivo',sans-serif}
+  @media (max-width:1020px){
+    .contact-grid{grid-template-columns:1fr}
+    form{grid-template-columns:1fr}
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div><strong>Vizient</strong> national contracting member<span class="hide-s"><span class="dot"></span>Serving the Southeast, South &amp; Central America</span></div>
+  <div><a href="tel:9125411575"><strong>(912) 541-1575</strong></a></div>
+</div>
+
+<nav class="site">
+  <a class="logo" href="index.html"><img src="assets/logo.png" alt="Southeastern Medical Concepts, Inc."></a>
+  <ul class="nav-links">
+    <li class="hide-m"><a href="products.html">Products</a></li>
+    <li class="hide-m"><a href="about.html">About</a></li>
+    <li class="hide-m"><a href="partners.html">Partners</a></li>
+    <li><a href="contact.html" class="btn btn-solid">Talk to a Rep</a></li>
+  </ul>
+</nav>
+
+<header class="page-head">
+  <div class="wrap">
+    <div>
+      <div class="label reveal d1">Contact</div>
+      <h1 class="reveal d2">Let's talk about <em class="flourish">your next case.</em></h1>
+    </div>
+    <p class="reveal d3">Tell us what you're working on. A SEMC consultant will follow up within one business day.</p>
+  </div>
+</header>
+
+<section>
+  <div class="wrap contact-grid">
+    <div>
+      <div class="contact-info">
+        <div class="ci"><span class="ci-k">Phone</span><span><a href="tel:9125411575">(912) 541-1575</a><br>Paul Uribe</span></div>
+        <div class="ci"><span class="ci-k">Office</span><span>90 Edgewater Dr, Unit 204<br>Coral Gables, FL 33133</span></div>
+        <div class="ci"><span class="ci-k">Coverage</span><span>Southeastern U.S.<br>South America · Central America</span></div>
+        <div class="ci"><span class="ci-k">Procurement</span><span>Vizient national contracting member</span></div>
+      </div>
+      <div class="contact-photo frame"><img src="assets/photo-patient.jpg" alt="Physician with patient"></div>
+    </div>
+    <form onsubmit="event.preventDefault(); this.querySelector('button').textContent='Message sent ✓';">
+      <div class="field"><label for="f-name">Name</label><input id="f-name" type="text" placeholder="Dr. Jane Rivera" required></div>
+      <div class="field"><label for="f-email">Email</label><input id="f-email" type="email" placeholder="jrivera@hospital.org" required></div>
+      <div class="field"><label for="f-org">Organization</label><input id="f-org" type="text" placeholder="Practice or hospital system"></div>
+      <div class="field"><label for="f-int">Area of interest</label>
+        <select id="f-int">
+          <option>Biologics</option><option>Spinal Solutions</option><option>Skull-Based Solutions</option>
+          <option>Cadaveric Tissue</option><option>Robotics</option><option>Total Joint</option>
+          <option>Sports Orthopedics</option><option>DME / Bracing</option><option>Podiatry</option>
+          <option>Pain</option><option>Other / General</option>
+        </select>
+      </div>
+      <div class="field full"><label for="f-msg">Message</label><textarea id="f-msg" placeholder="What products or cases can we help with?"></textarea></div>
+      <button class="btn btn-solid" type="submit">Send Message</button>
+    </form>
+  </div>
+</section>
+
+<footer>
+  <div class="foot-inner">
+    <div>
+      <img src="assets/logo-reverse.png" alt="Southeastern Medical Concepts, Inc.">
+      <p>Surgical device distribution serving the Southeastern U.S., South America, and Central America since 2009.</p>
+    </div>
+    <div>
+      <div class="foot-h">Navigate</div>
+      <ul class="foot-links">
+        <li><a href="products.html">Product Lines</a></li>
+        <li><a href="about.html">About SEMC</a></li>
+        <li><a href="partners.html">Vendor Partners</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="foot-h">Contact</div>
+      <ul class="foot-links">
+        <li><a href="tel:9125411575">(912) 541-1575</a></li>
+        <li>90 Edgewater Dr, Unit 204<br>Coral Gables, FL 33133</li>
+      </ul>
+    </div>
+  </div>
+  <div class="foot-base">
+    <span>© 2026 South Eastern Medical Concepts, Inc.</span>
+    <span>Vizient national contracting member</span>
+  </div>
+</footer>
+
+</body>
+</html>

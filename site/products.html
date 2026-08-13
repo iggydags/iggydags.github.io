@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Product Lines — Southeastern Medical Concepts</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Archivo+Expanded:wght@500;600;700&family=Newsreader:ital,opsz,wght@1,6..72,400;1,6..72,500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<style>
+  .prod{padding:0 clamp(20px,4vw,56px)}
+  .prod-item{
+    display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);
+    gap:clamp(28px,5vw,88px);align-items:center;
+    padding:clamp(44px,7vh,80px) 0;
+    border-bottom:1px solid var(--line);
+    max-width:1360px;margin:0 auto;
+  }
+  .prod-item:nth-child(even){grid-template-columns:minmax(0,7fr) minmax(0,5fr)}
+  .prod-item:nth-child(even) .p-photo{order:2}
+  .p-photo{aspect-ratio:4/3}
+  .p-num{font-family:'Archivo Expanded',sans-serif;font-size:13px;font-weight:600;color:var(--maroon);letter-spacing:0.1em;margin-bottom:10px}
+  .prod-item h2{
+    font-family:'Archivo Expanded',sans-serif;font-weight:600;
+    font-size:clamp(24px,2.6vw,36px);letter-spacing:-0.015em;line-height:1.1;margin-bottom:14px;
+  }
+  .prod-item p{color:var(--ink-soft);font-size:15.5px;max-width:56ch;line-height:1.65}
+  .p-vendors{margin-top:18px;font-size:13px;color:var(--ink-faint)}
+  .p-vendors b{font-family:'Archivo Expanded',sans-serif;font-size:10.5px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:var(--maroon);display:block;margin-bottom:4px}
+  .p-cta{margin-top:22px}
+  .p-cta a{font-size:14px;font-weight:600;color:var(--maroon);text-decoration:none}
+  .p-cta a:hover{text-decoration:underline}
+  .ancillary{background:var(--paper)}
+  .anc-grid{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:clamp(28px,5vw,80px);align-items:center}
+  .anc-list{list-style:none}
+  .anc-list li{display:flex;justify-content:space-between;gap:16px;align-items:baseline;padding:16px 4px;border-top:1px solid var(--line)}
+  .anc-list li:last-child{border-bottom:1px solid var(--line)}
+  .anc-list .a-name{font-family:'Archivo Expanded',sans-serif;font-weight:600;font-size:16.5px}
+  .anc-list .a-note{font-size:13px;color:var(--ink-faint);text-align:right}
+  .anc-photo{aspect-ratio:4/3}
+  @media (max-width:1020px){
+    .prod-item, .prod-item:nth-child(even){grid-template-columns:1fr}
+    .prod-item:nth-child(even) .p-photo{order:0}
+    .p-photo{aspect-ratio:16/9}
+    .anc-grid{grid-template-columns:1fr}
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div><strong>Vizient</strong> national contracting member<span class="hide-s"><span class="dot"></span>Serving the Southeast, South &amp; Central America</span></div>
+  <div><a href="tel:9125411575"><strong>(912) 541-1575</strong></a></div>
+</div>
+
+<nav class="site">
+  <a class="logo" href="index.html"><img src="assets/logo.png" alt="Southeastern Medical Concepts, Inc."></a>
+  <ul class="nav-links">
+    <li class="hide-m"><a href="products.html" class="active">Products</a></li>
+    <li class="hide-m"><a href="about.html">About</a></li>
+    <li class="hide-m"><a href="partners.html">Partners</a></li>
+    <li><a href="contact.html" class="btn btn-solid">Talk to a Rep</a></li>
+  </ul>
+</nav>
+
+<header class="page-head">
+  <div class="wrap">
+    <div>
+      <div class="label reveal d1">Product Lines</div>
+      <h1 class="reveal d2">Seven specialties. <em class="flourish">One trusted source.</em></h1>
+    </div>
+    <p class="reveal d3">Every product SEMC carries is chosen the same way a surgeon would choose it: on evidence, outcomes, and how it performs in the OR.</p>
+  </div>
+</header>
+
+<div class="prod">
+  <div class="prod-item" id="biologics">
+    <div class="p-photo frame reveal d2"><img src="assets/photo-tech.jpg" alt="Clinician with skeletal imaging technology"></div>
+    <div>
+      <div class="p-num">01 / Biologics</div>
+      <h2>Regenerative products that help the body heal itself.</h2>
+      <p>Grafts, matrices, and growth-factor technologies that promote natural healing — sourced from accredited biologics manufacturers and matched to your procedure mix.</p>
+      <div class="p-vendors"><b>Featured partners</b>Vivex · Bone Solutions · Induce Biologics · Alamo Tissue Biologics</div>
+      <div class="p-cta"><a href="contact.html">Request biologics portfolio →</a></div>
+    </div>
+  </div>
+
+  <div class="prod-item" id="spine">
+    <div class="p-photo frame reveal d2"><img src="assets/photo-spine.jpg" alt="Cervical spine highlighted on patient"></div>
+    <div>
+      <div class="p-num">02 / Spinal Solutions</div>
+      <h2>Implants and instrumentation, cervical through lumbar.</h2>
+      <p>Complete spinal constructs from proven manufacturers — interbody systems, fixation, and motion-preserving technologies for degenerative, deformity, and trauma cases.</p>
+      <div class="p-vendors"><b>Featured partners</b>Camber Spine · Spine Wave · Innovasis · Zavation · 4Web Medical · Barricaid · Elevation Spine · Adcura</div>
+      <div class="p-cta"><a href="contact.html">Request spine portfolio →</a></div>
+    </div>
+  </div>
+
+  <div class="prod-item" id="skull">
+    <div class="p-photo frame reveal d2"><img src="assets/photo-tissue.jpg" alt="Cranial and facial clinical assessment"></div>
+    <div>
+      <div class="p-num">03 / Skull-Based Solutions</div>
+      <h2>Neurosurgical products for the most demanding cases.</h2>
+      <p>Cranial implant systems, CSF management, and skull-based techniques — including Longeviti's clear implant platform and Sophysa technologies.</p>
+      <div class="p-vendors"><b>Featured partners</b>Longeviti · Sophysa</div>
+      <div class="p-cta"><a href="contact.html">Request neuro portfolio →</a></div>
+    </div>
+  </div>
+
+  <div class="prod-item" id="tissue">
+    <div class="p-photo frame reveal d2"><img src="assets/photo-or.jpg" alt="Sterile surgical field in the operating room"></div>
+    <div>
+      <div class="p-num">04 / Cadaveric Tissue</div>
+      <h2>Ethically sourced donor tissue, fully accredited.</h2>
+      <p>Allograft tissue for grafting procedures through AATB-accredited tissue banks and transplant partners — with the chain-of-custody documentation your facility requires.</p>
+      <div class="p-vendors"><b>Featured partners</b>Bone Bank Allografts · Tissue Regenix · Pinnacle Transplant</div>
+      <div class="p-cta"><a href="contact.html">Request tissue portfolio →</a></div>
+    </div>
+  </div>
+
+  <div class="prod-item" id="robotics">
+    <div class="p-photo frame reveal d2"><img src="assets/photo-implant.jpg" alt="Precision spinal implant hardware"></div>
+    <div>
+      <div class="p-num">05 / Robotics</div>
+      <h2>Precision platforms that make great surgeons more consistent.</h2>
+      <p>Robotic and navigated systems that bring sub-millimeter accuracy and reproducibility to spine and orthopedic procedures.</p>
+      <div class="p-vendors"><b>Featured partners</b>Implanet · BK Meditech</div>
+      <div class="p-cta"><a href="contact.html">Request robotics overview →</a></div>
+    </div>
+  </div>
+
+  <div class="prod-item" id="joint">
+    <div class="p-photo frame reveal d2"><img src="assets/photo-patient.jpg" alt="Physician with recovering patient"></div>
+    <div>
+      <div class="p-num">06 / Total Joint Solutions</div>
+      <h2>Implant systems built around getting patients moving.</h2>
+      <p>Hip and knee systems focused on long-term outcomes and mobility — supported in the OR by SEMC consultants who know the instrumentation.</p>
+      <div class="p-vendors"><b>Featured partners</b>Orthofix · Genesys Spine</div>
+      <div class="p-cta"><a href="contact.html">Request joint portfolio →</a></div>
+    </div>
+  </div>
+
+  <div class="prod-item" id="sports">
+    <div class="p-photo frame reveal d2"><img src="assets/photo-sports.jpg" alt="Athletic rehabilitation session"></div>
+    <div>
+      <div class="p-num">07 / Sports Orthopedic Solutions</div>
+      <h2>From injury prevention to return-to-play.</h2>
+      <p>Repair systems, rehabilitation products, and bracing for sports medicine practices — covering the full arc from prevention through recovery.</p>
+      <div class="p-vendors"><b>Featured partners</b>BioSkin · G-Force · FastForm · Ergoactives</div>
+      <div class="p-cta"><a href="contact.html">Request sports portfolio →</a></div>
+    </div>
+  </div>
+</div>
+
+<section class="ancillary">
+  <div class="wrap anc-grid">
+    <div>
+      <div class="label">Ancillary Services</div>
+      <h2 class="display" style="margin-top:14px;margin-bottom:12px">Beyond the OR.</h2>
+      <p style="color:var(--ink-soft);font-size:15px;max-width:46ch">Practice-level product lines that round out patient care before and after surgery.</p>
+      <ul class="anc-list" style="margin-top:24px">
+        <li><span class="a-name">DME / Bracing</span><span class="a-note">Embraced DME · BioSkin · FastForm</span></li>
+        <li><span class="a-name">Podiatry</span><span class="a-note">Surgical &amp; clinic-based solutions</span></li>
+        <li><span class="a-name">Pain Management</span><span class="a-note">Interventional product lines</span></li>
+      </ul>
+    </div>
+    <div class="anc-photo frame"><img src="assets/photo-podiatry.jpg" alt="Podiatric examination"></div>
+  </div>
+</section>
+
+<section class="cta-band">
+  <div class="wrap">
+    <div>
+      <h2>Need a portfolio for <em>your specialty?</em></h2>
+      <p>Tell us your procedure mix — we'll bring the right products.</p>
+    </div>
+    <a href="contact.html" class="btn">Talk to a Rep</a>
+  </div>
+</section>
+
+<footer>
+  <div class="foot-inner">
+    <div>
+      <img src="assets/logo-reverse.png" alt="Southeastern Medical Concepts, Inc.">
+      <p>Surgical device distribution serving the Southeastern U.S., South America, and Central America since 2009.</p>
+    </div>
+    <div>
+      <div class="foot-h">Navigate</div>
+      <ul class="foot-links">
+        <li><a href="products.html">Product Lines</a></li>
+        <li><a href="about.html">About SEMC</a></li>
+        <li><a href="partners.html">Vendor Partners</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="foot-h">Contact</div>
+      <ul class="foot-links">
+        <li><a href="tel:9125411575">(912) 541-1575</a></li>
+        <li>90 Edgewater Dr, Unit 204<br>Coral Gables, FL 33133</li>
+      </ul>
+    </div>
+  </div>
+  <div class="foot-base">
+    <span>© 2026 South Eastern Medical Concepts, Inc.</span>
+    <span>Vizient national contracting member</span>
+  </div>
+</footer>
+
+</body>
+</html>

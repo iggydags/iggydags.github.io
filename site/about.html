@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About — Southeastern Medical Concepts</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Archivo+Expanded:wght@500;600;700&family=Newsreader:ital,opsz,wght@1,6..72,400;1,6..72,500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<style>
+  .story{display:grid;grid-template-columns:minmax(0,6fr) minmax(0,5fr);gap:clamp(32px,5vw,88px);align-items:center}
+  .story-photo{aspect-ratio:4/3.4}
+  .story p{color:var(--ink-soft);font-size:clamp(15.5px,1.25vw,17.5px);line-height:1.7;max-width:56ch;margin-top:16px}
+  .story p:first-of-type{margin-top:22px;font-size:clamp(17px,1.5vw,20px);color:var(--ink)}
+  .pillars{background:var(--ink);color:#d8d2cb}
+  .pillars .label{color:#b9525f}
+  .pillars em.flourish{color:#c96b77}
+  .pillar-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:0 clamp(32px,4vw,72px)}
+  .pillar{display:grid;grid-template-columns:52px 1fr;gap:18px;padding:26px 0;border-top:1px solid var(--line-dark)}
+  .pillar .k{font-family:'Archivo Expanded',sans-serif;font-size:12px;font-weight:600;color:#c96b77;letter-spacing:0.1em;padding-top:4px}
+  .pillar h3{font-size:17.5px;font-weight:600;color:#f5f1eb;margin-bottom:6px}
+  .pillar p{font-size:14.5px;color:#a8a19a;line-height:1.6}
+  .viz{background:var(--paper);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .viz .wrap{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:clamp(28px,4vw,72px);align-items:center}
+  .viz h2{font-family:'Archivo Expanded',sans-serif;font-weight:600;font-size:clamp(22px,2.4vw,32px);letter-spacing:-0.015em;line-height:1.15;margin-top:14px}
+  .viz p{color:var(--ink-soft);font-size:15px;margin-top:12px;max-width:56ch}
+  .viz-badge{
+    justify-self:end;text-align:center;padding:34px 44px;
+    border:1.5px solid var(--maroon);
+  }
+  .viz-badge .big{font-family:'Archivo Expanded',sans-serif;font-weight:700;font-size:30px;color:var(--maroon);letter-spacing:-0.01em}
+  .viz-badge .small{font-size:12px;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink-faint);margin-top:6px}
+  .coverage-grid{display:grid;grid-template-columns:minmax(0,6fr) minmax(0,6fr);gap:clamp(32px,5vw,80px);align-items:center}
+  .region-list{list-style:none;margin-top:8px}
+  .region-list li{display:flex;justify-content:space-between;align-items:baseline;padding:18px 4px;border-top:1px solid var(--line);gap:16px}
+  .region-list li:last-child{border-bottom:1px solid var(--line)}
+  .region-list .r-name{font-family:'Archivo Expanded',sans-serif;font-weight:600;font-size:17px}
+  .region-list .r-note{font-size:13.5px;color:var(--ink-faint);text-align:right}
+  .map-frame svg{width:100%;height:auto;display:block}
+  @media (max-width:1020px){
+    .story,.viz .wrap,.coverage-grid{grid-template-columns:1fr}
+    .pillar-grid{grid-template-columns:1fr}
+    .viz-badge{justify-self:start}
+    .story-photo{aspect-ratio:16/9;order:-1}
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div><strong>Vizient</strong> national contracting member<span class="hide-s"><span class="dot"></span>Serving the Southeast, South &amp; Central America</span></div>
+  <div><a href="tel:9125411575"><strong>(912) 541-1575</strong></a></div>
+</div>
+
+<nav class="site">
+  <a class="logo" href="index.html"><img src="assets/logo.png" alt="Southeastern Medical Concepts, Inc."></a>
+  <ul class="nav-links">
+    <li class="hide-m"><a href="products.html">Products</a></li>
+    <li class="hide-m"><a href="about.html" class="active">About</a></li>
+    <li class="hide-m"><a href="partners.html">Partners</a></li>
+    <li><a href="contact.html" class="btn btn-solid">Talk to a Rep</a></li>
+  </ul>
+</nav>
+
+<header class="page-head">
+  <div class="wrap">
+    <div>
+      <div class="label reveal d1">About SEMC</div>
+      <h1 class="reveal d2">Built by people who know <em class="flourish">what the OR demands.</em></h1>
+    </div>
+    <p class="reveal d3">Since 2009, Southeastern Medical Concepts has delivered superior results with premium products — one surgeon relationship at a time.</p>
+  </div>
+</header>
+
+<section>
+  <div class="wrap story">
+    <div>
+      <div class="label">Our Approach</div>
+      <h2 class="display" style="margin-top:14px">Equipment is easy. <em class="flourish">Support is the job.</em></h2>
+      <p>At Southeastern Medical Concepts, we take pride in equipping our surgeons with cutting-edge products in the field of surgery.</p>
+      <p>But a catalog has never finished a case. Our consultants provide state-of-the-art support to clinicians using SEMC products — they know the instrumentation, they know the workflow, and they show up. That's what turns a vendor into a partner, and it's why surgeons who start with SEMC stay with SEMC.</p>
+      <p>From our base in South Florida we serve the Southeastern United States, with distribution reaching South and Central America.</p>
+    </div>
+    <div class="story-photo frame"><img src="assets/photo-team.jpg" alt="Care team reviewing imaging"></div>
+  </div>
+</section>
+
+<section class="viz">
+  <div class="wrap">
+    <div>
+      <div class="label">Procurement</div>
+      <h2>A Vizient national contracting member — so buying from us is simple.</h2>
+      <p>SEMC is honored to be a member of the Vizient vendor national contracting platform (formerly MedAssets). For hospital systems, that means streamlined onboarding, contract compliance, and one less procurement hurdle between your surgeons and the products they want.</p>
+    </div>
+    <div class="viz-badge">
+      <div class="big">Vizient</div>
+      <div class="small">Contracted Vendor<br>Since MedAssets Era</div>
+    </div>
+  </div>
+</section>
+
+<section class="pillars">
+  <div class="wrap">
+    <div class="sec-head">
+      <div>
+        <div class="label">What We Stand On</div>
+        <h2 class="display">Four commitments, <em class="flourish">every case.</em></h2>
+      </div>
+    </div>
+    <div class="pillar-grid">
+      <div class="pillar"><span class="k">/A</span><div><h3>Field support first</h3><p>Consultants in the OR providing state-of-the-art support to clinicians — not a call center.</p></div></div>
+      <div class="pillar"><span class="k">/B</span><div><h3>Evidence over hype</h3><p>We carry products because they perform in peer-reviewed data and in practice — not because they're new.</p></div></div>
+      <div class="pillar"><span class="k">/C</span><div><h3>Ethical sourcing</h3><p>Tissue and biologics come only from accredited banks and manufacturers, with full documentation.</p></div></div>
+      <div class="pillar"><span class="k">/D</span><div><h3>Long-term relationships</h3><p>Fifteen-plus years of surgeon partnerships across three regions — built case by case since 2009.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap coverage-grid">
+    <div>
+      <div class="label">Where We Work</div>
+      <h2 class="display" style="margin:14px 0 8px">Regional roots, hemispheric reach.</h2>
+      <ul class="region-list">
+        <li><span class="r-name">Southeastern United States</span><span class="r-note">Core market · founded here</span></li>
+        <li><span class="r-name">South America</span><span class="r-note">Distribution &amp; surgeon support</span></li>
+        <li><span class="r-name">Central America</span><span class="r-note">Distribution &amp; surgeon support</span></li>
+      </ul>
+    </div>
+    <div class="map-frame" aria-hidden="true">
+      <svg viewBox="0 0 520 440" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="10" y="10" width="500" height="420" stroke="#e3ddd3"/>
+        <g fill="#650B16">
+          <circle cx="330" cy="80" r="7"/><circle cx="300" cy="95" r="5" opacity=".5"/><circle cx="355" cy="98" r="5" opacity=".5"/>
+          <circle cx="320" cy="118" r="5" opacity=".5"/><circle cx="345" cy="132" r="6" opacity=".65"/>
+          <circle cx="300" cy="175" r="6" opacity=".75"/><circle cx="285" cy="205" r="5" opacity=".55"/>
+          <circle cx="310" cy="230" r="6" opacity=".75"/><circle cx="330" cy="265" r="7"/>
+          <circle cx="345" cy="300" r="6" opacity=".75"/><circle cx="330" cy="340" r="5" opacity=".55"/>
+          <circle cx="320" cy="375" r="4" opacity=".4"/>
+        </g>
+        <circle cx="330" cy="80" r="16" stroke="#650B16" stroke-width="1.5" fill="none"/>
+        <circle cx="330" cy="265" r="16" stroke="#650B16" stroke-width="1.5" fill="none"/>
+        <path d="M330 96 C 310 150, 310 200, 330 249" stroke="#231F20" stroke-width="1.5" stroke-dasharray="3 5" fill="none"/>
+        <text x="358" y="84" font-family="Archivo, sans-serif" font-size="12" fill="#4f4a48" font-weight="600">SE United States</text>
+        <text x="358" y="269" font-family="Archivo, sans-serif" font-size="12" fill="#4f4a48" font-weight="600">South America</text>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<section class="cta-band">
+  <div class="wrap">
+    <div>
+      <h2>Fifteen years in. <em>Just getting started.</em></h2>
+      <p>See what a SEMC partnership looks like for your practice.</p>
+    </div>
+    <a href="contact.html" class="btn">Contact SEMC</a>
+  </div>
+</section>
+
+<footer>
+  <div class="foot-inner">
+    <div>
+      <img src="assets/logo-reverse.png" alt="Southeastern Medical Concepts, Inc.">
+      <p>Surgical device distribution serving the Southeastern U.S., South America, and Central America since 2009.</p>
+    </div>
+    <div>
+      <div class="foot-h">Navigate</div>
+      <ul class="foot-links">
+        <li><a href="products.html">Product Lines</a></li>
+        <li><a href="about.html">About SEMC</a></li>
+        <li><a href="partners.html">Vendor Partners</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="foot-h">Contact</div>
+      <ul class="foot-links">
+        <li><a href="tel:9125411575">(912) 541-1575</a></li>
+        <li>90 Edgewater Dr, Unit 204<br>Coral Gables, FL 33133</li>
+      </ul>
+    </div>
+  </div>
+  <div class="foot-base">
+    <span>© 2026 South Eastern Medical Concepts, Inc.</span>
+    <span>Vizient national contracting member</span>
+  </div>
+</footer>
+
+</body>
+</html>

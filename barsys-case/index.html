@@ -1,0 +1,361 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>BarSys OS v3 rollout</title>
+<style>
+:root{--ink:#161616;--mut:#77776f;--faint:#b3b3ac;--line:#e6e6e2;
+  --green:#2f7d55;--greenbg:#e9f3ec;--amber:#8a5605;--amberbg:#fdf0d9;--red:#9c2b20;--redbg:#fbe4e1;--blue:#2c5f88;--bluebg:#e8f0f6}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:84px}
+body{font:15px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;color:var(--ink);background:#fff;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1160px;margin:0 auto;padding:48px 28px 100px}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;text-align:left}
+h1{font-size:30px;letter-spacing:-.4px;margin-bottom:6px}
+.top{display:flex;justify-content:space-between;align-items:flex-start;gap:40px}
+.hr{display:flex;align-items:flex-start;gap:22px;flex:none}
+.notes{font-size:13px;color:var(--mut);line-height:1.7;text-align:right;white-space:nowrap;flex:none;margin-top:6px}
+.logo{width:44px;height:auto;flex:none;margin-top:2px}
+@media (max-width:1000px){.top{flex-direction:column;gap:18px}.notes{text-align:left;white-space:normal}
+  .hr{flex-direction:row-reverse;justify-content:flex-end;align-items:center;gap:16px}.logo{width:36px}}
+.sub{font-size:14px;color:var(--mut)}
+.sub b{color:var(--ink);font-weight:600}
+h2{font-size:20px;letter-spacing:-.2px;color:var(--ink);font-weight:700;margin:52px 0 16px}
+/* tiles */
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;align-items:stretch}
+.tile{border:1px solid var(--line);border-radius:14px;padding:18px 20px;transition:border-color .12s,background .12s;width:100%;display:flex;flex-direction:column;justify-content:flex-start}
+.tile:hover{border-color:var(--ink)}
+.tile[aria-pressed="true"]{background:#f4f4f1;border-color:var(--ink)}
+.tile .k{font-size:11px;letter-spacing:1.4px;text-transform:uppercase;color:var(--mut);font-weight:700}
+.tile .v{font-size:30px;font-weight:700;line-height:1.1;margin:8px 0 8px;font-variant-numeric:tabular-nums}
+.tile .v small{font-size:15px;color:var(--mut);font-weight:600}
+.tile .m{font-size:13px;color:var(--mut);line-height:1.5}
+.tile.alert{background:var(--redbg);border-color:#f0c9c3}.tile.alert .v{color:var(--red)}
+.tile.alert[aria-pressed="true"]{background:#f7d5d0}
+.barlabel{font-size:14px;font-weight:600;margin-top:28px}
+.stack{display:flex;height:22px;border-radius:99px;overflow:hidden;margin-top:10px;gap:3px}
+.stack button{height:100%;transition:opacity .12s}
+.stack button:hover{opacity:.8}
+.legend{display:flex;flex-wrap:wrap;gap:6px 24px;margin-top:14px;font-size:16px;color:var(--mut)}
+.legend button{padding:2px 0}
+.legend button::before{content:"";display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:8px;vertical-align:-1px;background:var(--c)}
+.legend button:hover,.legend button[aria-pressed="true"]{color:var(--ink);text-decoration:underline}
+/* cohorts drawer */
+.drawer{overflow:hidden;max-height:0;transition:max-height .25s ease}
+.drawer.open{max-height:600px}
+#attn .chain{margin-top:14px}
+.cohorts{margin-top:14px;border:1px solid var(--line);border-radius:14px;padding:6px 20px 8px}
+.cohorts table{width:100%;border-collapse:collapse;font-size:14px}
+.cohorts td{padding:9px 0;border-bottom:1px solid var(--line);vertical-align:top}
+.cohorts tr:last-child td{border:0}
+.cohorts td.n{font-weight:700;width:36px}
+.cohorts td.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap;padding-left:20px}
+.cohorts td.w{color:var(--mut)}
+/* problem */
+.chain{border:1px solid #f0c9c3;background:#fdf7f6;border-radius:14px;padding:22px 24px}
+.chain p{font-size:14.5px;line-height:1.65;margin-bottom:16px}
+.chain p b{font-weight:700}
+.flow{display:flex;flex-wrap:wrap;align-items:center;gap:10px}
+.node{flex:1 1 220px;background:#fff;border:1px solid var(--line);border-radius:10px;padding:12px 14px}
+.node:hover{border-color:var(--ink)}
+.node .a{display:flex;justify-content:space-between;align-items:center;font-size:13px;font-weight:800}
+.node .b{font-size:12px;color:var(--mut);margin-top:2px}
+.node .c{font-size:13.5px;margin-top:6px;line-height:1.4}
+.arrow{color:#c9b3af;font-size:18px}
+.decision{margin-top:18px;padding-top:16px;border-top:1px solid #f0c9c3;font-size:14.5px;line-height:1.65}
+.decision .rec{color:var(--mut)}
+/* controls */
+.controls{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.96);backdrop-filter:blur(8px);
+  padding:14px 0 14px;border-bottom:1px solid var(--line);margin:48px 0 6px;display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.f{font-size:13px;padding:6px 11px;border:1px solid var(--line);background:#fff;border-radius:99px;white-space:nowrap}
+.f:hover{border-color:var(--ink)}
+.f[aria-pressed="true"]{background:var(--ink);color:#fff;border-color:var(--ink)}
+.f .n{opacity:.5;margin-left:4px;font-variant-numeric:tabular-nums}
+.f.warn[aria-pressed="true"]{background:var(--red);border-color:var(--red)}
+.sep{width:1px;height:22px;background:var(--line);margin:0 2px}
+/* table */
+table.t{border-collapse:collapse;width:100%;font-size:14px;table-layout:fixed}
+table.t col.c-id{width:80px}table.t col.c-item{width:auto}table.t col.c-who{width:150px}table.t col.c-due{width:90px}table.t col.c-st{width:120px}table.t col.c-needs{width:130px}
+table.t thead th{text-align:left;font-size:11px;letter-spacing:1.2px;text-transform:uppercase;color:var(--mut);font-weight:700;padding:10px 12px;border-bottom:1px solid var(--ink)}
+table.t td{padding:13px 12px;border-bottom:1px solid var(--line);vertical-align:top;line-height:1.5}
+tr.phase td{padding:0;border-bottom:1px solid var(--line)}
+tr.phase button{width:100%;padding:26px 12px 8px;font-size:11px;letter-spacing:1.6px;text-transform:uppercase;color:var(--mut);font-weight:700;display:flex;justify-content:space-between}
+tr.phase button:hover{color:var(--ink)}
+tr.phase .cnt{font-weight:600;letter-spacing:0;text-transform:none;font-size:12px}
+tr.phase .pill{letter-spacing:0;text-transform:none;margin-left:10px;vertical-align:1px}
+tr.phase .pill+.pill{margin-left:6px}
+tr.phase button{align-items:center}
+tr.phase .chev{display:inline-block;transition:transform .15s;margin-right:8px}
+tr.phase.closed .chev{transform:rotate(-90deg)}
+td.id{font-weight:800;white-space:nowrap}
+td.item small{display:block;color:var(--mut);font-size:12.5px;margin-top:2px}
+td.who{white-space:nowrap}
+td.who button{color:var(--mut)}
+td.who button:hover{color:var(--ink);text-decoration:underline}
+td.due{white-space:nowrap;font-variant-numeric:tabular-nums}
+td.due small{display:block;font-size:12px;color:var(--mut);margin-top:2px}
+td.due.od small{color:var(--red)}
+td.st{white-space:nowrap}
+td.dep{white-space:normal}
+td.dep .ref{white-space:nowrap}
+.od{color:var(--red);font-weight:700}
+.pill{display:inline-block;font-size:12px;font-weight:700;padding:3px 10px;border-radius:99px}
+select.pill{border:0;appearance:none;-webkit-appearance:none;cursor:pointer;font:inherit;font-size:12px;font-weight:700;padding-right:22px;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M1 1l4 4 4-4' fill='none' stroke='%23777' stroke-width='1.5'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 8px center}
+select.pill:hover{filter:brightness(.96)}
+select.pill:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+.p-Done{background:var(--greenbg);color:var(--green)}
+.p-On{background:var(--bluebg);color:var(--blue)}
+.p-At{background:var(--amberbg);color:var(--amber)}
+.p-Blocked{background:var(--redbg);color:var(--red)}
+.p-Not{background:#f1f1ee;color:var(--mut)}
+.p-Up{background:#efe9f7;color:#5b3e8e}
+.ref{font-size:13px;font-weight:700;border-bottom:1.5px dotted var(--faint);padding:0 0 1px;margin-right:8px}
+.ref:hover{border-bottom:1.5px solid var(--ink)}
+tr.flash td{animation:fl 2s ease-out}
+@keyframes fl{0%,40%{background:#fff3cf}100%{background:transparent}}
+tr.hide{display:none}
+.empty{padding:40px;text-align:center;color:var(--mut)}
+@media (max-width:760px){
+  .wrap{padding:28px 16px 70px}
+  table.t thead{display:none}
+  table.t tbody tr:not(.phase){display:block;border:1px solid var(--line);border-radius:12px;margin-bottom:10px;padding:8px 4px}
+  table.t td{display:block;border:0;padding:4px 12px;width:auto!important}
+  td.id{font-size:12px;color:var(--mut)}
+  td.dep{white-space:normal}
+  .flow{flex-direction:column;align-items:stretch}.arrow{transform:rotate(90deg);text-align:center}
+}
+@media print{.controls{display:none}.drawer{max-height:none}}
+</style>
+</head><body>
+<div class="wrap">
+
+<header class="top">
+  <div>
+    <h1>BarSys OS v3 rollout</h1>
+    <div class="sub">1,400 devices across 300 locations, in 8 weeks.<br>As of <b>Friday 25 September</b>, end of week 2.</div>
+  </div>
+  <div class="hr">
+  <p class="notes">Everything on this page is clickable.<br>Tiles, bars, names, IDs and phase headers all filter or jump.<br>Change any status from its pill and the page updates.<br>Blocked always means blocked by something named.<br>Names, dates and figures are invented for the exercise.</p>
+  <img class="logo" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAfoAAAJCCAYAAAAoZAXMAAAV6UlEQVR42u3dS24kSZKu0aTCNhNbCXASy+CQK6tZbaWWUzXKBIvgw91pD5FfzgHu6Da6k+6q8plYMCOfnl9e/wKAzv7z73/997P/v1+//zxN/myW4wFA58B/FfnvHgKEHgAabvFiL/QAeDAQegAQbaEHAA8IQg8AYi30AIDQA2CbR+gBQOgBAKEHgMvs8dp+4l+HK/QAIPQAYJsXegBA6AHANi/0AIDQAwBCD0A7XtsLPQAg9ADY5oUeABB6AEDoAeBBXtsLPQAg9ADY5oUeABB6ALDNCz0AIPQAgNADMITX9kIPAAg9ALZ5hB4AhB4A6m/zCD0Awby2F3oAEHoAOJNfwhN6AEDoAbDNI/QAIPQAgNADwIO8thd6AEDoAbDNI/QAIPQAUH+bR+gBCOa1vdADAEIPwJn8Ep7QAwBCD4BtHqEHAIQeAIQeAB7ktb3QAwBCD4BtHqEHAIQeANu80AMAQg8ACD0AQ3htL/QAgNADYJtH6AEAoQcAoQeAB3ltL/QAgNADYJtH6AEAoQfANi/0AIDQAwB9bD4CqGWPV6BX8NrVmXV+hB4MPz+vAQ9CDyLus/QwYJtH6EHIfR9CAUIPgj73e/QAAEKPoOMBgAvvle9C6EHQ8QAAQo9hDcecKfG3zQs9CDviD0IPok7q+ZwWftu80IOwI/wg9BiMIPwg9Ag7CH/UXfbgI/SIO4y5G6KH0CPsYNu3zSP0iDvY9kHoEXcQffde6MElB9HfmzcUQo+4A0Oij9Aj7kCR6PslPKFH3AGbPkKPuAPdom+bF3oEHmhy7wVX6BF3wJaP0CPwwIQt32t7oUfcAVs+Qo/AA922fNu80CPugNmC0OMSAiD0CDwQxWt7oUfgaTg8nUUQegxVgjedq/+GNZxxhF7gMdyafz7OPwi9wCPkgz9n98Q94T5Pzy+vPgWBx5Byl3CXhB5DyRDCXcNdE3oMHYMG9xD3UOgNFgwT3FF3FKE3PDAwcH/dX4TegDAYwL12rxF6w8AAAHfdfRd6XHoXHcwAM0DocbldajAbzAahd4lxgcG8MC+E3qV1UcEMwQwRepfTxQRzxVxB6F1GlxDMGXMGoXfxXDowe8weoXfJXDIXDMwj80joXSoXCjCbzCahd5FcIMCsMq+E3qVxWQDzy/wSepfEBQHMMrNM6F0KFwLMN/NN6F0CFwAw68y6OJtD79ADJM/56bNvm/zlizvAjJk/eRYukc8NvMgD05Ybn8HwjX7CFy3uAF83YNqc3CZ9uQIPwLRX+WvCF5oeeJEHJi86PpfBoU/+IgUeQCNusfkC+wXe9QTOmoNvZ07iXJ3w5/abgy3wAPfModTgp87ZqL8ZL/HwCTxQYZs3c/taDnXdwybygDmlJUIfGnkjBDCzNGUP7V/dJ30hAg9UmYuPziMz2UYv8p8cJpEHzDONsdGHfQHiDiRt8+kLmY3+xEMs8gBmneUyMPQpgRd5YNKMTJl7XRu0fMCebAHOmFNiL/SxkbfFA+TMw25NWj5QWzzQX7VfwkufjZ3atHyQnloBzMncRi0foCdVwDZ/5dwS+4Gh7xp5WzzAvPlZvVnLB+aJFMAszW3X5lgJPNBX99f2X/3zJP6X5MZv9N2+VJEHMGOrN2z5gEQesM2btbktWz4YkQcwc3Obtnwg9x02kQfExPzt9P0sH4QtHrAp+2fObdya/gGIPIDYJ7duTf3BRR7oasIv4Yn9fvx79AIP0HpO+/fti230Hb4QkQds8xazlPatKT+oyAPkb/dif2HoRR4AsT+/hcvREHmgB6/t/XxlQ199m3cwAMQ+datfaT+QyAO2efNO7E8KvcgDYMZf28jlAADY5s36XKvywfTFA5A8889o5er6Dy7yAIj9hRu9LxqgRgTMvtmfw6p4KH3BAExqwZHtXF3+QUUesM2bf2JfYKP3hQKgDXXsFvqK27zIA9CpEUe0dFX9BwOYzGt73325jd6TGgBaUc+PQ++VPYBtXuzrbvXLFwaA2Oe240ehr7bNizxgmzcLUz63vRq7fLUAkOvh0NvmAbDV19/q11X/h0UeYP/Zah6K/W4bvS8EALGv7+7Q+8txAGzz9DkfrTd6hxoAjdkx9JW2eZEHYFJrHm2wf70OoOkAt/wQG3oHGgDN2Tn0VV7bizxgmzcXp7bnkfPi1T0ABLsp9LZ5ANu8rb7nVm+jB4DJG71tHgD6bvU2eoDig9oCxKEbvScoAOjbpHX0E6fIA9jmue4ceXUPAMEPWssHCdBrm4ddQu8wAliCqP093NJqr+4BYOJG70kJ4Pzty2y01Z8Seq/tASDjAbLkRu+JFbDNm422+gM3egAgwzriqdMTKwCc56t22+gBLhzClqAMlb8foQeAYKVC74kVsM2bjbb6A0PvX6sDgKyHSq/uAQpv87DrRn8lr6YAzEbfV3DoAYADQ+8VE8B+/BIeVc6djR4AJmz0V/LUCtjmzcUU1b47Gz0A2OgBAKEHGM5re0qG/srfuHegAUhzZdveN91GD2CbJ32jBwCEHgDbPEIPAAg9AJAdeq+pgARe21P5O7XRA4CNHgDbPEIPANQKvf8OPQBkedt2Gz3ADsP0UV7bc/hG7yMAAKEHwDaP0AMAQg9gm7fNI/QAgNADAEIP8HNe2yP0AIDQA9jm4YTQO3QAYKMHAJp4u8QLPcANvLbHRg8ACD2AbR6GhH6PywMAqQ+INnoA2zwIPQAIPQAg9ABTeG2P0AMApW0Vnpg98WJzzPo3UBLutG2ernf6/bnbfB0g3BV+flGE0I0eRJxbP9ezHgZ8xwg9CDnFvptqbwS8oUDo311elwJBZ8pDAGaLjR4EnRPOwEcPAH4JDxs9iDrOC5T00UOm0GNIw8GDFmz0f/lzekQdMKuiQw/CDiD0CDu0OMveUHK2z87cVu2CuBzCDoln3Gwz12z0uAAg/CD0CDuk3RHRZ1Tovb4Xd7Dtm4Hm332+OjM2esQdbPvY6G31iDuIPh1noo0eYQfRp7HvzsJW+UA7yOIOiL5ZaaNH4MG9FX2EHnEH0SfLLd/xVv3AOqjiDoi+ORq80Yu9uAP73X/zdB6v7gUesOXTcK7e+v1tXT5QB1LcAVu++WqjdwAFHrDl88YSsJyL6jMCzJIZLbrngcxG78ABfDpfbPj9bd0OnkMn8MA182b6/O24zdvoHTIAW76N3lYv8FRx9dl3Fpka/K7bfNuNfkrsDVWxTvpnd54F3yy20WMYCrjPxx0QfHaeMVvng5V0qAw3Iee2z9ldEXyz+T5Pzy+vrX+Q7gfK0HKecJ/cJ+fpyM/Sq3uHyAAi+nt1z2z4020JB6nbITJ4RB13TfCdnbNm2JZyiDocIENH1EHw69/TtFm9JR2gqodH4EWdnvfu1+8/T+7vrOBX+773+Iz8Gb3ACzvcce7c6xkLmo3eoRF4Yce5dN/DtvvEbT5yo7869i69sFMnHmecR+HPCH7y97alHpizD4vLLezw/lybCz2CX/F72vPnb/8X5lwdEhdZ3Jm7zZsXZniHn3tLv/BHHhSXVtzBtp+13SfyW/cCL+y4m6I/cmmbsM2PCP2eB8RlFHec5TP+b5o1x2/3kz7jbcoB+enhcPHEHc6+W+bOMcGv+rkeNVOjfxlvjw/RRRN3egUg9XybRdkz/cizt00bBPd8mC6WwEPFO2g2PbbdT/3cRm30t0bLJRJ3bPOTfnZzPXvWLkPBpXl/4P7+f0YH9LmzHvZ6zvUzvrtt8qHwKsz2Dol3eOo8++hV/vTIj93o3x+AqZfC9k76Jjf1QXf6vZ4+2230BwwJ2ztgyzfbq85hfzOewINtftD9t+XOm8VC70ABA2eC4M+ZyULvMMHYbd6M8FlOIPQCD+6Lz8GWH3zehN4BAhD84Bkt9A4PtOOX8ATfnBZ6BwdA8M1qoXdowDaP4GcTeoEHEPzguS30DgqA4AfP7uXrqHtIRB7+n9f2YuZzEXqHBMBSYn6/4dW9AwK2eXabX5Nf51c9X0LvcAAIfvAc9+r+4oMh8nDONo/wTf1Zhd7BAHcOy0zwufLq3qEAOGXupb2Z6TLPbfQOBZTml/DMQD+Ljd6BALDdY6O/diNxqME2T8487PQzCL2DAWAGBv88Qu9pFsDcC4690Dv4EDtAvbY358Re6B0QALMt+ucVek+9YJvHPAuOvdC7IADmV3Dshd6FAds8kZssQu/yAFhK4me30LtIAOZScOyF3sWCqOHotb05JPZC76IBmDtjYi/0Lh7Y5jFngmPvv14XcoAMOCBpC8VGjydvwBzx8GSjn32YbPlMGoLOuw2+w+d8xTkV+gGX1wAExH1u7IVe8ME27/MmmD+jH3bBXXJw/5n1sDV+o//1+8/T5P+cok0I27zPN3GuV//5z3yFP3qj//tD/vX7z9PUYeEpH9zrxLne4SHwrO9o7Eb/0QGYuN3b8sH2bq5ne3p+eR13QG4JmUsj+NQPkzNqViXM9KPP8XIgDJCvLoZX++Bumum9H9Y2B+L7/3mXyat9bPM29/5b8NTX+MuhMFBsE+Cumee5D3Ij/ox+zy/WhfNARI07lHrezJjZs/yIc705GPf/73MRv784oo+HSnH3fdewORyP/+91OUUfxL3vHK/4HRzxF+nEvro/My4urKdzzrsrnc+PWVHve57wCt9/1Cb4ydC2D8Iu8uZ35EZ/ZTxcbNs+s7d5M8DsrvZ5bA7KMf/3XfZ9LpvwI+wCb7MX+pJREHzhR9jpM7OrnrU9PqPNgfGUKPx0iOMV37W7O2tmp85rv4xnu48LiPgj7AKfEvs9tvqIX8brNtgNE2dEPK/9/txBd7DbGfnJ57c5PDZ8mz8eNDCjc3l1L/gCYDBFRNY9Evi9//lTXuFvDpLgc3swPARce8/dEXN5cuzHbfSJA1fwMzZUDwM2dYGnkra/jDfhUBlwBqPzi3PsLP/0894cLBs+fYfH0XfB2cMG3/8V/uZwCT42DTCD+9z5e78Dv3Uv+ADiHrzVbw5b70sn+oCZa6v/yvKR9b+ILiNgrnjw+Uyb37p36G5/0vMpAGZs/py99TvbHMDcyyr6gPmKX8YbcIEFHxD3fT+/TnN1cyBt+YDA08+tv5Rnoxd9QNwJ3uo3B9QAEHwQd3L51+v451+lMRwg4y77JOY8UN2yqG0+QD773G36IDb058/oEX0Qd37wXVSfj0KP6IO409h3v32/OdCIPpiD5LLRs+swEn4Q94nfW+XZtzno2PbBzKO3r17f2+ix7YOwE7zVCz3CD8JOsM2FQPjBHEPoQfhB2PnmLFw5tz77c3qhR/hB2LHRuzzUPCPij7kETUIP4o+ok3COqs0goUf8EXQI8dGf0ws944e7hwBBh2SbC4kgfHz+PACIOQg9DI6IBwEhh8/ObaX5IPRwcIQ8EIg4CD0IWvxDgrDD0NC7/FD/fngrAX28/8375SMBjo68B3q4jtADwM4qPdwKPQDY6IGJvLYHoQcAhB6wzQPjQm8IAICNHmi4zQNCDwTzxg53oMYdWJ7cAcBGDwzhl/BA6AGAJg/sQg/Y5sFGDwAIPQAg9EA9XtuD0AMAQg/Y5gGhBwAO8fbBW+jBNu9vxwQbPcBt2wNQLPQuKADY6IFAfgkPhB4AuOhBun3o/RIQ2OYBGz0AIPQAgNADXtuD0AMAQg/Y5gGhP3roAEDaA/VeD+LL0zkYPrZ5sNEDAEIPAAg9cDqv7aHPXYsLvV/IAwAbPWCbB+68p8slBgAbfYuNAwC0rGjogbqDxxs/sNEDANVDf/VTu9f3YJuHyfftiLtqoweAKRs9YLuwzYPQlx9OAKBdn4TeEzwA9PJVu726B9vF3YMD6KNk6L2+B2DSg/XpofckD7Z5nyT08N19Lfvq3lYPgG3+oI0eAMiwHn0V4EkJMrcLr+2hT6Nuua82egCYuNF7YgLbPNC/TculB4B+bm10i1f3tnqwzYMmHbDRAwB9t/mbQl/lKd9WD4AW2ejB4Dl4OwACQ2+rB8BDdY0G3dvk5YMG27xPEnLbswwDAOjhkRa3/DN6Wz24B+CuHRD6Slu9IQfXbAcg8r3uq9+6B4Bgd4feVg8ZZ982D/nbfMRGL/YAaMvOobcJgG0eqL/NR2z0tnoANOWA0FfbCMQegLSW7NHa5QuCWWfca3uY1ZAfhd7AAIC623zcRm+rx7bh4Ry0Y+fQVxwcYg9A52bs2dZV7R9I7MF5BpEvtNH7AqEHr+1hZiN2C33VISL2AEx+IPcftYEBW4dtHuovgUfd09XhH9JWD4AmFNnoxR5s8yDyde7p8gUDoAE2+pgNQuwBRH7KNn/oRi/2cP059doeZkf+0ND74gEw669/EF8JP4TYYzjZ5sGMv2ijF3sAzPbr2rjSfiCxx4CyzeMOifzJoXcwADDLr3kIX8k/3CMHRPABRD7JqRt9l9eJDgudeW3PxMB3mNtX3c015QcVewBb/MQH8DXtBxZ7bPMg8pPupV/GE3sAszn44XtN/uHFHkDk01260XeLvcOFzQFEvtudXD4IT5L0Hw4iz4TAi3zT0Is9/OxOiDy2eJEvH/qusRd8rr4TIo/Ii/x3np5fXn2pwx5SAAR+TguWD2rmgQQwU2e0a/nA9juYgg8g8kIfHHvbPcCsZalDq5YP0IEFsCDlNmr5IB1eAEtRbpuWD9RBBrAI5TZp+WAdagDLT26Llg/YAQew8OQ2aPmgHXYAS05ue8r9zXjTYulv1QNs8Oa0jT44kF7nAyKvNUI/YBsWe8DyojFHaPvqPjmSXucD5rA5LPQDNmLBB8xes/enli+m9gXySh8QeS2x0Q84fDZ8wIw1X0dv9BO+MNs9cPUMEnkbvTA6mIBZapYKvQPqkALmp/kp9A6rQwuYmWal0Du8gg+Ykeaj0I+KveADZqKZODL00w624AMCP3sGjgy94APmnrkn9A69ww+Ydeac0LsALgJgtplrQu9SuBiAWWaWCb0L4qIAZpfZJfQujYsDmFXmlNC7QC4SmE1mk9ALvUvlYoE5ZA4JvUvmkrlsYO6YO0Lv4rl8gBljxgi9i+hCAmaKeSL0LqdLCuaH+YHQu7AuLpgT5gRC7xK7zGAumAlCj4vtkoP77/4LPS68i4977p6750KPQWAg4D7jPgu94YBhgbvrziL0hgaGCO6n+4nQGygYLriD7iBCb9hg+LhjuGNCj2FkOOEO4Q4JPYaVAYb7gfsh9BhoBh3OvXOP0GPwGY7OMM4wQi/4sPPgddYQeKFH9AFxp5HNR9Dzogk+IPAIveADCLzQI/gAAi/0tLmYog+IO0JvywcQeKHHlg+IO0KPLR8QeIQeWz4g7gg9og+IO0KP6APijtDz8MAQfBB3hB5bPiDuCD1pw0X4QdwRemz7gLgj9Ig+IO4IPS0HlfCDsCP02PZB3EHose2DsIPQI/wg7CD0CD8IO0IPxQao+CPqIPSIP4g6CD3iD6KO0IP4I+og9NB3wHsAEHMQehgaBQ8Bgg5CD4ND4kFAxEHoQYw8FAg4CD0IXJ+HBLGGPv4H3dw2sCo30bwAAAAASUVORK5CYII=" alt="Barsys">
+  </div>
+</header>
+
+<h2>Where we are</h2>
+<div class="tiles">
+  <button class="tile" id="t-dev" aria-pressed="false" aria-expanded="false" aria-controls="cohorts">
+    <div class="k">Devices on v3</div><div class="v">24 <small>of 1,400</small></div>
+    <div class="m">Pilot only.<br>Wave 1 opens Monday with 452 devices.<br><u>See the cohorts</u></div>
+  </button>
+  <button class="tile" id="t-time" aria-pressed="false">
+    <div class="k">Timeline</div><div class="v">Week 2 <small>of 8</small></div>
+    <div class="m">Pilot cleared two days early.<br>Wave 1 is next.</div>
+  </button>
+  <button class="tile alert" id="t-att" aria-pressed="false" aria-expanded="false" aria-controls="attn">
+    <div class="k">Needs attention</div><div class="v">3</div>
+    <div class="m">One root cause.<br>Decision needed Monday.<br><u>See what is blocked</u></div>
+  </button>
+  <button class="tile" id="t-cost" aria-pressed="false">
+    <div class="k">Cost</div><div class="v">$28k <small>forecast</small></div>
+    <div class="m">Of a $46k envelope.<br>$8.4k committed so far.</div>
+  </button>
+</div>
+<div class="drawer" id="attn"><div class="chain" id="chain"></div></div>
+<div class="drawer" id="cohorts">
+  <div class="cohorts"><table>
+    <tr><td class="n">A</td><td>Remote, automatic</td><td class="w">Nobody has to touch it</td><td class="num">905 devices</td><td class="num">191 locations</td><td class="w num">Weeks 3–4</td></tr>
+    <tr><td class="n">B</td><td>Remote, assisted</td><td class="w">Field Ops on a call</td><td class="num">348</td><td class="num">71</td><td class="w num">Weeks 4–5</td></tr>
+    <tr><td class="n">C</td><td>Field visit</td><td class="w">Technician on site</td><td class="num">89</td><td class="num">24</td><td class="w num">Weeks 5–7</td></tr>
+    <tr><td class="n">D</td><td>Hardware swap, then visit</td><td class="w">Parts first, then technician</td><td class="num">58</td><td class="num">14</td><td class="w num" style="color:var(--red)">Weeks 6–8, at risk</td></tr>
+  </table></div>
+</div>
+<div class="barlabel">All 29 items, by status</div>
+<div class="stack" id="stack"></div>
+<div class="legend" id="legend"></div>
+
+<div class="controls" id="controls">
+  <button class="f" data-dept="All" aria-pressed="true">Everyone</button>
+</div>
+<table class="t">
+  <colgroup><col class="c-id"><col class="c-item"><col class="c-who"><col class="c-due"><col class="c-st"><col class="c-needs"><col class="c-needs"></colgroup>
+  <thead><tr><th>ID</th><th>Item</th><th>Owner</th><th>Due</th><th>Status</th><th>Needs</th><th>Unlocks</th></tr></thead>
+  <tbody id="tb"></tbody>
+</table>
+<div class="empty" id="empty" hidden>Nothing here.</div>
+
+</div>
+
+<script>
+const TODAY=new Date('2026-09-25');
+// id, phase, item, dept, owner, due, status, needs, note (| = new line), cost
+const D=[
+['BIZ-01',1,'Build the device cohort table','BizOps',"M. D'Agostino",'2026-09-18','Done','','1,400 devices sorted by who has to touch them.|This is the plan.',0],
+['BIZ-02',1,'Confirm what “rolled out” means','BizOps',"M. D'Agostino",'2026-09-16','Done','','Device running v3.|Feature adoption tracked separately.',0],
+['ENG-01',1,'Update paths, service window, rollback authority','Engineering','N. Patel','2026-09-18','Done','','22 minutes per device, off-hours only.|On-call can pull a wave without a meeting.',0],
+['SC-01',1,'Order flow-meter modules, 58 plus 12 buffer','Supply Chain','W. Chen','2026-09-17','Done','','PO placed 16 Sep.',8400],
+['SC-02',1,'Confirm delivery date for modules','Supply Chain','W. Chen','2026-09-19','At risk','','Vendor says five weeks, not two.|ETA 21 Oct.',0],
+['FO-01',1,'Field capacity math','Field Ops','M. Reyes','2026-09-18','Done','BIZ-01','38 visits is 19 tech-days.|About 25 available.|Fits if parts land on time.',0],
+['CS-01',1,'Segment accounts, nominate pilots','Customer Success','D. Okafor','2026-09-18','Done','','Six pilot locations agreed.',0],
+['SAL-01',1,'Cross-reference renewals against the schedule','Sales','T. Brennan','2026-09-19','Done','BIZ-01','11 renewals in the window.|Four moved to earlier waves.',0],
+['FIN-01',1,'Cost envelope and variance threshold','Finance','R. Menon','2026-09-19','Done','','$46,000.|Anything over $2,500 flagged same day.',0],
+['CS-02',2,'Advance notice to pilot accounts','Customer Success','D. Okafor','2026-09-16','Done','CS-01','',0],
+['ENG-02',2,'Push v3 to the pilot, 24 devices','Engineering','N. Patel','2026-09-23','Done','ENG-01,CS-02','24 of 24.|One rollback, fixed the same night.',0],
+['CS-03',2,'Morning-after support, rewrite alert guidance','Customer Success','D. Okafor','2026-09-29','On track','ENG-02','Three tickets, all setup confusion.|Guidance rewritten before wave 1.',0],
+['ENG-03',2,'Automate the calibration step','Engineering','N. Patel','2026-09-25','On track','CS-03','Ships Monday.',0],
+['BIZ-03',2,'Pilot gate','BizOps',"M. D'Agostino",'2026-09-26','Done','ENG-03','Go.|Cleared 24 Sep, two days early.',0],
+['CS-04',3,'Rolling notice, waves 1 to 3','Customer Success','D. Okafor','2026-10-12','On track','BIZ-03','Wave 1 sent 24 Sep.',0],
+['ENG-04',3,'Wave 1, 452 devices','Engineering','N. Patel','2026-10-02','Not started','BIZ-03','Opens Monday.',0],
+['BIZ-04',3,'Wave 1 hold point','BizOps',"M. D'Agostino",'2026-10-05','Not started','ENG-04','Wave 2 waits until failures are under 3%.',0],
+['ENG-05',3,'Wave 2, 453 devices','Engineering','N. Patel','2026-10-09','Not started','BIZ-04','',0],
+['FO-02',3,'Wave 3, 348 devices by remote-assist call','Field Ops','M. Reyes','2026-10-16','Not started','ENG-05','Calls, not visits.|Protects tech-days for the field cohorts.',3200],
+['BIZ-05',4,'Decision paper on the parts delay','BizOps',"M. D'Agostino",'2026-09-29','On track','SC-02','To leadership Monday, both options costed.',0],
+['FO-03',4,'Cohort C field visits, 89 devices','Field Ops','M. Reyes','2026-10-30','Not started','ENG-05','Routed geographically.',9600],
+['CS-05',4,'Notify accounts of visit windows','Customer Success','D. Okafor','2026-10-09','Not started','FO-03','',0],
+['SC-03',4,'Receive and stage modules to techs','Supply Chain','W. Chen','2026-10-23','Blocked','SC-02','No delivery date yet.',0],
+['FO-04',4,'Cohort D swap and update, 58 devices','Field Ops','M. Reyes','2026-11-04','Blocked','SC-03','Eight working days for 14 locations.|This is the tail that slips.',6800],
+['MKT-01',5,'Sales briefing and battlecard','Marketing','A. Turner','2026-10-02','On track','','Delivered 25 Sep, a week early.',0],
+['SAL-02',5,'Brief Sales, sequence the 11 renewals','Sales','T. Brennan','2026-10-07','Not started','MKT-01','',0],
+['MKT-02',5,'Customer announcement','Marketing','A. Turner','2026-11-02','Not started','ENG-05,FO-03','Gated on 90% of the fleet, not a date.',0],
+['FIN-02',5,'Cost true-up','Finance','R. Menon','2026-11-06','Not started','','',0],
+['BIZ-06',5,'Retro, hand the cohort table to Engineering','BizOps',"M. D'Agostino",'2026-11-06','Not started','','',0],
+];
+const PHASE={1:'Week 1 · Segment and unblock',2:'Week 2 · Pilot',3:'Weeks 3–5 · Remote waves',4:'Weeks 5–7 · Field and swap',5:'Week 8 · Close'};
+function pstate(p){const rows=R.filter(r=>r.phase===p);
+  const START={1:1,2:2,3:3,4:5,5:8},WEEK=2;
+  const open=rows.filter(r=>r.status!=='Done').length;
+  if(START[p]<WEEK)return ['Past','p-Not',open];
+  if(rows.every(r=>r.status==='Done'))return ['Complete','p-Done',0];
+  if(START[p]>WEEK)return ['Upcoming','p-Up',0];
+  return ['In progress','p-On',0];}
+const ORIG=D.map(r=>r[6]);let edited=0;
+const R=D.map(r=>({id:r[0],phase:r[1],item:r[2],dept:r[3],owner:r[4],due:r[5],status:r[6],by:r[7]?r[7].split(','):[],note:r[8],cost:r[9],blocks:[]}));
+const BY={};R.forEach(r=>BY[r.id]=r);R.forEach(r=>r.by.forEach(b=>BY[b].blocks.push(r.id)));
+const ST=['Done','On track','At risk','Blocked','Not started'];
+const COL={'Done':'#4a9970','On track':'#5f7f9c','At risk':'#c98a22','Blocked':'#b8453a','Not started':'#cfcfc9'};
+const DEPTS=[...new Set(R.map(r=>r.dept))].sort();
+const fmt=d=>{const x=new Date(d+'T00:00');return x.getDate()+' '+['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][x.getMonth()]};
+const esc=s=>s.replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const tdelta=d=>{const n=Math.round((new Date(d+'T00:00')-TODAY)/864e5);return n===0?'T':n>0?'T+'+n:'T\u2212'+(-n)};
+const lines=s=>s.split('|').map(esc).join('<br>');
+const pill=s=>'<span class="pill p-'+s.split(' ')[0]+'">'+s+'</span>';
+const ref=id=>'<button class="ref" data-go="'+id+'" title="'+esc(BY[id].dept+' · '+BY[id].item)+'">'+id+'</button>';
+const $=id=>document.getElementById(id);
+
+let S={dept:'All',status:null,owner:null,att:false,cost:false};
+const closed=new Set([1,3,4,5]);
+
+/* status bar + legend, both clickable */
+function buildBar(){
+  $('stack').innerHTML='';$('legend').innerHTML='';
+  ST.forEach(s=>{const n=R.filter(r=>r.status===s).length;if(!n)return;
+    $('stack').innerHTML+='<button data-status="'+s+'" style="flex:'+n+';background:'+COL[s]+'" title="'+n+' '+s.toLowerCase()+'" aria-label="Show '+n+' '+s.toLowerCase()+'"></button>';
+    $('legend').innerHTML+='<button data-status="'+s+'" style="--c:'+COL[s]+'" aria-pressed="'+(S.status===s)+'">'+n+' '+s.toLowerCase()+'</button>';});
+  const bad=R.filter(r=>r.status==='Blocked'||r.status==='At risk').length;
+  $('t-att').querySelector('.v').textContent=bad;
+  const chip=$('att');if(chip)chip.querySelector('.n').textContent=bad;
+}
+document.addEventListener('click',e=>{const b=e.target.closest('[data-status]');if(!b)return;
+  const s=b.dataset.status; reset(); S.status = S.status===s?null:s; sync(); render(); toTable();});
+
+/* tiles */
+$('t-dev').addEventListener('click',()=>{const o=$('cohorts').classList.toggle('open');
+  $('t-dev').setAttribute('aria-pressed',o);$('t-dev').setAttribute('aria-expanded',o);});
+$('t-time').addEventListener('click',()=>{reset();sync();render();
+  const ph=document.querySelector('tr.phase[data-phase="2"]');ph&&ph.scrollIntoView({block:'start'});});
+$('t-att').addEventListener('click',()=>{const o=$('attn').classList.toggle('open');
+  $('t-att').setAttribute('aria-pressed',o);$('t-att').setAttribute('aria-expanded',o);});
+$('t-cost').addEventListener('click',()=>{const on=!S.cost;reset();S.cost=on;sync();render();toTable();});
+function toTable(){$('controls').scrollIntoView({block:'start'})}
+
+/* the one problem */
+function buildChain(){
+  const bad=R.filter(r=>r.status==='Blocked'||r.status==='At risk');
+  const el=$('chain');
+  if(!bad.length){el.innerHTML='<p style="margin:0">Nothing is blocked or at risk right now.</p>';return;}
+  const roots=bad.filter(r=>!r.by.some(b=>bad.includes(BY[b])));
+  el.innerHTML=roots.map(root=>{
+    const path=[root];let c=root;
+    while(true){const n=c.blocks.map(i=>BY[i]).find(x=>bad.includes(x)&&!path.includes(x));if(!n)break;path.push(n);c=n;}
+    const intro='<b>'+root.id+'</b> is '+root.status.toLowerCase()+'.'+(root.note?'<br>'+lines(root.note):'')+(path.length>1?'<br>'+(path.length-1)+' row'+(path.length>2?'s sit':' sits')+' behind it.':'');
+    const dec=root.id==='SC-02'?'<div class="decision"><b>Decision needed Monday 29 September.</b><br>Pay an alternate supplier roughly 15% more, or accept a two-week tail on 4% of the fleet.<br><span class="rec">Recommendation: pay for the supplier. A late tail costs more in customer calls than the parts do. Paper is '+ref('BIZ-05')+'</span></div>':'';
+    return (intro?'<p>'+intro+'</p>':'')+'<div class="flow">'+path.map((n,i)=>(i?'<span class="arrow">→</span>':'')+
+      '<button class="node" data-go="'+n.id+'"><div class="a">'+n.id+' '+pill(n.status)+'</div><div class="b">'+esc(n.dept)+' · '+esc(n.owner)+'</div><div class="c">'+esc(n.item)+'</div></button>').join('')+'</div>'+dec;
+  }).join('<div style="height:22px"></div>');
+}
+
+/* controls */
+const ctl=$('controls');
+DEPTS.forEach(d=>ctl.innerHTML+='<button class="f" data-dept="'+esc(d)+'" aria-pressed="false">'+esc(d)+'<span class="n">'+R.filter(r=>r.dept===d).length+'</span></button>');
+ctl.insertAdjacentHTML('afterbegin','<button class="f warn" id="att" aria-pressed="false">Needs attention<span class="n">3</span></button><span class="sep"></span>');
+ctl.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;
+  if(b.dataset.dept){const d=b.dataset.dept;reset();S.dept=d;}
+  else if(b.id==='att'){const on=!S.att;reset();S.att=on;}
+  sync();render();});
+function reset(){S={dept:'All',status:null,owner:null,att:false,cost:false}}
+function sync(){
+  ctl.querySelectorAll('[data-dept]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.dept===S.dept&&!S.owner)));
+  $('att').setAttribute('aria-pressed',String(S.att));
+  $('t-cost').setAttribute('aria-pressed',String(S.cost));
+  document.querySelectorAll('.legend [data-status]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.status===S.status)));
+  const p=new URLSearchParams();
+  if(S.dept!=='All')p.set('dept',S.dept);if(S.status)p.set('status',S.status);if(S.owner)p.set('owner',S.owner);
+  if(S.att)p.set('view','attention');if(S.cost)p.set('view','cost');
+  history.replaceState(null,'',p.toString()?'?'+p:location.pathname);
+}
+function ok(r){
+  if(S.dept!=='All'&&r.dept!==S.dept)return false;
+  if(S.status&&r.status!==S.status)return false;
+  if(S.owner&&r.owner!==S.owner)return false;
+  if(S.att&&r.status!=='At risk'&&r.status!=='Blocked')return false;
+  if(S.cost&&!r.cost)return false;
+  return true;
+}
+function render(){
+  const filtered=S.dept!=='All'||S.status||S.owner||S.att||S.cost;
+  const list=R.filter(ok),tb=$('tb');let html='',last=null;
+  list.forEach(r=>{
+    if(r.phase!==last){last=r.phase;const n=list.filter(x=>x.phase===r.phase).length;
+      const isClosed=closed.has(r.phase)&&!filtered;
+      html+='<tr class="phase'+(isClosed?' closed':'')+'" data-phase="'+r.phase+'"><td colspan="7"><button aria-expanded="'+!isClosed+'"><span><span class="chev">▾</span>'+PHASE[r.phase]+(()=>{const ps=pstate(r.phase);return '<span class="pill '+ps[1]+'">'+ps[0]+'</span>'+(ps[2]?'<span class="pill p-Blocked">'+ps[2]+' not done</span>':'')})()+'</span><span class="cnt">'+n+' items</span></button></td></tr>';}
+    const od=new Date(r.due)<TODAY&&r.status!=='Done'&&r.status!=='Not started';
+    html+='<tr id="row-'+r.id+'" data-phase="'+r.phase+'" class="'+(closed.has(r.phase)&&!filtered?'hide':'')+'">'+
+      '<td class="id"><button data-go="'+r.id+'">'+r.id+'</button></td>'+
+      '<td class="item">'+esc(r.item)+(r.cost?'<small>$'+r.cost.toLocaleString()+'</small>':'')+'</td>'+
+      '<td class="who"><button data-owner="'+esc(r.owner)+'">'+esc(r.owner)+'</button></td>'+
+      '<td class="due'+(od?' od':'')+'">'+fmt(r.due)+'<small>'+tdelta(r.due)+'</small></td>'+
+      '<td class="st"><select class="pill p-'+r.status.split(' ')[0]+'" data-set="'+r.id+'" aria-label="Status for '+r.id+'">'+ST.map(x=>'<option'+(x===r.status?' selected':'')+'>'+x+'</option>').join('')+'</select></td>'+
+      '<td class="dep">'+r.by.map(ref).join('')+'</td>'+
+      '<td class="dep">'+r.blocks.map(ref).join('')+'</td></tr>';
+  });
+  tb.innerHTML=html;
+  $('empty').hidden=list.length>0;
+}
+document.addEventListener('change',e=>{
+  const sel=e.target.closest('select[data-set]');if(!sel)return;
+  const r=BY[sel.dataset.set];r.status=sel.value;
+  edited=R.filter((x,i)=>x.status!==ORIG[i]).length;
+  refresh();
+  const tr=$('row-'+r.id);if(tr){void tr.offsetWidth;tr.classList.add('flash');}
+});
+function refresh(){buildBar();buildChain();render();
+  let n=$('edited');
+  if(edited&&!n){n=document.createElement('button');n.id='edited';n.style.cssText='font-size:13px;color:var(--mut);text-decoration:underline;margin-left:14px';document.querySelector('.barlabel').appendChild(n);
+    n.addEventListener('click',()=>{R.forEach((x,i)=>x.status=ORIG[i]);edited=0;refresh();});}
+  if(n){n.hidden=!edited;n.textContent='Undo '+edited+' change'+(edited>1?'s':'');}
+}
+document.addEventListener('click',e=>{
+  const go=e.target.closest('[data-go]');
+  if(go){const id=go.dataset.go;
+    if(!$('row-'+id)||$('row-'+id).classList.contains('hide')){reset();closed.delete(BY[id].phase);sync();render();}
+    const tr=$('row-'+id);tr.scrollIntoView({block:'center'});
+    document.querySelectorAll('tr.flash').forEach(x=>x.classList.remove('flash'));void tr.offsetWidth;tr.classList.add('flash');return;}
+  const ow=e.target.closest('[data-owner]');
+  if(ow){reset();S.owner=ow.dataset.owner;sync();render();return;}
+  const ph=e.target.closest('tr.phase button');
+  if(ph){const p=+ph.closest('tr').dataset.phase;closed.has(p)?closed.delete(p):closed.add(p);render();return;}
+});
+const p=new URLSearchParams(location.search);
+if(p.get('dept'))S.dept=p.get('dept');if(p.get('status'))S.status=p.get('status');if(p.get('owner'))S.owner=p.get('owner');
+if(p.get('view')==='attention')S.att=true;if(p.get('view')==='cost')S.cost=true;
+buildBar();buildChain();sync();render();
+</script>
+</body></html>
